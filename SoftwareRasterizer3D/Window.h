@@ -14,13 +14,13 @@ public:
 		int nWidth = CW_USEDEFAULT, int nHeight = CW_USEDEFAULT,
 		HWND hWndParent = 0, HMENU hMenu = 0);
 
+	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	
 	HWND GetWindow() const {
 		return hwnd;
 	}
 
 	PCWSTR ClassName() const { return className; }
-
-	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 private:
 	PCWSTR className;
