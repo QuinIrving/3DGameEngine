@@ -26,6 +26,7 @@ public:
 	void UpdateRMBDown(InputStatus);
 	void UpdateMMBDown(InputStatus);
 
+	int GetMWheelAccumulator();
 	void SetAccumulator(int);
 	int AddAccumulator(int);
 

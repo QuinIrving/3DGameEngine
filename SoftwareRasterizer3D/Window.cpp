@@ -1,5 +1,6 @@
 #include <windowsx.h>
 #include "Window.h"
+#include <format>
 
 LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	Window* pThis = NULL;
@@ -95,11 +96,15 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 	}
 
-	case WM_MOUSEWHEEL:
-		// GET_WHEEL_DELTA_WPARAM(wParam) and keep accumulating total delta until
-		// past 120. Do it the proper way so with 242, adds 2 to a counter or whatever
-		// and the other 2 is added to the accumulator.
+	case WM_MOUSEWHEEL: {
+		// keep in mind what positive and negative means in this actions/acc context.
+		int acc = mouse.GetMWheelAccumulator();
+		acc += GET_WHEEL_DELTA_WPARAM(wParam);
+		int actions = acc / 120;
+		acc %= 120;
+		mouse.SetAccumulator(acc);
 		break;
+	}
 
 	/*
 	case WM_MOUSELEAVE:
