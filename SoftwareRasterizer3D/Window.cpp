@@ -63,9 +63,9 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		kbd.OnKeyUp(static_cast<uint8_t>(wParam));
 		break;
 
-	case WM_CHAR:
-		break;
 	case WM_SYSCHAR:
+	case WM_CHAR:
+		kbd.AppendText(static_cast<wchar_t>(wParam));
 		break;
 
 	/****************************************************

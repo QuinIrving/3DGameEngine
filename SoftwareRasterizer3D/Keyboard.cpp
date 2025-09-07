@@ -1,6 +1,6 @@
 #include "Keyboard.h"
 
-bool Keyboard::IsKeyPressed(uint8_t key) {
+bool Keyboard::IsKeyPressed(uint8_t key) const {
 	if (key < 0 || key >= 256) {
 		return false;
 	}
@@ -22,4 +22,30 @@ void Keyboard::OnKeyUp(uint8_t key) {
 	}
 
 	keyStates.set(key, false);
+}
+
+void Keyboard::ClearTextBuffer() {
+	std::queue<wchar_t> empty;
+	std::swap(empty, textBuffer);
+}
+
+void Keyboard::AppendText(wchar_t c) {
+	textBuffer.push(c);
+	while (textBuffer.size() > MAX_BUFFER) {
+		textBuffer.pop();
+	}
+}
+
+wchar_t Keyboard::PopTextChar() {
+	if (textBuffer.empty()) {
+		return 0;
+	}
+
+	wchar_t c = textBuffer.front();
+	textBuffer.pop();
+	return c;
+}
+
+bool Keyboard::IsTextEmpty() const {
+	return textBuffer.empty();
 }

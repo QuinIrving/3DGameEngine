@@ -1,5 +1,6 @@
 #pragma once
 #include <bitset>
+#include <queue>
 #include "InputManager.h"
 
 class Keyboard {
@@ -10,9 +11,17 @@ public:
 
 	void OnKeyUp(uint8_t key);
 	void OnKeyDown(uint8_t key);
-	bool IsKeyPressed(uint8_t key);
+	bool IsKeyPressed(uint8_t key) const;
+
+	void ClearTextBuffer();
+	void AppendText(wchar_t c);
+	wchar_t PopTextChar();
+	bool IsTextEmpty() const;
+	
 private:
 	std::bitset<256> keyStates;
+	std::queue<wchar_t> textBuffer;
+	static constexpr int MAX_BUFFER = 128;
 };
 
 /*
