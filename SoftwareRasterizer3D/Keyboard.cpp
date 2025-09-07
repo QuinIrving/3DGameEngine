@@ -1,13 +1,14 @@
 #include "Keyboard.h"
 
-bool Keyboard::isKeyPressed() {
-	if ()
+bool Keyboard::IsKeyPressed() {
+	//if ()
+	return true;
 }
 
-void Keyboard::onKeyDown() {
+void Keyboard::OnKeyDown() {
 
 }
 
-void Keyboard::onKeyUp() {
+void Keyboard::OnKeyUp() {
 
 }

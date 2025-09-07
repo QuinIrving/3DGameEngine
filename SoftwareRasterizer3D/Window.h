@@ -1,12 +1,15 @@
 #pragma once
 #include <Windows.h>
+#include "InputManager.h"
+#include "Mouse.h"
+#include "Keyboard.h"
 
 class Window {
 public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	Window(PCWSTR name) 
-		: hwnd(NULL), className(name)
+		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard())
 	{};
 
 	BOOL Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle = 0,
@@ -21,6 +24,10 @@ public:
 	}
 
 	PCWSTR ClassName() const { return className; }
+
+public:
+	Mouse mouse;
+	Keyboard kbd;
 
 private:
 	PCWSTR className;

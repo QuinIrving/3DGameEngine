@@ -7,8 +7,6 @@ public:
 		KEYBOARD,
 	};
 
-	InputEvent()
-
-
+	InputEvent();
 
 };

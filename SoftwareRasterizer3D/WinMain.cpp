@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <new>
+#include <format>
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -32,6 +33,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			break;
 		}
 
+		int xPos = win.mouse.GetXPos();
+		int yPos = win.mouse.GetYPos();
+
+		SetWindowText(win.GetWindow(), std::format(L"({}, {})", xPos, yPos).c_str());
 		// game logic Update()
 		// draw frame Render()
 	}

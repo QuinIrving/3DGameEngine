@@ -1,5 +1,6 @@
 #pragma once
 #include <bitset>
+#include "InputManager.h"
 
 class Keyboard {
 public:
@@ -7,9 +8,9 @@ public:
 
 	class KeyboardEvent {};
 
-	void onKeyUp();
-	void onKeyDown();
-	bool isKeyPressed();
+	void OnKeyUp();
+	void OnKeyDown();
+	bool IsKeyPressed();
 private:
 	std::bitset<256> keyStates;
 };

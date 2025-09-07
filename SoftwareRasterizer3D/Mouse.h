@@ -1,5 +1,43 @@
 #pragma once
+#include <utility>
+#include "InputManager.h"
 
+class Mouse {
+public:
+	Mouse() = default;
+
+	int GetXPos() const;
+	int GetYPos() const;
+	std::pair<int, int> GetPos() const;
+
+	void SetXPos(int);
+	void SetYPos(int);
+	void SetPos(int, int);
+
+	void AddXPos(int);
+	void AddYPos(int);
+	void AddPos(int, int);
+
+	bool IsLMBDown() const;
+	bool IsRMBDown() const;
+	bool IsMMBDown() const;
+
+	void UpdateLMBDown(InputStatus);
+	void UpdateRMBDown(InputStatus);
+	void UpdateMMBDown(InputStatus);
+
+	void SetAccumulator(int);
+	int AddAccumulator(int);
+
+private:
+	bool lmbIsDown = false;
+	bool rmbIsDown = false;
+	bool mmbIsDown = false;
+
+	int mwheelAccumulator = 0;
+	int xPos = 0;
+	int yPos = 0;
+};
 
 /*
 We got a bunch of different types of mouse click events, Up & down
