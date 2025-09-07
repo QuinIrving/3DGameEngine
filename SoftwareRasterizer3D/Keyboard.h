@@ -8,9 +8,9 @@ public:
 
 	class KeyboardEvent {};
 
-	void OnKeyUp();
-	void OnKeyDown();
-	bool IsKeyPressed();
+	void OnKeyUp(uint8_t key);
+	void OnKeyDown(uint8_t key);
+	bool IsKeyPressed(uint8_t key);
 private:
 	std::bitset<256> keyStates;
 };

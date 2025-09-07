@@ -36,7 +36,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		int xPos = win.mouse.GetXPos();
 		int yPos = win.mouse.GetYPos();
 
-		SetWindowText(win.GetWindow(), std::format(L"({}, {})", xPos, yPos).c_str());
+		//SetWindowText(win.GetWindow(), std::format(L"({}, {})", xPos, yPos).c_str());
+		SetWindowText(win.GetWindow(), std::format(L"Q: {}, W: {}, E: {}", win.kbd.IsKeyPressed('Q'), win.kbd.IsKeyPressed('W'), win.kbd.IsKeyPressed('E')).c_str());
 		// game logic Update()
 		// draw frame Render()
 	}

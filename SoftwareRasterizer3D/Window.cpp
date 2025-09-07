@@ -49,15 +49,18 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	/****************************************************
 	*******            Keyboard Messages            *****
 	****************************************************/
-	
-	case WM_KEYDOWN:
-		break;
 	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN:
+		// this means we are handling a "repeat" keydown message - ignore.
+		if ((lParam & (1 << 30)) != 0) {
+			break;
+		}
+		kbd.OnKeyDown(static_cast<uint8_t>(wParam));
 		break;
 
-	case WM_KEYUP:
-		break;
 	case WM_SYSKEYUP:
+	case WM_KEYUP:
+		kbd.OnKeyUp(static_cast<uint8_t>(wParam));
 		break;
 
 	case WM_CHAR:
@@ -70,11 +73,9 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	****************************************************/
 	case WM_LBUTTONDOWN:
 		mouse.UpdateLMBDown(InputStatus::DOWN);
-		SetWindowText(hwnd, L"Mouse Is Down");
 		break;
 	case WM_LBUTTONUP:
 		mouse.UpdateLMBDown(InputStatus::UP);
-		SetWindowText(hwnd, L"RAISE THE ROOOOOF UP");
 		break;
 	case WM_RBUTTONDOWN:
 		mouse.UpdateRMBDown(InputStatus::DOWN);
