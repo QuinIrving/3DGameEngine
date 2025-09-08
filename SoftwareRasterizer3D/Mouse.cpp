@@ -62,7 +62,7 @@ void Mouse::UpdateMMBDown(InputStatus newState) {
 	mmbIsDown = (bool) newState;
 }
 
-int Mouse::GetMWheelAccumulator() {
+int Mouse::GetMWheelAccumulator() const {
 	return mwheelAccumulator;
 }
 
