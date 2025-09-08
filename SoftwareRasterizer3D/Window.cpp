@@ -25,7 +25,7 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 }
 
 BOOL Window::Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle,
-	int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu) {
+	int x, int y, HWND hWndParent, HMENU hMenu) {
 
 	WNDCLASS wc = { 0 };
 	wc.lpfnWndProc = Window::WindowProc;
@@ -37,7 +37,7 @@ BOOL Window::Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle,
 
 	hwnd = CreateWindowEx(
 		dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
-		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
+		width, height, hWndParent, hMenu, GetModuleHandle(NULL), this
 	);
 
 	return (hwnd ? TRUE : FALSE);

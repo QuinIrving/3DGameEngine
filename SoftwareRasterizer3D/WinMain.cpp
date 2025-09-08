@@ -4,11 +4,13 @@
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
+constexpr int WND_WIDTH = 1440;
+constexpr int WND_HEIGHT = 900;
 
 std::wstring text = L"";
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
-	Window win(WND_NAME);
+	Window win(WND_NAME, WND_WIDTH, WND_HEIGHT);
 	
 	if (!win.Create(WND_TITLE, WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_OVERLAPPEDWINDOW)) {
 		return 0;

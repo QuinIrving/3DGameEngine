@@ -8,13 +8,12 @@ class Window {
 public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	Window(PCWSTR name) 
-		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard())
+	Window(PCWSTR name, int w, int h) 
+		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard()), width(w), height(h)
 	{};
 
 	BOOL Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle = 0,
 		int x = CW_USEDEFAULT, int y = CW_USEDEFAULT,
-		int nWidth = CW_USEDEFAULT, int nHeight = CW_USEDEFAULT,
 		HWND hWndParent = 0, HMENU hMenu = 0);
 
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -25,6 +24,9 @@ public:
 
 	PCWSTR ClassName() const { return className; }
 
+	int GetWidth() const { return width; }
+	int GetHeight() const { return height; }
+
 public:
 	Mouse mouse;
 	Keyboard kbd;
@@ -32,4 +34,7 @@ public:
 private:
 	PCWSTR className;
 	HWND hwnd;
+
+	int width;
+	int height;
 };
