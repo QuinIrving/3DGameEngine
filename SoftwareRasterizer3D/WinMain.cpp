@@ -48,11 +48,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		if (!isRunning) {
 			break;
 		}
-		
+
 		// process
 		int xPos = win.mouse.GetXPos();
 		int yPos = win.mouse.GetYPos();
-		
+
 		int r = (xPos * 255) / w; // least significant
 		int g = (yPos * 255) / h; // 2nd least
 		int b = 0xBB;
@@ -66,8 +66,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// Render
 		win.gfx.SetupScreen();
-		
+
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
+		std::pair<int, int> p1 = { win.GetClientWidth() / 2, win.GetClientHeight() / 2 };
+		std::pair<int, int> p2 = { xPos, yPos };
+
+		win.gfx.DrawLine(p1, p2);
 
 		win.gfx.Render();
 		Sleep(1);	
