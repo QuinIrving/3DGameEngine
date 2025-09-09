@@ -117,6 +117,14 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	case WM_RBUTTONDBLCLK:
 		break;
 	*/
+	case WM_SIZE: {
+		UINT width = LOWORD(lParam);
+		UINT height = HIWORD(lParam);
+		client_w = width;
+		client_h = height;
+		gfx.ResizeWindow(width, height);
+		break;
+	}
 
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
@@ -127,4 +135,9 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+void Window::SetClientSize(int width, int height) {
+	client_w = width;
+	client_h = height;
 }
