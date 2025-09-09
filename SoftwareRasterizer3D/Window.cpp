@@ -118,11 +118,13 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 	*/
 
-
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
 	}
 	
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);;
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

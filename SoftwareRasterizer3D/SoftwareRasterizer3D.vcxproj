@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameBindingTable.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="BaseBindingTable.h" />
     <ClInclude Include="GameBindingTable.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputEvent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Keyboard.h" />
