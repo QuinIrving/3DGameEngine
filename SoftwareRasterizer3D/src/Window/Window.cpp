@@ -1,5 +1,5 @@
 #include <windowsx.h>
-#include "Window.h"
+#include "Window/Window.h"
 #include <format>
 
 LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {

@@ -1,4 +1,4 @@
-#include "Mouse.h"
+#include "Input/Mouse.h"
 
 int Mouse::GetXPos() const {
 	return xPos;

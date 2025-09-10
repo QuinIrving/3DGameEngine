@@ -1,4 +1,4 @@
-#include "Keyboard.h"
+#include "Input/Keyboard.h"
 
 bool Keyboard::IsKeyPressed(uint8_t key) const {
 	if (key < 0 || key >= 256) {

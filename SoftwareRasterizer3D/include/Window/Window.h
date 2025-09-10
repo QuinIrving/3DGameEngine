@@ -1,9 +1,9 @@
 #pragma once
 #include <Windows.h>
-#include "InputManager.h"
-#include "Mouse.h"
-#include "Keyboard.h"
-#include "Graphics.h"
+#include "Input/InputManager.h"
+#include "Input/Mouse.h"
+#include "Input/Keyboard.h"
+#include "Graphics/Graphics.h"
 
 class Window {
 public:

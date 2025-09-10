@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "Window/Window.h"
 #include <new>
 #include <format>
 #include <string>
@@ -67,16 +67,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		// Render
 		win.gfx.SetupScreen();
 
-		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
 		std::pair<int, int> p1 = { win.GetClientWidth() / 2, win.GetClientHeight() / 2 };
 		std::pair<int, int> p2 = { xPos, yPos };
-
 		win.gfx.DrawLine(p1, p2);
+
+		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
 
 		win.gfx.Render();
 		Sleep(1);	
 	}
 
+	// SWITCH TO COMPTR's to handle all of this.
 	//stagingTexture->Release();
 	//renderTargetView->Release();
 }
