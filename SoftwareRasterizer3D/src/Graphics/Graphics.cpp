@@ -2,8 +2,17 @@
 #include <math.h>
 #include <iostream>
 
+/*
+For RASTERIZER:
+- Scanline approach (Simplest, although flat top vs flat bottom problem)
+- Pineda approach (Best for CPU multithreading)
+- Barycentric approach (GPU way, slower)
+
+Make it so in the game I can swap between the type as well.
+*/
+
 void Graphics::PutPixel(int x, int y, uint32_t colour) {
-	if (x <= 0 || x >= m_width || y <= 0 || y >= m_height) {
+	if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
 		OutputDebugString(std::format(L"\n[WARNING] Attempted to draw outside of the window.\nPos: ({}, {}) Window w, h: ({}, {})\n", x, y, m_width, m_height).c_str());
 		return;
 	}

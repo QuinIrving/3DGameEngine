@@ -140,6 +140,9 @@
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse.cpp" />
+    <ClCompile Include="src\Models\Cube.cpp" />
+    <ClCompile Include="src\Models\Triangle.cpp" />
+    <ClCompile Include="src\Models\Vertex.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\WinMain.cpp" />
   </ItemGroup>
@@ -151,6 +154,13 @@
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />
     <ClInclude Include="include\Input\Mouse.h" />
+    <ClInclude Include="include\Math\Mat4.h" />
+    <ClInclude Include="include\Math\Vec2.h" />
+    <ClInclude Include="include\Math\Vec3.h" />
+    <ClInclude Include="include\Math\Vec4.h" />
+    <ClInclude Include="include\Models\Cube.h" />
+    <ClInclude Include="include\Models\Triangle.h" />
+    <ClInclude Include="include\Models\Vertex.h" />
     <ClInclude Include="include\Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
