@@ -12,3 +12,6 @@ private:
 	Vec3<float> normal;
 	Vec2<float> UV;
 };
+
+//3d pos is (x, y, z, 1)
+//3d dir is (x, y, z, 0)
