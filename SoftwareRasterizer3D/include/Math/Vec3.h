@@ -19,6 +19,10 @@ public:
 	Vec3<T>& operator*=(const T scalar);
 	Vec3<T>& operator/=(const T scalar);
 
+	// Equality, check if all element's are equal
+	bool operator==(const Vec3<T>& rhs) const;
+	bool operator!=(const Vec3<T>& rhs) const;
+
 	constexpr T DotProduct(const Vec3<T>& rhs) const;
 	constexpr static T DotProduct(const Vec3<T>& lhs, const Vec3<T>& rhs);
 
@@ -126,6 +130,16 @@ Vec3<T>& Vec3<T>::operator/=(const T scalar) {
 	z /= scalar;
 
 	return *this;
+}
+
+template <typename T>
+bool Vec3<T>::operator==(const Vec3<T>& rhs) const {
+	return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
+}
+
+template <typename T>
+bool Vec3<T>::operator!=(const Vec3<T>& rhs) const {
+	return !(*this == rhs);
 }
 
 template<typename T>
