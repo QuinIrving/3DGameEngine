@@ -4,6 +4,7 @@
 #include <string>
 #include "Math/Mat4.h"
 #include "Models/Vertex.h"
+#include "Models/Triangle.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -84,9 +85,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			OutputDebugString(std::format(L"Row: {}, Col: {}. Value: {}\n", i / 4, i % 4, vals[i]).c_str());
 		}*/
 
-		Vertex A = Vertex(20, 120, 11);
-		Vertex B = Vertex(300, 200, 12);
-		Vertex C = Vertex(524, 500, 22);
+		//Vertex A = Vertex(20, 120, 11);
+		//Vertex B = Vertex(300, 200, 12);
+		//Vertex C = Vertex(524, 500, 22);
+
+		Vertex A = Vertex(20, 120, 0);
+		Vertex B = Vertex(300, 200, 0);
+		Vertex C = Vertex(150, 400, 0);
 
 		win.gfx.DrawLine(A, B, 0xFF00FFFF);
 		win.gfx.DrawLine(B, C, 0xFF00FFFF);
@@ -101,8 +106,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.PutPixel(C.GetPosition().x, C.GetPosition().y, 0xFFFF0000);
 		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
 
+		Triangle t = Triangle(A, B, C);
+		Vec3<float> triNorm = t.ComputeFaceNormal();
+		OutputDebugString(std::format(L"\nx: {}, y: {}, z: {}\n\n", triNorm.x, triNorm.y, triNorm.z).c_str());
+		//win.gfx.DrawTriangle(t);
+
 		win.gfx.Render();
-		Sleep(1);	
+		Sleep(1000000);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

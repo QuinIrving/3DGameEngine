@@ -1,6 +1,6 @@
 #include "Models/Vertex.h"
 
-Vec3<int>& Vertex::GetPosition() {
+Vec3<float>& Vertex::GetPosition() {
 	return position;
 }
 
@@ -16,7 +16,8 @@ Vec2<float>& Vertex::GetUV() {
 	return UV;
 }
 
-void Vertex::CalculateNormal() {
+Vec3<float>& Vertex::CalculateNormal() {
+	return normal;
 	// not sure exactly how to implement this.
 	// saw something about summing face normals of the faces that share the vertex. and normalize it.
 }
