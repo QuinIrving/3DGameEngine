@@ -63,6 +63,14 @@ void Graphics::DrawLine(std::pair<int, int> p1, std::pair<int, int> p2, uint32_t
 	Graphics::DrawLine(p1.first, p1.second, p2.first, p2.second, colour);
 }
 
+void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
+	// should change this to a const Vertex but need to figure out the auto with Vec.
+	auto pos1 = v1.GetPosition();
+	auto pos2 = v2.GetPosition();
+
+	Graphics::DrawLine(pos1.x, pos1.y, pos2.x, pos2.y, colour);
+}
+
 
 HRESULT Graphics::FirstInitialize(HWND hwnd) {
 	HRESULT err;

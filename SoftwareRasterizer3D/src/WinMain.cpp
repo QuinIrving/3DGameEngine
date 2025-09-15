@@ -3,6 +3,7 @@
 #include <format>
 #include <string>
 #include "Math/Mat4.h"
+#include "Models/Vertex.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -76,16 +77,33 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		win.gfx.Render();
 
-		Mat4<float> test = Mat4<float>::GetIdentity();
+		/*Mat4<float> test = Mat4<float>::GetIdentity();
 		test[2][3] = 0.5;
 
 		float* vals = test.GetValues();
 
 		for (int i = 0; i < 16; ++i) {
 			OutputDebugString(std::format(L"Row: {}, Col: {}. Value: {}\n", i / 4, i % 4, vals[i]).c_str());
-		}
+		}*/
 
-		Sleep(1000000);	
+		Vertex A = Vertex(20, 120, 11);
+		Vertex B = Vertex(300, 200, 12);
+		Vertex C = Vertex(524, 500, 22);
+
+		win.gfx.DrawLine(A, B, 0xFF00FFFF);
+		win.gfx.DrawLine(B, C, 0xFF00FFFF);
+		win.gfx.DrawLine(C, A, 0xFF00FFFF);
+
+		win.gfx.PutPixel(A.GetPosition().x, A.GetPosition().y, 0xFFFF0000);
+		//win.gfx.PutPixel(A.GetPosition().x / A.GetPosition().z, A.GetPosition().y / A.GetPosition().z, 0xFF00FFFF);
+
+		win.gfx.PutPixel(B.GetPosition().x, B.GetPosition().y, 0xFFFF0000);
+		//win.gfx.PutPixel(B.GetPosition().x / B.GetPosition().z, B.GetPosition().y / B.GetPosition().z, 0xFF00FFFF);
+
+		win.gfx.PutPixel(C.GetPosition().x, C.GetPosition().y, 0xFFFF0000);
+		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
+
+		Sleep(1);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

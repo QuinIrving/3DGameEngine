@@ -6,6 +6,7 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
+#include "Models/Vertex.h"
 
 class Graphics {
 public:
@@ -20,6 +21,7 @@ public:
 	void PutPixel(int x, int y, uint32_t colour);
 	void DrawLine(int x0, int y0, int x1, int y1, uint32_t colour = DEFAULT_COLOUR);
 	void DrawLine(std::pair<int, int> p1, std::pair<int, int> p2, uint32_t colour = DEFAULT_COLOUR);
+	void DrawLine(Vertex& v1, Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
 
 private:
 	int m_width = 0;
