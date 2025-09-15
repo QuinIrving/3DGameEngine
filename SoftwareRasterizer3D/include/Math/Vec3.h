@@ -38,12 +38,6 @@ public:
 	void ScaleZ(const T scaleFactor);
 	// T FastGetMagnitude() const; // probably something with the quake idea. Inverse square root approximation.
 
-	// Equality probably do an element-wise check with the == and !=.
-	// Return a normalized vector
-	// Figure out how to handle matrix dot product and cross product and all of that stuff. I assume that is matrix classes worry.
-
-	// x,y,z addition of a scalar I assume which would simply be a vector addition anyways so maybe don't worry
-
 public:
 	T x;
 	T y;
@@ -52,20 +46,20 @@ public:
 
 template <typename T>
 Vec3<T> Vec3<T>::operator+(const Vec3<T>& rhs) const {
-	T newX = x + otherV.x;
-	T newY = y + otherV.y;
-	T newZ = z + otherV.z;
+	T newX = x + rhs.x;
+	T newY = y + rhs.y;
+	T newZ = z + rhs.z;
 
 	return Vec3<T>(newX, newY, newZ);
 }
 
 template <typename T>
 Vec3<T> Vec3<T>::operator-(const Vec3<T>& rhs) const {
-	T newX = x - otherV.x;
-	T newY = y - otherV.y;
-	T newZ = z - otherV.z;
+	T newX = x - rhs.x;
+	T newY = y - rhs.y;
+	T newZ = z - rhs.z;
 
-	return Vec3<T>(newX, newY, newZ);;
+	return Vec3<T>(newX, newY, newZ);
 }
 
 template <typename T>
@@ -134,7 +128,7 @@ Vec3<T>& Vec3<T>::operator/=(const T scalar) {
 
 template <typename T>
 bool Vec3<T>::operator==(const Vec3<T>& rhs) const {
-	return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
+	return x == rhs.x && y == rhs.y && z == rhs.z;
 }
 
 template <typename T>
