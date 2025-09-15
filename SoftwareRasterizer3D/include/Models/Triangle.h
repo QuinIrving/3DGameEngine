@@ -3,6 +3,8 @@
 #include "Vertex.h"
 
 class Triangle {
+public:
+private:
 };
 
 /*

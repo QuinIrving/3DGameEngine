@@ -2,7 +2,7 @@
 #include <new>
 #include <format>
 #include <string>
-#include "Math/Mat4.h";
+#include "Math/Mat4.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -91,4 +91,5 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// SWITCH TO COMPTR's to handle all of this.
 	//stagingTexture->Release();
 	//renderTargetView->Release();
+	return 0;
 }

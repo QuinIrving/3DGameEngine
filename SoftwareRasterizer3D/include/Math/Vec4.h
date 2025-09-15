@@ -166,7 +166,7 @@ Vec4<T> Vec4<T>::GetNormalized() const {
 	T newX = x / mag;
 	T newY = y / mag;
 	T newZ = z / mag;
-	T newW = w / mag
+	T newW = w / mag;
 
 	return Vec4<T>(newX, newY, newZ, newW);
 }

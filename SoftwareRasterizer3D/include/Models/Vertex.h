@@ -5,10 +5,21 @@
 
 class Vertex {
 public:
-	
+	Vertex() = default;
+	Vertex(Vec3<float> pos) : position(Vec3<float>(pos)) {}
+	Vertex(float x, float y, float z) : position(Vec3<float>(x, y, z)) {}
+
+	Vec3<float>& GetPosition();
+	Vec4<int>& GetColour();
+	Vec3<float>& GetNormal();
+	Vec2<float>& GetUV();
+
+	void CalculateNormal();
+	void SetColour(int r, int g, int b, int a = 255);
+
 private:
 	Vec3<float> position;
-	Vec4<float> colour;
+	Vec4<int> colour;
 	Vec3<float> normal;
 	Vec2<float> UV;
 };
