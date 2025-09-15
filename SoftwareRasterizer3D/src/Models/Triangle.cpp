@@ -12,7 +12,7 @@ Triangle::Triangle(Vertex A, Vertex B, Vertex C, uint32_t colour)
 	int a = ;*/
 }
 
-Triangle::Triangle(int x0, int y0, int z0, int x1, int y1, int z1, int x2, int y2, int z2, uint32_t colour) 
+Triangle::Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour)
 	: triColour(colour)
 {
 	A = Vertex(x0, y0, z0);
@@ -29,9 +29,6 @@ Triangle::Triangle(int x0, int y0, int z0, int x1, int y1, int z1, int x2, int y
 Vec3<float> Triangle::ComputeFaceNormal() {
 	const Vec3<float> u = B.GetPosition() - A.GetPosition();
 	const Vec3<float> v = C.GetPosition() - A.GetPosition();
-
-	Vec3<float> test = Vec3<float>::CrossProduct(u, v);
-	OutputDebugString(std::format(L"\nNon-normalized. X: {}, Y: {}, Z: {}, MAG: {}\n\n", test.x, test.y, test.z, test.GetMagnitude()).c_str());
 
 	faceNormal = Vec3<float>::CrossProduct(u, v).GetNormalized();
 	return faceNormal;

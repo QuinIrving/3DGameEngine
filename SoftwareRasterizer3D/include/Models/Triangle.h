@@ -7,7 +7,7 @@ class Triangle {
 public:
 	Triangle() = default;
 	Triangle(Vertex A, Vertex B, Vertex C, uint32_t colour = 0xFF0000FF); // Will change later (bad way to handle colour as well).
-	Triangle(int x0, int y0, int z0, int x1, int y1, int z1, int x2, int y2, int z2, uint32_t colour = 0xFF0000FF); // WIll change later
+	Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour = 0xFF0000FF); // WIll change later
 
 	Vec3<float> ComputeFaceNormal();
 	Vec3<float> GetFaceNormal() const;

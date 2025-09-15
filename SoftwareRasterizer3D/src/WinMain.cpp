@@ -97,13 +97,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.DrawLine(B, C, 0xFF00FFFF);
 		win.gfx.DrawLine(C, A, 0xFF00FFFF);
 
-		win.gfx.PutPixel(A.GetPosition().x, A.GetPosition().y, 0xFFFF0000);
+		win.gfx.PutPixel(static_cast<int>(std::round(A.GetPosition().x)), static_cast<int>(std::round(A.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(A.GetPosition().x / A.GetPosition().z, A.GetPosition().y / A.GetPosition().z, 0xFF00FFFF);
 
-		win.gfx.PutPixel(B.GetPosition().x, B.GetPosition().y, 0xFFFF0000);
+		win.gfx.PutPixel(static_cast<int>(std::round(B.GetPosition().x)), static_cast<int>(std::round(B.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(B.GetPosition().x / B.GetPosition().z, B.GetPosition().y / B.GetPosition().z, 0xFF00FFFF);
 
-		win.gfx.PutPixel(C.GetPosition().x, C.GetPosition().y, 0xFFFF0000);
+		win.gfx.PutPixel(static_cast<int>(std::round(C.GetPosition().x)), static_cast<int>(std::round(C.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
 
 		Triangle t = Triangle(A, B, C);
