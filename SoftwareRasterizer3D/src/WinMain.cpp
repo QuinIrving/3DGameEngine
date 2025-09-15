@@ -2,6 +2,7 @@
 #include <new>
 #include <format>
 #include <string>
+#include "Math/Mat4.h";
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -74,7 +75,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
 
 		win.gfx.Render();
-		Sleep(1);	
+
+		Mat4<float> test = Mat4<float>::GetIdentity();
+		test[2][3] = 0.5;
+
+		float* vals = test.GetValues();
+
+		for (int i = 0; i < 16; ++i) {
+			OutputDebugString(std::format(L"Row: {}, Col: {}. Value: {}\n", i / 4, i % 4, vals[i]).c_str());
+		}
+
+		Sleep(1000000);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.
