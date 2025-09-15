@@ -75,8 +75,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
 
-		win.gfx.Render();
-
 		/*Mat4<float> test = Mat4<float>::GetIdentity();
 		test[2][3] = 0.5;
 
@@ -103,6 +101,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.PutPixel(C.GetPosition().x, C.GetPosition().y, 0xFFFF0000);
 		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
 
+		win.gfx.Render();
 		Sleep(1);	
 	}
 

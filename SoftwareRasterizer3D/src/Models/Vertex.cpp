@@ -1,6 +1,6 @@
 #include "Models/Vertex.h"
 
-Vec3<float>& Vertex::GetPosition() {
+Vec3<int>& Vertex::GetPosition() {
 	return position;
 }
 
