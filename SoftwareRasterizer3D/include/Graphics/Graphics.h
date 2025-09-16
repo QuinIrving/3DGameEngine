@@ -7,6 +7,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 #include "Models/Vertex.h"
+#include "Models/Triangle.h"
 
 class Graphics {
 public:
@@ -22,6 +23,7 @@ public:
 	void DrawLine(int x0, int y0, int x1, int y1, uint32_t colour = DEFAULT_COLOUR);
 	void DrawLine(std::pair<int, int> p1, std::pair<int, int> p2, uint32_t colour = DEFAULT_COLOUR);
 	void DrawLine(Vertex& v1, Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
+	void DrawTriangle(Triangle& t); // rasterize a triangle.
 
 private:
 	int m_width = 0;

@@ -85,13 +85,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			OutputDebugString(std::format(L"Row: {}, Col: {}. Value: {}\n", i / 4, i % 4, vals[i]).c_str());
 		}*/
 
-		//Vertex A = Vertex(20, 120, 11);
-		//Vertex B = Vertex(300, 200, 12);
-		//Vertex C = Vertex(524, 500, 22);
-
-		Vertex A = Vertex(20, 120, 0);
-		Vertex B = Vertex(300, 200, 0);
-		Vertex C = Vertex(150, 400, 0);
+		Vertex A = Vertex(20, 120, 11);
+		Vertex B = Vertex(300, 200, 12);
+		Vertex C = Vertex(524, 500, 22);
 
 		win.gfx.DrawLine(A, B, 0xFF00FFFF);
 		win.gfx.DrawLine(B, C, 0xFF00FFFF);

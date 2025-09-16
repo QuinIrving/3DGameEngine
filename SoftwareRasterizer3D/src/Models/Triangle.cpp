@@ -1,6 +1,4 @@
 #include "Models/Triangle.h"
-#include <Windows.h>
-#include <format>
 
 Triangle::Triangle(Vertex A, Vertex B, Vertex C, uint32_t colour) 
 	: A(A), B(B), C(C), triColour(colour)

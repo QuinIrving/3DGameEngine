@@ -71,6 +71,14 @@ void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
 	Graphics::DrawLine(pos1.x, pos1.y, pos2.x, pos2.y, colour);
 }
 
+void Graphics::DrawTriangle(Triangle& t) {
+	// do the pineda method for this one
+}
+
+/* void Graphics::DrawTriangleScanLine(Triangle& t) {
+*   // this should utilize the other method just so that it properly is able to swap between the two.
+* }
+*/
 
 HRESULT Graphics::FirstInitialize(HWND hwnd) {
 	HRESULT err;
