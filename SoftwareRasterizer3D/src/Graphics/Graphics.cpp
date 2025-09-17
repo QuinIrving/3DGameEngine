@@ -73,6 +73,11 @@ void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
 
 void Graphics::DrawTriangle(Triangle& t) {
 	// do the pineda method for this one
+	/*
+	This should utilize the edge functions to check if the point is within it, and then I believe it interpolates over
+	each pixel within the bounding box, to reduce the calculations to something like 2 additions or something rather than recalculating
+	the edge function. Look into it again.
+	*/
 }
 
 /* void Graphics::DrawTriangleScanLine(Triangle& t) {
