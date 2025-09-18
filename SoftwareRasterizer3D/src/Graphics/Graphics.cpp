@@ -68,17 +68,106 @@ void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
 	auto pos1 = v1.GetPosition();
 	auto pos2 = v2.GetPosition();
 
-	Graphics::DrawLine(pos1.x, pos1.y, pos2.x, pos2.y, colour);
+	Graphics::DrawLine(static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(pos2.x), static_cast<int>(pos2.y), colour);
 }
 
-void Graphics::DrawTriangle(Triangle& t) {
-	// do the pineda method for this one
-	/*
-	This should utilize the edge functions to check if the point is within it, and then I believe it interpolates over
-	each pixel within the bounding box, to reduce the calculations to something like 2 additions or something rather than recalculating
-	the edge function. Look into it again.
-	*/
+void Graphics::DrawTriangle(Triangle& tri) {
+	Vertex A = tri.GetVertexA();
+	Vertex B = tri.GetVertexB();
+	Vertex C = tri.GetVertexC();
+	
+	// get the bounding box:
+	Vec3<float> posA = A.GetPosition();
+	Vec3<float> posB = B.GetPosition();
+	Vec3<float> posC = C.GetPosition();
+
+	float top = posA.y;
+	float left = posA.x;
+	float bottom = posA.y;
+	float right = posA.x;
+
+	if (posB.x < left) {
+		left = posB.x;
+	}
+	else if (posB.x > right) {
+		right = posB.x;
+	}
+
+	if (posB.y < top) {
+		top = posB.y;
+	}
+	else if (posB.y > bottom) {
+		bottom = posB.y;
+	}
+
+	if (posC.x < left) {
+		left = posC.x;
+	}
+	else if (posC.x > right) {
+		right = posC.x;
+	}
+
+	if (posC.y < top) {
+		top = posC.y;
+	}
+	else if (posC.y > bottom) {
+		bottom = posC.y;
+	}
+
+	// now we have the bounding box of the triangle. We can go from top left to bottom right of the pixels to check which pixels to draw
+	int t = static_cast<int>(floor(top));
+	int b = static_cast<int>(ceil(bottom));
+	int l = static_cast<int>(floor(left));
+	int r = static_cast<int>(ceil(right));
+
+	// first calculate the edges of the triangle for the edge function.
+	int C0x = static_cast<int>(posA.y - posB.y); // B->A
+	int C0y = static_cast<int>(-(posA.x - posB.x));
+	int C1x = static_cast<int>(posC.y - posA.y); // A->C
+	int C1y = static_cast<int>(-(posC.x - posA.x));
+	int C2x = static_cast<int>(posB.y - posC.y); // C->B
+	int C2y = static_cast<int>(-(posB.x - posC.x));
+
+	int edge0 = static_cast<int>(((l - posB.x) * (posA.y - posB.y)) - ((t - posB.y) * (posA.x - posB.x))); // B->A
+	int edge1 = static_cast<int>(((l - posA.x) * (posC.y - posA.y)) - ((t - posA.y) * (posC.x - posA.x))); // A->C
+	int edge2 = static_cast<int>(((l - posC.x) * (posB.y - posC.y)) - ((t - posC.y) * (posB.x - posC.x))); // C->B
+
+	int e0;
+	int e1;
+	int e2;
+
+	OutputDebugString(std::format(L"\nVertices: A({},{},{}), B({},{},{}), C({},{},{})\n",
+		posA.x, posA.y, posA.z, posB.x, posB.y, posB.z, posC.x, posC.y, posC.z).c_str());
+	OutputDebugString(std::format(L"Bounding box: top={}, bottom={}, left={}, right={}\n",
+		t, b, l, r).c_str());
+	OutputDebugString(std::format(L"Constants: C0x={}, C0y={}, C1x={}, C1y={}, C2x={}, C2y={}\n",
+		C0x, C0y, C1x, C1y, C2x, C2y).c_str());
+	OutputDebugString(std::format(L"Initial edges: edge0={}, edge1={}, edge2={}\n",
+		edge0, edge1, edge2).c_str());
+
+	for (int y = t; y <= b; ++y) {
+		// need to reset to the left side of our edge function, but also incorporate the row we are now on.
+		int yDiff = (y - t);
+		e0 = edge0 + (yDiff * C0y);
+		e1 = edge1 + (yDiff * C1y);
+		e2 = edge2 + (yDiff * C2y);
+
+		for (int x = l; x <= r; ++x) {
+			//OutputDebugString(std::format(L"\nx: {}, y: {}, e0: {}, e1: {}, e2: {}\n", x, y, e0, e1, e2).c_str());
+
+			if (e0 >= 0 && e1 >= 0 && e2 >= 0) {
+				PutPixel(x, y, tri.GetColour());
+			}
+			
+			// move to the right.
+			e0 += C0x;
+			e1 += C1x;
+			e2 += C2x;
+		}
+	}
 }
+
+
 
 /* void Graphics::DrawTriangleScanLine(Triangle& t) {
 *   // this should utilize the other method just so that it properly is able to swap between the two.

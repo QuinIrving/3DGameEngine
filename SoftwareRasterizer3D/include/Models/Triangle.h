@@ -9,6 +9,12 @@ public:
 	Triangle(Vertex A, Vertex B, Vertex C, uint32_t colour = 0xFF0000FF); // Will change later (bad way to handle colour as well).
 	Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour = 0xFF0000FF); // WIll change later
 
+	Vertex& GetVertexA();
+	Vertex& GetVertexB();
+	Vertex& GetVertexC();
+
+	uint32_t GetColour() const;
+
 	Vec3<float> ComputeFaceNormal();
 	Vec3<float> GetFaceNormal() const;
 private:

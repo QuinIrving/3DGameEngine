@@ -89,26 +89,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		Vertex B = Vertex(300, 200, 12);
 		Vertex C = Vertex(524, 500, 22);
 
-		win.gfx.DrawLine(A, B, 0xFF00FFFF);
-		win.gfx.DrawLine(B, C, 0xFF00FFFF);
-		win.gfx.DrawLine(C, A, 0xFF00FFFF);
+		//win.gfx.DrawLine(A, B, 0xFF00FFFF);
+		//win.gfx.DrawLine(B, C, 0xFF00FFFF);
+		//win.gfx.DrawLine(C, A, 0xFF00FFFF);
 
-		win.gfx.PutPixel(static_cast<int>(std::round(A.GetPosition().x)), static_cast<int>(std::round(A.GetPosition().y)), 0xFFFF0000);
+		//win.gfx.PutPixel(static_cast<int>(std::round(A.GetPosition().x)), static_cast<int>(std::round(A.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(A.GetPosition().x / A.GetPosition().z, A.GetPosition().y / A.GetPosition().z, 0xFF00FFFF);
 
-		win.gfx.PutPixel(static_cast<int>(std::round(B.GetPosition().x)), static_cast<int>(std::round(B.GetPosition().y)), 0xFFFF0000);
+		//win.gfx.PutPixel(static_cast<int>(std::round(B.GetPosition().x)), static_cast<int>(std::round(B.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(B.GetPosition().x / B.GetPosition().z, B.GetPosition().y / B.GetPosition().z, 0xFF00FFFF);
 
-		win.gfx.PutPixel(static_cast<int>(std::round(C.GetPosition().x)), static_cast<int>(std::round(C.GetPosition().y)), 0xFFFF0000);
+		//win.gfx.PutPixel(static_cast<int>(std::round(C.GetPosition().x)), static_cast<int>(std::round(C.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
 
 		Triangle t = Triangle(A, B, C);
-		Vec3<float> triNorm = t.ComputeFaceNormal();
-		OutputDebugString(std::format(L"\nx: {}, y: {}, z: {}\n\n", triNorm.x, triNorm.y, triNorm.z).c_str());
-		//win.gfx.DrawTriangle(t);
+		//Vec3<float> triNorm = t.ComputeFaceNormal();
+		//OutputDebugString(std::format(L"\nx: {}, y: {}, z: {}\n\n", triNorm.x, triNorm.y, triNorm.z).c_str());
+		win.gfx.DrawTriangle(t);
 
 		win.gfx.Render();
-		Sleep(1000000);	
+		Sleep(1);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

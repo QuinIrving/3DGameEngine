@@ -24,6 +24,22 @@ Triangle::Triangle(float x0, float y0, float z0, float x1, float y1, float z1, f
 	*/
 }
 
+Vertex& Triangle::GetVertexA() {
+	return A;
+}
+
+Vertex& Triangle::GetVertexB() {
+	return B;
+}
+
+Vertex& Triangle::GetVertexC() {
+	return C;
+}
+
+uint32_t Triangle::GetColour() const {
+	return triColour;
+}
+
 Vec3<float> Triangle::ComputeFaceNormal() {
 	const Vec3<float> u = B.GetPosition() - A.GetPosition();
 	const Vec3<float> v = C.GetPosition() - A.GetPosition();
