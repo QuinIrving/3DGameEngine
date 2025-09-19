@@ -21,9 +21,9 @@ public:
 
 	void PutPixel(int x, int y, uint32_t colour);
 	void DrawLine(int x0, int y0, int x1, int y1, uint32_t colour = DEFAULT_COLOUR);
-	void DrawLine(std::pair<int, int> p1, std::pair<int, int> p2, uint32_t colour = DEFAULT_COLOUR);
-	void DrawLine(Vertex& v1, Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
-	void DrawTriangle(Triangle& t); // rasterize a triangle.
+	void DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, uint32_t colour = DEFAULT_COLOUR);
+	void DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
+	void DrawTriangle(const Triangle& t); // rasterize a triangle.
 
 private:
 	int m_width = 0;

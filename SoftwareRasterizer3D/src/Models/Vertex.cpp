@@ -1,22 +1,22 @@
 #include "Models/Vertex.h"
 
-Vec3<float>& Vertex::GetPosition() {
+const Vec3<float>& Vertex::GetPosition() const {
 	return position;
 }
 
-Vec4<int>& Vertex::GetColour() {
+const Vec4<int>& Vertex::GetColour() const {
 	return colour;
 }
 
-Vec3<float>& Vertex::GetNormal() {
+const Vec3<float>& Vertex::GetNormal() const {
 	return normal;
 }
 
-Vec2<float>& Vertex::GetUV() {
+const Vec2<float>& Vertex::GetUV() const {
 	return UV;
 }
 
-Vec3<float>& Vertex::CalculateNormal() {
+const Vec3<float>& Vertex::CalculateNormal() {
 	return normal;
 	// not sure exactly how to implement this.
 	// saw something about summing face normals of the faces that share the vertex. and normalize it.

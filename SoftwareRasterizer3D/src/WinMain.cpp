@@ -5,6 +5,7 @@
 #include "Math/Mat4.h"
 #include "Models/Vertex.h"
 #include "Models/Triangle.h"
+#include "Models/Cube.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -102,13 +103,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		//win.gfx.PutPixel(static_cast<int>(std::round(C.GetPosition().x)), static_cast<int>(std::round(C.GetPosition().y)), 0xFFFF0000);
 		//win.gfx.PutPixel(C.GetPosition().x / C.GetPosition().z, C.GetPosition().y / C.GetPosition().z, 0xFF00FFFF);
 
-		Triangle t = Triangle(A, B, C);
+		Triangle t = Triangle(A, B, C, 0xFFBBAA55);
 		//Vec3<float> triNorm = t.ComputeFaceNormal();
 		//OutputDebugString(std::format(L"\nx: {}, y: {}, z: {}\n\n", triNorm.x, triNorm.y, triNorm.z).c_str());
-		win.gfx.DrawTriangle(t);
+		//win.gfx.DrawTriangle(t);
+
+		float size = 100.0;
+		Cube c = Cube(size);
+		std::array<int, 36> arr = c.GetVertexIds();
+		std::array<Vertex, 8> v = c.GetVertices();
+		Triangle t1 = Triangle(
+			v[arr[0]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+			v[arr[1]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+			v[arr[2]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+			0xFFBBAA55);
+
+		for (int i = 0; i < 6; i += 3) {
+			win.gfx.DrawTriangle(Triangle(
+				v[arr[i]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+				v[arr[i + 1]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+				v[arr[i + 2]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+				(i == 0) ? 0xFFBBAA55 : 0xFF0000FF));
+		}
 
 		win.gfx.Render();
-		Sleep(1);	
+		Sleep(100);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

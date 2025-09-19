@@ -24,15 +24,15 @@ Triangle::Triangle(float x0, float y0, float z0, float x1, float y1, float z1, f
 	*/
 }
 
-Vertex& Triangle::GetVertexA() {
+const Vertex& Triangle::GetVertexA() const {
 	return A;
 }
 
-Vertex& Triangle::GetVertexB() {
+const Vertex& Triangle::GetVertexB() const {
 	return B;
 }
 
-Vertex& Triangle::GetVertexC() {
+const Vertex& Triangle::GetVertexC() const {
 	return C;
 }
 

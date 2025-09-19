@@ -59,11 +59,11 @@ void Graphics::DrawLine(int x0, int y0, int x1, int y1, uint32_t colour) {
 	}
 }
 
-void Graphics::DrawLine(std::pair<int, int> p1, std::pair<int, int> p2, uint32_t colour) {
+void Graphics::DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, uint32_t colour) {
 	Graphics::DrawLine(p1.first, p1.second, p2.first, p2.second, colour);
 }
 
-void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
+void Graphics::DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour) {
 	// should change this to a const Vertex but need to figure out the auto with Vec.
 	auto pos1 = v1.GetPosition();
 	auto pos2 = v2.GetPosition();
@@ -71,7 +71,7 @@ void Graphics::DrawLine(Vertex& v1, Vertex& v2, uint32_t colour) {
 	Graphics::DrawLine(static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(pos2.x), static_cast<int>(pos2.y), colour);
 }
 
-void Graphics::DrawTriangle(Triangle& tri) {
+void Graphics::DrawTriangle(const Triangle& tri) {
 	Vertex A = tri.GetVertexA();
 	Vertex B = tri.GetVertexB();
 	Vertex C = tri.GetVertexC();
@@ -135,15 +135,6 @@ void Graphics::DrawTriangle(Triangle& tri) {
 	int e0;
 	int e1;
 	int e2;
-
-	OutputDebugString(std::format(L"\nVertices: A({},{},{}), B({},{},{}), C({},{},{})\n",
-		posA.x, posA.y, posA.z, posB.x, posB.y, posB.z, posC.x, posC.y, posC.z).c_str());
-	OutputDebugString(std::format(L"Bounding box: top={}, bottom={}, left={}, right={}\n",
-		t, b, l, r).c_str());
-	OutputDebugString(std::format(L"Constants: C0x={}, C0y={}, C1x={}, C1y={}, C2x={}, C2y={}\n",
-		C0x, C0y, C1x, C1y, C2x, C2y).c_str());
-	OutputDebugString(std::format(L"Initial edges: edge0={}, edge1={}, edge2={}\n",
-		edge0, edge1, edge2).c_str());
 
 	for (int y = t; y <= b; ++y) {
 		// need to reset to the left side of our edge function, but also incorporate the row we are now on.

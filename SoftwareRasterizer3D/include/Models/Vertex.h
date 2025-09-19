@@ -9,12 +9,12 @@ public:
 	Vertex(Vec3<float> pos) : position(Vec3<float>(pos)) {}
 	Vertex(float x, float y, float z) : position(Vec3<float>(x, y, z)) {}
 
-	Vec3<float>& GetPosition();
-	Vec4<int>& GetColour();
-	Vec3<float>& GetNormal();
-	Vec2<float>& GetUV();
+	const Vec3<float>& GetPosition() const;
+	const Vec4<int>& GetColour() const;
+	const Vec3<float>& GetNormal() const;
+	const Vec2<float>& GetUV() const;
 
-	Vec3<float>& CalculateNormal();
+	const Vec3<float>& CalculateNormal();
 	void SetColour(int r, int g, int b, int a = 255);
 
 private:
