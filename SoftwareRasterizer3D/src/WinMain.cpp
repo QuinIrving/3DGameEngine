@@ -3,9 +3,11 @@
 #include <format>
 #include <string>
 #include "Math/Mat4.h"
+#include "Math/Vec4.h"
 #include "Models/Vertex.h"
 #include "Models/Triangle.h"
 #include "Models/Cube.h"
+#include "Math/MatrixVectorOps.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -126,8 +128,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 				(i == 0) ? 0xFFBBAA55 : 0xFF0000FF));
 		}
 
+		float a1[16] = {1.f, 0.f, 0.f, 0.f,
+						0.f, 1.f, 0.f, 0.f,
+						0.f, 0.f, 1.f, 0.f,
+						1.f, 2.f, 3.f, 1.f };
+
+		Mat4<float> m = Mat4<float>(a1);
+
+		float b2[16] = {2.f, 0.f, 0.f, 0.f,
+						0.f, 3.f, 0.f, 0.f,
+						0.f, 0.f, 4.f, 0.f,
+						0.f, 0.f, 0.f, 1.f};
+
+		Mat4<float> n = Mat4<float>(b2);
+
+		Mat4<float> newM = m * n;
+		
+		for (int r = 0; r < 4; ++r) {
+			for (int c = 0; c < 4; ++c) {
+				OutputDebugString(std::format(L"| {} ", newM[r][c]).c_str());
+			}
+			OutputDebugString(L"|\n");
+		}
+
+		Vec4<float> point = Vec4<float>(3, 4, 7, -1);
+		Vec4<float> result = point * newM;
+
+		OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result.x, result.y, result.z, result.w).c_str());
+
 		win.gfx.Render();
-		Sleep(100);	
+		Sleep(10000);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

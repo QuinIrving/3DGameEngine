@@ -1,5 +1,7 @@
 #pragma once
 #include <array>
+#include <stdexcept>
+#include <algorithm>
 
 template <typename T>
 class Mat4 {
@@ -7,6 +9,7 @@ public:
 	class RowProxy { // MIGHT WANT TO CHANGE THIS TO STORE A VEC4 of the row, will see.
 	public:
 		RowProxy(T* rowData) : row(rowData) {}
+		RowProxy(const T* rowData) : row(const_cast<T*>(rowData)) {}
 
 		// Grab the column of a row
 		T& operator[](int col); // read & write
@@ -30,7 +33,7 @@ public:
 	RowProxy operator[](int row);
 	const RowProxy operator[](int row) const;
 
-	T* GetValues();
+	std::array<T, 4> GetValues();
 
 	static constexpr Mat4<T> GetIdentity();
 	static constexpr Mat4<T> GetZero();
@@ -53,13 +56,11 @@ Mat4<T>::Mat4()
 template <typename T>
 inline Mat4<T>::Mat4(T matrix[16])
 {
-	values = matrix;
+	std::copy(matrix, matrix + 16, values.begin());
 }
 
 template <typename T>
-inline Mat4<T>::Mat4(std::array<T, 16> matrix) {
-	values = matrix;
-}
+inline Mat4<T>::Mat4(std::array<T, 16> matrix) : values (matrix) {}
 
 template <typename T>
 Mat4<T> Mat4<T>::operator+(const Mat4<T>& rhs) {
@@ -103,7 +104,7 @@ Mat4<T>& Mat4<T>::operator*=(T factor) {
 template <typename T>
 Mat4<T>::RowProxy Mat4<T>::operator[](int row) {
 	if (row < 0 || row >= 4) {
-		// throw an error
+		throw std::out_of_range("row");
 	}
 
 	return RowProxy(&values[row * 4]);
@@ -111,11 +112,15 @@ Mat4<T>::RowProxy Mat4<T>::operator[](int row) {
 
 template <typename T>
 const Mat4<T>::RowProxy Mat4<T>::operator[](int row) const {
+	if (row < 0 || row >= 4) {
+		throw std::out_of_range("row");
+	}
+
 	return RowProxy(&values[row * 4]);
 }
 
 template <typename T>
-T* Mat4<T>::GetValues() {
+std::array<T, 4> Mat4<T>::GetValues() {
 	return values.data();
 }
 
@@ -136,7 +141,7 @@ inline constexpr Mat4<T> Mat4<T>::GetZero() {
 template <typename T>
 inline T& Mat4<T>::RowProxy::operator[](int col) {
 	if (col < 0 || col >= 4) {
-		// throw an error;
+		throw std::out_of_range("col");
 	}
 
 	return row[col];
@@ -145,7 +150,7 @@ inline T& Mat4<T>::RowProxy::operator[](int col) {
 template <typename T>
 const T& Mat4<T>::RowProxy::operator[](int col) const {
 	if (col < 0 || col >= 4) {
-		// throw an error;
+		throw std::out_of_range("col");
 	}
 
 	return row[col];
