@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "Mat4.h"
 
 template <typename T>
 class Vec4 {
@@ -18,6 +19,9 @@ public:
 	Vec4<T> operator/(const T scalar) const;
 	Vec4<T>& operator*=(const T scalar);
 	Vec4<T>& operator/=(const T scalar);
+
+	Vec4<T> operator*(const Mat4<T>& rhs) const;
+	Vec4<T>& operator*=(const Mat4<T>& rhs);
 
 	// Equality, check if all element's are equal
 	bool operator==(const Vec4<T>& rhs) const;

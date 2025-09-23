@@ -161,6 +161,7 @@
     <ClInclude Include="include\Input\Mouse.h" />
     <ClInclude Include="include\Math\Mat3.h" />
     <ClInclude Include="include\Math\Mat4.h" />
+    <ClInclude Include="include\Math\MatrixVectorOps.h" />
     <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Math\Vec3.h" />

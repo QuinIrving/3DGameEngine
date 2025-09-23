@@ -4,7 +4,7 @@
 template <typename T>
 class Mat4 {
 public:
-	class RowProxy {
+	class RowProxy { // MIGHT WANT TO CHANGE THIS TO STORE A VEC4 of the row, will see.
 	public:
 		RowProxy(T* rowData) : row(rowData) {}
 
@@ -18,6 +18,7 @@ public:
 public:
 	Mat4();
 	Mat4(T matrix[16]);
+	Mat4(std::array<T, 16> matrix);
 
 	T& operator()(int row, int col) { return values[row * 4 + col]; }
 	Mat4<T> operator+(const Mat4<T>& rhs);
@@ -40,7 +41,7 @@ private:
 	std::array<T, 16> values; // Row-major format m00, m01, m02, m03, m10, .. etc
 };
 
-template<typename T>
+template <typename T>
 Mat4<T>::Mat4()
 	: values{ {
 			1, 0, 0, 0,
@@ -49,13 +50,18 @@ Mat4<T>::Mat4()
 			0, 0, 0, 1
 } } {}
 
-template<typename T>
+template <typename T>
 inline Mat4<T>::Mat4(T matrix[16])
 {
 	values = matrix;
 }
 
-template<typename T>
+template <typename T>
+inline Mat4<T>::Mat4(std::array<T, 16> matrix) {
+	values = matrix;
+}
+
+template <typename T>
 Mat4<T> Mat4<T>::operator+(const Mat4<T>& rhs) {
 	T addedData[16];
 	for (int i = 0; i < 16; ++i) {
@@ -65,7 +71,7 @@ Mat4<T> Mat4<T>::operator+(const Mat4<T>& rhs) {
 	return Mat4(addedData);
 }
 
-template<typename T>
+template <typename T>
 Mat4<T>& Mat4<T>::operator+=(const Mat4<T>& rhs) {
 	for (int i = 0; i < 16; ++i) {
 		values[i] += rhs.values[i];
@@ -74,9 +80,9 @@ Mat4<T>& Mat4<T>::operator+=(const Mat4<T>& rhs) {
 	return *this;
 }
 
-template<typename T>
+template <typename T>
 Mat4<T> Mat4<T>::operator*(T factor) {
-	T multipliedData[16];
+	std::array<T, 16> multipliedData;
 	for (int i = 0; i < 16; ++i) {
 		multipliedData[i] = values[i] * factor;
 	}
@@ -84,21 +90,8 @@ Mat4<T> Mat4<T>::operator*(T factor) {
 	return Mat4(multipliedData);
 }
 
-// Is this even the correctly created matrix multiplication? DOESN'T LOOK LIKE IT!!!!
-// DEFINITELY USE DOT PRODUCT TO FIND RESULT NOW LOL.
-template<typename T>
-Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) {
-	T multipliedData[16];
-	// Do Dot product here of each row to column? Look into!!!! May be better to also be able to get back a Vec4 for each row/column grab.
-	// and a way to grab those columns/vectors.
-	for (int i = 0; i < 16; ++i) {
-		multipliedData[i] = values[i] * rhs.values[i];
-	}
 
-	return Mat4(multipliedData);
-}
-
-template<typename T>
+template <typename T>
 Mat4<T>& Mat4<T>::operator*=(T factor) {
 	for (int i = 0; i < 16; ++i) {
 		values[i] *= factor;
@@ -107,16 +100,7 @@ Mat4<T>& Mat4<T>::operator*=(T factor) {
 	return *this;
 }
 
-template<typename T>
-Mat4<T>& Mat4<T>::operator*=(const Mat4<T>& rhs) {
-	for (int i = 0; i < 16; ++i) {
-		values[i] *= rhs.values[i];
-	}
-
-	return *this;
-}
-
-template<typename T>
+template <typename T>
 Mat4<T>::RowProxy Mat4<T>::operator[](int row) {
 	if (row < 0 || row >= 4) {
 		// throw an error
@@ -125,23 +109,23 @@ Mat4<T>::RowProxy Mat4<T>::operator[](int row) {
 	return RowProxy(&values[row * 4]);
 }
 
-template<typename T>
+template <typename T>
 const Mat4<T>::RowProxy Mat4<T>::operator[](int row) const {
 	return RowProxy(&values[row * 4]);
 }
 
-template<typename T>
+template <typename T>
 T* Mat4<T>::GetValues() {
 	return values.data();
 }
 
 // Identity matrix I presume
-template<typename T>
+template <typename T>
 inline constexpr Mat4<T> Mat4<T>::GetIdentity() {
 	return Mat4();
 }
 
-template<typename T>
+template <typename T>
 inline constexpr Mat4<T> Mat4<T>::GetZero() {
 	return Mat4<T>({ {0, 0, 0, 0,
 				 0, 0, 0, 0,
@@ -149,7 +133,7 @@ inline constexpr Mat4<T> Mat4<T>::GetZero() {
 				 0, 0, 0, 0} });
 }
 
-template<typename T>
+template <typename T>
 inline T& Mat4<T>::RowProxy::operator[](int col) {
 	if (col < 0 || col >= 4) {
 		// throw an error;
@@ -158,7 +142,7 @@ inline T& Mat4<T>::RowProxy::operator[](int col) {
 	return row[col];
 }
 
-template<typename T>
+template <typename T>
 const T& Mat4<T>::RowProxy::operator[](int col) const {
 	if (col < 0 || col >= 4) {
 		// throw an error;
