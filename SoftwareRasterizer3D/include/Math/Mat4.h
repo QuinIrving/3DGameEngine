@@ -84,9 +84,13 @@ Mat4<T> Mat4<T>::operator*(T factor) {
 	return Mat4(multipliedData);
 }
 
+// Is this even the correctly created matrix multiplication? DOESN'T LOOK LIKE IT!!!!
+// DEFINITELY USE DOT PRODUCT TO FIND RESULT NOW LOL.
 template<typename T>
 Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) {
 	T multipliedData[16];
+	// Do Dot product here of each row to column? Look into!!!! May be better to also be able to get back a Vec4 for each row/column grab.
+	// and a way to grab those columns/vectors.
 	for (int i = 0; i < 16; ++i) {
 		multipliedData[i] = values[i] * rhs.values[i];
 	}

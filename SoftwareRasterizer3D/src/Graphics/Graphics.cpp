@@ -71,6 +71,7 @@ void Graphics::DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour) {
 	Graphics::DrawLine(static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(pos2.x), static_cast<int>(pos2.y), colour);
 }
 
+// NEED TO INCLUDE A WAY TO NOT ATTEMPT DRAW IF not in CCW. Backface culling!!!!
 void Graphics::DrawTriangle(const Triangle& tri) {
 	Vertex A = tri.GetVertexA();
 	Vertex B = tri.GetVertexB();
