@@ -153,8 +153,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		Vec4<float> point = Vec4<float>(3, 4, 7, -1);
 		Vec4<float> result = point * newM;
+		Vec4<float> result2 = point * m * n;
 
 		OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result.x, result.y, result.z, result.w).c_str());
+		OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result2.x, result2.y, result2.z, result2.w).c_str());
 
 		win.gfx.Render();
 		Sleep(10000);	
