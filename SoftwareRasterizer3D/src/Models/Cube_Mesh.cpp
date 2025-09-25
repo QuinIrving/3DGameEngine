@@ -1,7 +1,10 @@
-#include "Models/Cube.h"
+#include "Models/Cube_Mesh.h"
 
 Cube::Cube() : Cube(1.0) {}
 
+// Look into when refactoring if it's common to have meshes like this
+// or if we should simply on Cube creation have a size that immediately updates the model
+// matrix to have the scaling factor into it from the jump.
 Cube::Cube(float size) {
 	vertices[0] = { -size, size, size };
 	vertices[1] = { size, size, size };

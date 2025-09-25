@@ -6,6 +6,7 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
+#include <vector>
 #include "Models/Vertex.h"
 #include "Models/Triangle.h"
 
@@ -25,6 +26,24 @@ public:
 	void DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
 	void DrawTriangle(const Triangle& t); // rasterize a triangle.
 
+	void Pipeline(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
+private:
+	// Pipeline takes a VertexIn for vertices
+	// VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
+	// ^ that MVP could simply be computed once per pipeline call, and VP don't change so we'll see if we can 
+	// each frame just pre-compute VP, then multiply like M(VP) way of calculating. WIll see.
+	// void RasterizeTriangle(const VertexOut& v0, const VertexOut& v1, const VertexOut& v2);
+	// FragmentOut FragmentShader(const Fragment& frag);
+	/*
+	-
+	For our vertices provided, we can go through the indices, iterating + 3 and getting vertex 0, 1, 2
+	with them being modified by vertex shader each.
+	Then rasterize the triangle for those 3 vertices.
+	Inside of rasterizer we get each barycentric coords pixel that we know is within the triangle,
+	and from there after z-buffer test, we can pass it to the fragment shader to do work, before
+	finally updating the back-buffer with our updated putpixel call for that specific fragment
+	-
+	*/
 private:
 	int m_width = 0;
 	int m_height = 0;

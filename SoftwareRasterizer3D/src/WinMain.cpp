@@ -6,7 +6,7 @@
 #include "Math/Vec4.h"
 #include "Models/Vertex.h"
 #include "Models/Triangle.h"
-#include "Models/Cube.h"
+#include "Models/Cube_Mesh.h"
 #include "Math/MatrixVectorOps.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
