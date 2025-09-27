@@ -8,11 +8,13 @@
 #pragma comment(lib, "dxguid.lib")
 #include <vector>
 #include "Models/Vertex.h"
+#include "Math/Mat4.h"
 #include "Models/Triangle.h"
 
 class Graphics {
 public:
 	inline static constexpr uint32_t DEFAULT_COLOUR = 0xFF0000FF;
+	//inline static consteval Mat4<float> PROJECTION_MATRIX = Mat4<float>([]); // need to make a constexpr method of the projection matrix from mat4
 	Graphics() = default;
 
 	HRESULT FirstInitialize(HWND hwnd);
