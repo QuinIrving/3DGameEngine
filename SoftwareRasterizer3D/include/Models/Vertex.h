@@ -7,6 +7,7 @@ class Vertex {
 public:
 	Vertex() = default;
 	Vertex(Vec3<float> pos) : position(Vec3<float>(pos)) {}
+	Vertex(Vec4<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
 	Vertex(float x, float y, float z) : position(Vec3<float>(x, y, z)) {}
 
 	const Vec3<float>& GetPosition() const;

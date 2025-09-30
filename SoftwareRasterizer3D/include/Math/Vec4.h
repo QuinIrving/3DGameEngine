@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "Vec3.h"
 #include "Mat4.h"
 
 template <typename T>
@@ -7,6 +8,7 @@ class Vec4 {
 public:
 	constexpr Vec4() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)), w(static_cast<T>(0)) {};
 	constexpr Vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {};
+	constexpr Vec4(Vec3<T> v, T w = T(1)) : x(v.x), y(v.y), z(v.z), w(w) {};
 
 	// Vector addition & subtraction
 	Vec4<T> operator+(const Vec4<T>& rhs) const;

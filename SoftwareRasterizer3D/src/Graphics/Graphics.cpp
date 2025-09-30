@@ -2,11 +2,14 @@
 #include <math.h>
 #include <iostream>
 
+
+void Graphics::Pipeline(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix) {
+
+}
 /*
 For RASTERIZER:
 - Scanline approach (Simplest, although flat top vs flat bottom problem)
 - Pineda approach (Best for CPU multithreading)
-- Barycentric approach (GPU way, slower)
 
 Make it so in the game I can swap between the type as well.
 */
@@ -266,6 +269,8 @@ HRESULT Graphics::SetupScreen() {
 HRESULT Graphics::ResizeWindow(int width, int height) {
 	m_width = width;
 	m_height = height;
+
+	zBuffer = std::vector<float>(width * height, 1.f); // occurs during rasterization. After perspective divide, z isn't touched while x & y are transformed to screen resolution coords
 
 	HRESULT err;
 

@@ -56,3 +56,75 @@ Mat4<T>& Mat4<T>::operator*=(const Mat4<T>& rhs) {
 
 	return *this;
 }
+/*
+template<typename T>
+inline Mat4<T>& Translate(const Vec3<T>& v, T w = T(1)) {
+	return *this;
+}
+
+template<typename T>
+inline Mat4<T>& Rotate(const Vec3<T>& v, T w = T(1)) {
+	return *this;
+}
+
+template<typename T>
+inline Mat4<T>& Scale(const Vec3<T>& v, T w = T(1)) {
+	return *this;
+}
+
+template<typename T>
+inline static Mat4<T> Translate(Vec3<T> v, T w = T(1)) {
+	return Mat4<T>();
+}
+
+template<typename T>
+inline static Mat4<T> Rotate(Vec3<T> v, T w = T(1)) {
+	return Mat4<T>();
+}
+
+template<typename T>
+inline static Mat4<T> Scale(Vec3<T> v, T w = T(1)) {
+	return Mat4<T>();
+}*/
+/*
+template<typename T>
+inline Mat4<T>& Mat4<T>::Translate(const Vec4<T>& v)
+{
+	return *this;
+}
+
+
+template <typename T>
+inline Mat4<T>& Mat4<T>::Rotate(const Vec4<T>& v) {
+	return *this;
+}
+
+template <typename T>
+inline Mat4<T>& Mat4<T>::Scale(const Vec4<T>& v) {
+	return *this;
+}
+*/
+
+template <typename T>
+inline Mat4<T> Mat4<T>::Translate(Vec4<T> v) {
+	Mat4<T> m = Mat4<T>();
+	m[3][0] = v.x;
+	m[3][1] = v.y;
+	m[3][2] = v.z;
+	m[3][3] = v.w;
+	return m;
+}
+
+template <typename T>
+inline Mat4<T> Mat4<T>::Rotate(Vec4<T> v) {
+	return Mat4<T>();
+}
+
+template <typename T>
+inline Mat4<T> Mat4<T>::Scale(Vec4<T> v) {
+	Mat4<T> m = Mat4<T>();
+	m[0][0] = v.x;
+	m[1][1] = v.y;
+	m[2][2] = v.z;
+	return m;
+}

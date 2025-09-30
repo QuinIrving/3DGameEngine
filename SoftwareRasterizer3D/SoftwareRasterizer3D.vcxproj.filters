@@ -39,7 +39,7 @@
     <ClCompile Include="src\Models\Triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Models\Cube_Mesh.cpp">
+    <ClCompile Include="src\Models\CubeMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Models\Sphere.cpp">
@@ -92,7 +92,7 @@
     <ClInclude Include="include\Models\Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Models\Cube_Mesh.h">
+    <ClInclude Include="include\Models\CubeMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Math\Vec3.h">

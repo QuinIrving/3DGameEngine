@@ -141,7 +141,7 @@
     <ClCompile Include="src\Input\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse.cpp" />
     <ClCompile Include="src\Math\Quaternion.cpp" />
-    <ClCompile Include="src\Models\Cube_Mesh.cpp" />
+    <ClCompile Include="src\Models\CubeMesh.cpp" />
     <ClCompile Include="src\Models\Sphere.cpp" />
     <ClCompile Include="src\Models\Teapot.cpp" />
     <ClCompile Include="src\Models\Triangle.cpp" />
@@ -167,7 +167,7 @@
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Math\Vec3.h" />
     <ClInclude Include="include\Math\Vec4.h" />
-    <ClInclude Include="include\Models\Cube_Mesh.h" />
+    <ClInclude Include="include\Models\CubeMesh.h" />
     <ClInclude Include="include\Models\Sphere.h" />
     <ClInclude Include="include\Models\Teapot.h" />
     <ClInclude Include="include\Models\Triangle.h" />

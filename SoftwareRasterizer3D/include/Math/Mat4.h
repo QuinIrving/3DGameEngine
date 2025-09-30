@@ -2,6 +2,10 @@
 #include <array>
 #include <stdexcept>
 #include <algorithm>
+#include "Vec3.h"
+
+template <typename T>
+class Vec4;
 
 template <typename T>
 class Mat4 {
@@ -34,6 +38,22 @@ public:
 	const RowProxy operator[](int row) const;
 
 	std::array<T, 4> GetValues();
+
+	/*Mat4<T>& Translate(const Vec3<T>& v, T w = T(1));
+	Mat4<T>& Rotate(const Vec3<T>& v, T w = T(1));
+	Mat4<T>& Scale(const Vec3<T>& v, T w = T(1));
+
+	static Mat4<T> Translate(Vec3<T> v, T w = T(1));
+	static Mat4<T> Rotate(Vec3<T> v, T w = T(1));
+	static Mat4<T> Scale(Vec3<T> v, T w = T(1));*/
+
+	//Mat4<T>& Translate(const Vec4<T>& v);
+	//Mat4<T>& Rotate(const Vec4<T>& v);
+	//Mat4<T>& Scale(const Vec4<T>& v);
+
+	static Mat4<T> Translate(Vec4<T> v);
+	static Mat4<T> Rotate(Vec4<T> v);
+	static Mat4<T> Scale(Vec4<T> v);
 
 	static constexpr Mat4<T> GetIdentity();
 	static constexpr Mat4<T> GetZero();

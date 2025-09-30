@@ -28,6 +28,7 @@ public:
 	void DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
 	void DrawTriangle(const Triangle& t); // rasterize a triangle.
 
+	// also need to keep track of and utilize a z-buffer
 	void Pipeline(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
 private:
 	// Pipeline takes a VertexIn for vertices
@@ -49,6 +50,8 @@ private:
 private:
 	int m_width = 0;
 	int m_height = 0;
+
+	std::vector<float> zBuffer;
 
 	ID3D11Device* device;
 	ID3D11DeviceContext* context;

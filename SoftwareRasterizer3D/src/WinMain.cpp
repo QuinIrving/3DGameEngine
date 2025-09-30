@@ -6,7 +6,7 @@
 #include "Math/Vec4.h"
 #include "Models/Vertex.h"
 #include "Models/Triangle.h"
-#include "Models/Cube_Mesh.h"
+#include "Scene/Objects/Cube.h"
 #include "Math/MatrixVectorOps.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
@@ -110,21 +110,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		//OutputDebugString(std::format(L"\nx: {}, y: {}, z: {}\n\n", triNorm.x, triNorm.y, triNorm.z).c_str());
 		//win.gfx.DrawTriangle(t);
 
-		float size = 100.0;
+		float size = 300.0;
 		Cube c = Cube(size);
-		std::array<int, 36> arr = c.GetVertexIds();
-		std::array<Vertex, 8> v = c.GetVertices();
+		std::vector<int> arr = c.GetVertexIds();
+		std::vector<Vertex> v = c.GetVertices();
+		Mat4<float> modelM = c.GetModelMatrix();
 		Triangle t1 = Triangle(
-			v[arr[0]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
-			v[arr[1]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
-			v[arr[2]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+			Vec4(v[arr[0]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
+			Vec4(v[arr[1]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
+			Vec4(v[arr[2]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
 			0xFFBBAA55);
 
 		for (int i = 0; i < 6; i += 3) {
 			win.gfx.DrawTriangle(Triangle(
-				v[arr[i]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
-				v[arr[i + 1]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
-				v[arr[i + 2]].GetPosition() + Vec3<float>(size + 10, size + 10, size + 10),
+				Vec4(v[arr[i]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
+				Vec4(v[arr[i + 1]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
+				Vec4(v[arr[i + 2]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
 				(i == 0) ? 0xFFBBAA55 : 0xFF0000FF));
 		}
 
@@ -144,22 +145,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		Mat4<float> newM = m * n;
 		
-		for (int r = 0; r < 4; ++r) {
+		/*for (int r = 0; r < 4; ++r) {
 			for (int c = 0; c < 4; ++c) {
 				OutputDebugString(std::format(L"| {} ", newM[r][c]).c_str());
 			}
 			OutputDebugString(L"|\n");
-		}
+		}*/
 
 		Vec4<float> point = Vec4<float>(3, 4, 7, -1);
 		Vec4<float> result = point * newM;
 		Vec4<float> result2 = point * m * n;
 
-		OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result.x, result.y, result.z, result.w).c_str());
-		OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result2.x, result2.y, result2.z, result2.w).c_str());
+		//OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result.x, result.y, result.z, result.w).c_str());
+		//OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result2.x, result2.y, result2.z, result2.w).c_str());
 
 		win.gfx.Render();
-		Sleep(10000);	
+		Sleep(1);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.
