@@ -26,10 +26,10 @@ Mat4<float> Cube::GetModelMatrix() const {
 	return Mat4<float>::Scale(scale) * Mat4<float>::Rotate(rotation) * Mat4<float>::Translate(position);
 }
 
-std::vector<int>& Cube::GetVertexIds() {
+std::vector<uint32_t>& Cube::GetVertexIds() {
 	return cube.GetVertexIds();
 }
 
-std::vector<Vertex>& Cube::GetVertices() {
+std::vector<VertexIn>& Cube::GetVertices() {
 	return cube.GetVertices();
 }

@@ -76,10 +76,10 @@ CubeMesh::CubeMesh() {
 	vertexIds.push_back(3);
 }
 
-std::vector<int>& CubeMesh::GetVertexIds() {
+std::vector<uint32_t>& CubeMesh::GetVertexIds() {
 	return vertexIds;
 }
 
-std::vector<Vertex>& CubeMesh::GetVertices() {
+std::vector<VertexIn>& CubeMesh::GetVertices() {
 	return vertices;
 }

@@ -28,10 +28,10 @@ public:
 	Mat4(std::array<T, 16> matrix);
 
 	T& operator()(int row, int col) { return values[row * 4 + col]; }
-	Mat4<T> operator+(const Mat4<T>& rhs);
+	Mat4<T> operator+(const Mat4<T>& rhs) const;
 	Mat4<T>& operator+=(const Mat4<T>& rhs);
-	Mat4<T> operator*(T factor); // scalar multiply;
-	Mat4<T> operator*(const Mat4<T>& rhs); // matrix-matrix multiply;
+	Mat4<T> operator*(T factor) const; // scalar multiply;
+	Mat4<T> operator*(const Mat4<T>& rhs) const; // matrix-matrix multiply;
 	Mat4<T>& operator*=(T factor);
 	Mat4<T>& operator*=(const Mat4<T>& rhs);
 	RowProxy operator[](int row);
@@ -83,7 +83,7 @@ template <typename T>
 inline Mat4<T>::Mat4(std::array<T, 16> matrix) : values (matrix) {}
 
 template <typename T>
-Mat4<T> Mat4<T>::operator+(const Mat4<T>& rhs) {
+Mat4<T> Mat4<T>::operator+(const Mat4<T>& rhs) const {
 	T addedData[16];
 	for (int i = 0; i < 16; ++i) {
 		addedData[i] = values[i] + rhs.values[i];
@@ -102,7 +102,7 @@ Mat4<T>& Mat4<T>::operator+=(const Mat4<T>& rhs) {
 }
 
 template <typename T>
-Mat4<T> Mat4<T>::operator*(T factor) {
+Mat4<T> Mat4<T>::operator*(T factor) const {
 	std::array<T, 16> multipliedData;
 	for (int i = 0; i < 16; ++i) {
 		multipliedData[i] = values[i] * factor;

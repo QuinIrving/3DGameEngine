@@ -37,8 +37,8 @@ public:
 	void Translate(float x, float y, float z);
 
 	Mat4<float> GetModelMatrix() const;
-	std::vector<int>& GetVertexIds();
-	std::vector<Vertex>& GetVertices();
+	std::vector<uint32_t>& GetVertexIds();
+	std::vector<VertexIn>& GetVertices();
 
 private:
 	Vec3<float> position;

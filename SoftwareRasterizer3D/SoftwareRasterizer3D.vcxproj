@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
+    <ClCompile Include="src\Graphics\VertexOut.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse.cpp" />
     <ClCompile Include="src\Math\Quaternion.cpp" />
@@ -145,7 +146,7 @@
     <ClCompile Include="src\Models\Sphere.cpp" />
     <ClCompile Include="src\Models\Teapot.cpp" />
     <ClCompile Include="src\Models\Triangle.cpp" />
-    <ClCompile Include="src\Models\Vertex.cpp" />
+    <ClCompile Include="src\Graphics\VertexIn.cpp" />
     <ClCompile Include="src\Scene\Objects\Camera.cpp" />
     <ClCompile Include="src\Scene\Objects\Cube.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
@@ -156,10 +157,12 @@
     <ClInclude Include="include\BindingTable\BaseBindingTable.h" />
     <ClInclude Include="include\BindingTable\GameBindingTable.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
+    <ClInclude Include="include\Graphics\VertexOut.h" />
     <ClInclude Include="include\Input\InputEvent.h" />
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />
     <ClInclude Include="include\Input\Mouse.h" />
+    <ClInclude Include="include\Math\GeneralMath.h" />
     <ClInclude Include="include\Math\Mat3.h" />
     <ClInclude Include="include\Math\Mat4.h" />
     <ClInclude Include="include\Math\MatrixVectorOps.h" />
@@ -171,7 +174,7 @@
     <ClInclude Include="include\Models\Sphere.h" />
     <ClInclude Include="include\Models\Teapot.h" />
     <ClInclude Include="include\Models\Triangle.h" />
-    <ClInclude Include="include\Models\Vertex.h" />
+    <ClInclude Include="include\Graphics\VertexIn.h" />
     <ClInclude Include="include\Scene\Objects\Camera.h" />
     <ClInclude Include="include\Scene\Objects\Cube.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />

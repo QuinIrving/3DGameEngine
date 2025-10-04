@@ -1,10 +1,64 @@
 #include "Graphics/Graphics.h"
 #include <math.h>
 #include <iostream>
+#include "Math/GeneralMath.h"
 
 
-void Graphics::Pipeline(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix) {
+void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix) {
+	Mat4<float> MVP = modelMatrix * camera.GetViewMatrix() * projectionMatrix; // could technically optimize this by pre-computed VP once a frame, not once per object.
+	std::vector<VertexOut> clipVertices;
+	clipVertices.reserve(vertices.size());
 
+	for (const VertexIn &v : vertices) {
+		clipVertices.push_back(VertexShader(v, MVP));
+	}
+
+	// primitive assembly
+	for (int i = 0; i < indices.size(); i += 3) {
+		//Triangle (clipVerts[i], clipVerts[i+1], clipVerts[i+2]
+	}
+
+	// Clipping check.
+
+	// Perspective Divide (To NDC).
+	for (VertexOut& v : clipVertices) {
+		/*
+		-
+		Vertex Out should have a perspective divide function. Perhaps include viewport transformation right after? & inside
+		v.x / w,
+		v.y / w,
+		v.z / w,
+		------
+		Viewport transform.
+		(v.x + 1) * (w/2)
+		(v.y + 1) * (h/2)
+
+		// if z is in [-1, 1]
+		(v.z + 1) / 2
+		// if z is in [0, 1]
+		v.z
+		-
+		*/
+	}
+
+	// Viewport Transform, so size of our image. Need to make sure aspect ratio is maintained. I believe it is.
+	
+
+	// primitive assembly, new triangles with our new coords
+	// go through our indices and create triangles based on our new positions.
+	// might do back-face culling here
+
+	// Rasterization -> and z-buffer checks
+	// pass each triangle to be rasterized, which also involves z-buffer check
+	// rasterizer creates fragments for each triangle, which are passed to the fragment shader (and z-buffer I believe), which will update the values
+
+}
+
+VertexOut Graphics::VertexShader(const VertexIn& vin, const Mat4<float>& MVP) {
+	// no shading for now;
+	Vec4<float> clippedPos = vin * MVP;
+	//return vin * MVP;
+	return VertexOut(clippedPos);
 }
 /*
 For RASTERIZER:
@@ -66,7 +120,7 @@ void Graphics::DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>
 	Graphics::DrawLine(p1.first, p1.second, p2.first, p2.second, colour);
 }
 
-void Graphics::DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour) {
+void Graphics::DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour) {
 	// should change this to a const Vertex but need to figure out the auto with Vec.
 	auto pos1 = v1.GetPosition();
 	auto pos2 = v2.GetPosition();
@@ -76,9 +130,9 @@ void Graphics::DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour) {
 
 // NEED TO INCLUDE A WAY TO NOT ATTEMPT DRAW IF not in CCW. Backface culling!!!!
 void Graphics::DrawTriangle(const Triangle& tri) {
-	Vertex A = tri.GetVertexA();
-	Vertex B = tri.GetVertexB();
-	Vertex C = tri.GetVertexC();
+	VertexIn A = tri.GetVertexA();
+	VertexIn B = tri.GetVertexB();
+	VertexIn C = tri.GetVertexC();
 	
 	// get the bounding box:
 	Vec3<float> posA = A.GetPosition();
@@ -269,6 +323,23 @@ HRESULT Graphics::SetupScreen() {
 HRESULT Graphics::ResizeWindow(int width, int height) {
 	m_width = width;
 	m_height = height;
+
+	float fovY = PI / 2; // 90 degrees in radians.
+	float yScaleFactor = tanf(fovY / 2);
+	float aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height); // Might want to change this to a constant selection in an options menu later but oh well.
+
+	float n{0.1}; // near is defined for some reason
+	float f{1000}; // same for far. maybe for direct3d or something.
+
+	// REALLY POORLY DONE, SHOULD CALL A FUNCTION THAT SIMPLY UPDATES THE PROJECTION MATRIX WITH THE ASPECT RATIO LOL.
+	// Row-major order.
+	projectionMatrix = Mat4<float>(
+		{ 
+		1/(yScaleFactor * aspectRatio), 0,				0,						  0,
+		0,								1/yScaleFactor, 0,						  0,
+		0,								0,				-((f + n)/(f - n)),		 -1,
+		0,								0,				-((2 * f * n) / (f - n)), 0
+		});
 
 	zBuffer = std::vector<float>(width * height, 1.f); // occurs during rasterization. After perspective divide, z isn't touched while x & y are transformed to screen resolution coords
 

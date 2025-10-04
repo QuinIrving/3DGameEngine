@@ -7,9 +7,11 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 #include <vector>
-#include "Models/Vertex.h"
+#include "Graphics/VertexIn.h"
+#include "Graphics/VertexOut.h"
 #include "Math/Mat4.h"
 #include "Models/Triangle.h"
+#include "Scene/Objects/Camera.h"
 
 class Graphics {
 public:
@@ -25,16 +27,23 @@ public:
 	void PutPixel(int x, int y, uint32_t colour);
 	void DrawLine(int x0, int y0, int x1, int y1, uint32_t colour = DEFAULT_COLOUR);
 	void DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, uint32_t colour = DEFAULT_COLOUR);
-	void DrawLine(const Vertex& v1, const Vertex& v2, uint32_t colour = DEFAULT_COLOUR);
+	void DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour = DEFAULT_COLOUR);
 	void DrawTriangle(const Triangle& t); // rasterize a triangle.
 
 	// also need to keep track of and utilize a z-buffer
-	void Pipeline(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
+	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
 private:
+	//VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
+	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
+
 	// Pipeline takes a VertexIn for vertices
 	// VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
 	// ^ that MVP could simply be computed once per pipeline call, and VP don't change so we'll see if we can 
 	// each frame just pre-compute VP, then multiply like M(VP) way of calculating. WIll see.
+	// Then clipping in clipping space, to remove triangles that aren't in view (and clip triangles partially out
+	// to new triangles that are within the space). -> looks at 3 vertices at a time.
+	// Then perspective divide to get to NDC space
+	// Then Viewport transform to get our vertices into Raster Space.
 	// void RasterizeTriangle(const VertexOut& v0, const VertexOut& v1, const VertexOut& v2);
 	// FragmentOut FragmentShader(const Fragment& frag);
 	/*
@@ -50,6 +59,9 @@ private:
 private:
 	int m_width = 0;
 	int m_height = 0;
+
+	Camera camera = Camera();
+	Mat4<float> projectionMatrix;
 
 	std::vector<float> zBuffer;
 

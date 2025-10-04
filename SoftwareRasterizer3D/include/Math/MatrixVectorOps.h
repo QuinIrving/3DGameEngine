@@ -28,7 +28,7 @@ Vec4<T>& Vec4<T>::operator*=(const Mat4<T>& rhs) {
 }
 
 template <typename T>
-Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) {
+Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) const {
 	std::array<T, 16> multipliedData;
 
 	for (int r = 0; r < 4; ++r) {

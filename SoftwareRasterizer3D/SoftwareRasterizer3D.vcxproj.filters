@@ -33,7 +33,7 @@
     <ClCompile Include="src\Graphics\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Models\Vertex.cpp">
+    <ClCompile Include="src\Graphics\VertexIn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Models\Triangle.cpp">
@@ -58,6 +58,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene\Objects\Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\VertexOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +89,7 @@
     <ClInclude Include="include\Graphics\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Models\Vertex.h">
+    <ClInclude Include="include\Graphics\VertexIn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Models\Triangle.h">
@@ -129,6 +132,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Scene\Objects\Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math\GeneralMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\VertexOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

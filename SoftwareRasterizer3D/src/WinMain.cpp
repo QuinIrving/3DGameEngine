@@ -4,7 +4,7 @@
 #include <string>
 #include "Math/Mat4.h"
 #include "Math/Vec4.h"
-#include "Models/Vertex.h"
+#include "Graphics/VertexIn.h"
 #include "Models/Triangle.h"
 #include "Scene/Objects/Cube.h"
 #include "Math/MatrixVectorOps.h"
@@ -88,9 +88,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			OutputDebugString(std::format(L"Row: {}, Col: {}. Value: {}\n", i / 4, i % 4, vals[i]).c_str());
 		}*/
 
-		Vertex A = Vertex(20, 120, 11);
-		Vertex B = Vertex(300, 200, 12);
-		Vertex C = Vertex(524, 500, 22);
+		VertexIn A = VertexIn(20, 120, 11);
+		VertexIn B = VertexIn(300, 200, 12);
+		VertexIn C = VertexIn(524, 500, 22);
 
 		//win.gfx.DrawLine(A, B, 0xFF00FFFF);
 		//win.gfx.DrawLine(B, C, 0xFF00FFFF);
@@ -112,8 +112,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		float size = 300.0;
 		Cube c = Cube(size);
-		std::vector<int> arr = c.GetVertexIds();
-		std::vector<Vertex> v = c.GetVertices();
+		std::vector<uint32_t> arr = c.GetVertexIds();
+		std::vector<VertexIn> v = c.GetVertices();
 		Mat4<float> modelM = c.GetModelMatrix();
 		Triangle t1 = Triangle(
 			Vec4(v[arr[0]].GetPosition()) * modelM + Vec4<float>(size + 10, size + 10, size + 10, 0),
@@ -158,6 +158,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		//OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result.x, result.y, result.z, result.w).c_str());
 		//OutputDebugString(std::format(L"\n[{}, {}, {}, {}]\n", result2.x, result2.y, result2.z, result2.w).c_str());
+
+		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
 
 		win.gfx.Render();
 		Sleep(1);	

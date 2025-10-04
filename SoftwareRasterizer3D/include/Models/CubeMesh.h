@@ -1,16 +1,16 @@
 #pragma once
 #include <vector>
-#include "Models/Vertex.h"
+#include "Graphics/VertexIn.h"
 
 // a Cube can have 8 vertices only needed if it shares faces
 class CubeMesh {
 public:
 	CubeMesh();
 	
-	std::vector<int>& GetVertexIds();
-	std::vector<Vertex>& GetVertices();
+	std::vector<uint32_t>& GetVertexIds();
+	std::vector<VertexIn>& GetVertices();
 
 private:
-	std::vector<Vertex> vertices;
-	std::vector<int> vertexIds;
+	std::vector<VertexIn> vertices;
+	std::vector<uint32_t> vertexIds;
 };
