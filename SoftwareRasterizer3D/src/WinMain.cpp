@@ -40,7 +40,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// Create an initial object for now:
 	float size = 10.f;
 	Cube c = Cube(size);
-	c.Translate(0, 0, -10);
+	c.Translate(0, 0, -13);
 	//---------------//
 
 
@@ -89,7 +89,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
 
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(0, 0, 1);
+		c.Rotate(2, 1, 0);
 
 		win.gfx.Render();
 		Sleep(1);	

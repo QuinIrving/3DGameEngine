@@ -138,7 +138,7 @@ inline Mat4<T> Mat4<T>::Rotate(Vec4<T> v) {
 
 	rotX[2][0] = 0;
 	rotX[2][1] = sin(rX);
-	rotX[2][2] = cos(rY); // bug lol
+	rotX[2][2] = cos(rX);
 	
 
 	//Rot Y
