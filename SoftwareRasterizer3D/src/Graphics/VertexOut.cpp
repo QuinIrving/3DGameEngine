@@ -32,3 +32,19 @@ void VertexOut::SetColour(int r, int g, int b, int a) {
 	colour.z = b / 255.f;
 	colour.w = a / 255.f;
 }
+
+bool VertexOut::IsInFrustum() const {
+	return (position.x >= -position.w && position.x <= position.w)
+		&& (position.y >= -position.w && position.y <= position.w)
+		&& (position.z >= -position.w && position.z <= position.w);
+}
+
+VertexPostClip VertexOut::PerspectiveDivide() const {
+	float pX = position.x / position.w;
+	float pY = position.y / position.w;
+	float pZ = position.z / position.w;
+
+	float invW = 1 / position.w;
+
+	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
+}

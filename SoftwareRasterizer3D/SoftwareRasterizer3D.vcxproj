@@ -137,8 +137,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
+    <ClCompile Include="src\Graphics\FragmentIn.cpp" />
+    <ClCompile Include="src\Graphics\FragmentOut.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
+    <ClCompile Include="src\Graphics\VertexPostClip.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse.cpp" />
     <ClCompile Include="src\Math\Quaternion.cpp" />
@@ -156,8 +159,11 @@
   <ItemGroup>
     <ClInclude Include="include\BindingTable\BaseBindingTable.h" />
     <ClInclude Include="include\BindingTable\GameBindingTable.h" />
+    <ClInclude Include="include\Graphics\FragmentIn.h" />
+    <ClInclude Include="include\Graphics\FragmentOut.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
     <ClInclude Include="include\Graphics\VertexOut.h" />
+    <ClInclude Include="include\Graphics\VertexPostClip.h" />
     <ClInclude Include="include\Input\InputEvent.h" />
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />

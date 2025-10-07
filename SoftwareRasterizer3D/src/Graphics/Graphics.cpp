@@ -9,55 +9,77 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
 
+	// Vertex Shader:
 	for (const VertexIn &v : vertices) {
 		clipVertices.push_back(VertexShader(v, MVP));
 	}
 
-	// primitive assembly
+	std::vector<Triangle> tris;
+	tris.reserve(indices.size() / 3);
+
+	// Clipping check:
 	for (int i = 0; i < indices.size(); i += 3) {
-		//Triangle (clipVerts[i], clipVerts[i+1], clipVerts[i+2]
+		VertexOut& v1 = clipVertices[indices[i]];
+		VertexOut& v2 = clipVertices[indices[i + 1]];
+		VertexOut& v3 = clipVertices[indices[i + 2]];
+
+		// triangle isn't within our view frustum at all, just cull the triangle completely
+		if (!v1.IsInFrustum() && !v2.IsInFrustum() && !v3.IsInFrustum()) {
+			continue;
+		}
+
+		std::vector<int> postClipIds;
+		std::vector<VertexPostClip> v; // Not sure if we want to copy instead, reference is probably better. Figure it out in a later refactor.
+		v.reserve(6); // max possible amount of vertices after clipping
+		postClipIds.reserve(6); // same for the id's. Max is 2 triangles, with 6 total id's.
+
+		// some portion of the triangle isn't within our view frustum, need to do clipping to create new vertices and triangle(s)
+		if (!v1.IsInFrustum() || !v2.IsInFrustum() || !v3.IsInFrustum()) {
+			// this will require clipping the vertices, putting them into our v, and ensuring we keep winding order for our
+			// postClipIds vector as well.
+		}
+		else {
+			// all are within it, simply add them to the list.
+			v.push_back(v1.PerspectiveDivide());
+			postClipIds.push_back(0);
+			v.push_back(v2.PerspectiveDivide());
+			postClipIds.push_back(1);
+			v.push_back(v3.PerspectiveDivide());
+			postClipIds.push_back(2);
+		}
+
+		// The perspective-divided vertices (could have new vertices, so need to iterate over them to create the multiple triangles.
+		for (int i = 0; i < postClipIds.size(); i += 3) {
+			VertexPostClip& vpc1 = v[postClipIds[i]];
+			VertexPostClip& vpc2 = v[postClipIds[i + 1]];
+			VertexPostClip& vpc3 = v[postClipIds[i]];
+
+			// primitive creation.
+			Triangle t = Triangle(vpc1, vpc2, vpc3);
+			 
+			// back face-cull here,
+			
+			// then viewport transformation
+			t.ViewportTransform(m_width, m_height);
+			tris.push_back(t);
+		}
 	}
 
-	// Clipping check.
 
-	// Perspective Divide (To NDC).
-	for (VertexOut& v : clipVertices) {
-		/*
-		-
-		Vertex Out should have a perspective divide function. Perhaps include viewport transformation right after? & inside
-		v.x / w,
-		v.y / w,
-		v.z / w,
-		------
-		Viewport transform.
-		(v.x + 1) * (w/2)
-		(v.y + 1) * (h/2)
 
-		// if z is in [-1, 1]
-		(v.z + 1) / 2
-		// if z is in [0, 1]
-		v.z
-		-
-		*/
-	}
-
-	// Viewport Transform, so size of our image. Need to make sure aspect ratio is maintained. I believe it is.
-	
-
-	// primitive assembly, new triangles with our new coords
-	// go through our indices and create triangles based on our new positions.
-	// might do back-face culling here
+	// Then rasterizer. which has the fragment shader within it as it calcualtes the fragments per triangle.
 
 	// Rasterization -> and z-buffer checks
 	// pass each triangle to be rasterized, which also involves z-buffer check
 	// rasterizer creates fragments for each triangle, which are passed to the fragment shader (and z-buffer I believe), which will update the values
+	// this is also the section of interpolation from vertices to pixels values (like normal interpolation, and colours etc).
 
 }
 
 VertexOut Graphics::VertexShader(const VertexIn& vin, const Mat4<float>& MVP) {
 	// no shading for now;
 	Vec4<float> clippedPos = vin * MVP;
-	//return vin * MVP;
+
 	return VertexOut(clippedPos);
 }
 /*
@@ -128,16 +150,17 @@ void Graphics::DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour)
 	Graphics::DrawLine(static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(pos2.x), static_cast<int>(pos2.y), colour);
 }
 
-// NEED TO INCLUDE A WAY TO NOT ATTEMPT DRAW IF not in CCW. Backface culling!!!!
 void Graphics::DrawTriangle(const Triangle& tri) {
-	VertexIn A = tri.GetVertexA();
-	VertexIn B = tri.GetVertexB();
-	VertexIn C = tri.GetVertexC();
+	VertexPostClip A = tri.GetVertexA();
+	VertexPostClip B = tri.GetVertexB();
+	VertexPostClip C = tri.GetVertexC();
 	
 	// get the bounding box:
 	Vec3<float> posA = A.GetPosition();
 	Vec3<float> posB = B.GetPosition();
 	Vec3<float> posC = C.GetPosition();
+
+	// GetBoundingBox(tri, &top, &left, &bottom, &right); // that calculates all of this bottom stuff without as much clutter, and does the floor/ceiling instead.
 
 	float top = posA.y;
 	float left = posA.x;
@@ -193,6 +216,10 @@ void Graphics::DrawTriangle(const Triangle& tri) {
 	int e0;
 	int e1;
 	int e2;
+
+	/*
+	Should also get per pixel, theinterpolated attributes and other stuff.
+	*/
 
 	for (int y = t; y <= b; ++y) {
 		// need to reset to the left side of our edge function, but also incorporate the row we are now on.

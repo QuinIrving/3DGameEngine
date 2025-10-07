@@ -2,10 +2,14 @@
 #include <cmath>
 
 template <typename T>
+class Vec4;
+
+template <typename T>
 class Vec3 {
 public:
 	constexpr Vec3() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {};
 	constexpr Vec3(T x, T y, T z) : x(x), y(y), z(z) {};
+	constexpr Vec3(Vec4<T> v) : x(v.x), y(v.y), z(v.z) {};
 
 	// Vector addition & subtraction
 	Vec3<T> operator+(const Vec3<T>& rhs) const;

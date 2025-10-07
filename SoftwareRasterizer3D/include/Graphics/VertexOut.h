@@ -2,6 +2,8 @@
 #include "Math/Vec2.h"
 #include "Math/Vec3.h"
 #include "Math/Vec4.h"
+#include "Math/MatrixVectorOps.h"
+#include "VertexPostClip.h"
 
 class VertexOut {
 public:
@@ -19,6 +21,9 @@ public:
 
 	const Vec3<float>& CalculateNormal();
 	void SetColour(int r, int g, int b, int a = 255);
+
+	bool IsInFrustum() const;
+	VertexPostClip PerspectiveDivide() const;
 
 private:
 	Vec4<float> position;

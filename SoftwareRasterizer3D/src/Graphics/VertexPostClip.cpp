@@ -1,0 +1,27 @@
+#include "Graphics/VertexPostClip.h"
+
+const Vec3<float>& VertexPostClip::GetPosition() const {
+	return position;
+}
+
+const Vec4<float>& VertexPostClip::GetColour() const {
+	return colour;
+}
+
+const Vec3<float>& VertexPostClip::GetNormal() const {
+	return normal;
+}
+
+const Vec2<float>& VertexPostClip::GetUV() const {
+	return UV;
+}
+
+const bool VertexPostClip::GetInvW() const {
+	return invW;
+}
+
+void VertexPostClip::ViewportTransform(int width, int height) {
+	// may want to check z here, if it's -1,1 it means I need to change my projection matrix.
+	position.x = (position.x + 1.f) * 0.5f * width;
+	position.y = (1.f - position.y) * 0.5f * height;
+}

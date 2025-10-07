@@ -1,6 +1,6 @@
 #include "Models/Triangle.h"
 
-Triangle::Triangle(VertexIn A, VertexIn B, VertexIn C, uint32_t colour)
+Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, uint32_t colour)
 	: A(A), B(B), C(C), triColour(colour)
 {
 	/*
@@ -10,29 +10,29 @@ Triangle::Triangle(VertexIn A, VertexIn B, VertexIn C, uint32_t colour)
 	int a = ;*/
 }
 
-Triangle::Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour)
+/*Triangle::Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour)
 	: triColour(colour)
 {
-	A = VertexIn(x0, y0, z0);
-	B = VertexIn(x1, y1, z1);
-	C = VertexIn(x2, y2, z2);
+	A = VertexPostClip(x0, y0, z0);
+	B = VertexPostClip(x1, y1, z1);
+	C = VertexPostClip(x2, y2, z2);
 	/*
 	int r = ;
 	int g = ;
 	int b = ;
 	int a = ;
-	*/
-}
+	* /
+}*/
 
-const VertexIn& Triangle::GetVertexA() const {
+const VertexPostClip& Triangle::GetVertexA() const {
 	return A;
 }
 
-const VertexIn& Triangle::GetVertexB() const {
+const VertexPostClip& Triangle::GetVertexB() const {
 	return B;
 }
 
-const VertexIn& Triangle::GetVertexC() const {
+const VertexPostClip& Triangle::GetVertexC() const {
 	return C;
 }
 
@@ -51,4 +51,10 @@ Vec3<float> Triangle::ComputeFaceNormal() {
 
 Vec3<float> Triangle::GetFaceNormal() const {
 	return faceNormal;
+}
+
+void Triangle::ViewportTransform(int width, int height) {
+	A.ViewportTransform(width, height);
+	B.ViewportTransform(width, height);
+	C.ViewportTransform(width, height);
 }
