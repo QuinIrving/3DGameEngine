@@ -9,28 +9,6 @@ public:
 	Cube() = default;
 	Cube(float size);
 
-	/* [Preferrably use quaternions whenever I get those done and understood]
-	Rot (x, y, z) (or by matrix)
-	RotX,
-	RotY,
-	RotZ,
-	-----
-	Scale(x,y,z) // can become rectangle technically (or by matrix
-	ScaleX
-	ScaleY
-	ScaleZ
-	----
-	Translate (x,y,z), or by matrix
-	TranslateX
-	TranslateY
-	TranslateZ
-	----
-	Translation * Rotation * Scale.
-
-	Then generate a model matrix.
-
-
-	*/
 	// Want an ECS so need just making this as a placeholder for now to test my work until refactor time again
 	void Rotate(float x, float y, float z);
 	void Scale(float x, float y, float z);
@@ -41,8 +19,8 @@ public:
 	std::vector<VertexIn>& GetVertices();
 
 private:
-	Vec3<float> position;
-	Vec3<float> rotation;
+	Vec3<float> position{ 0., 0., -5. };
+	Vec3<float> rotation{ 0., 0., 0. };
 	Vec3<float> scale{ .5, .5, .5 };
 	CubeMesh cube;
 };

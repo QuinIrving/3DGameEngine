@@ -1,6 +1,8 @@
 #pragma once
 #include "Vec4.h"
 #include "Mat4.h"
+#include <cmath>
+#include "GeneralMath.h"
 
 template <typename T>
 Vec4<T> Vec4<T>::operator*(const Mat4<T>& rhs) const {
@@ -117,7 +119,56 @@ inline Mat4<T> Mat4<T>::Translate(Vec4<T> v) {
 
 template <typename T>
 inline Mat4<T> Mat4<T>::Rotate(Vec4<T> v) {
-	return Mat4<T>();
+	Mat4<T> rotX, rotY, rotZ;
+	
+	// transform to radians from degrees.
+	float rX = v.x * DEGREE_TO_RADIANS;
+	float rY = v.y * DEGREE_TO_RADIANS;
+	float rZ = v.z * DEGREE_TO_RADIANS;
+
+	
+	// rot X
+	rotX[0][0] = 1;
+	rotX[0][1] = 0;
+	rotX[0][2] = 0;
+
+	rotX[1][0] = 0;
+	rotX[1][1] = cos(rX);
+	rotX[1][2] = -sin(rX);
+
+	rotX[2][0] = 0;
+	rotX[2][1] = sin(rX);
+	rotX[2][2] = cos(rY); // bug lol
+	
+
+	//Rot Y
+	rotY[0][0] = cos(rY);
+	rotY[0][1] = 0;
+	rotY[0][2] = -sin(rY);
+
+	rotY[1][0] = 0;
+	rotY[1][1] = 1;
+	rotY[1][2] = 0;
+
+	rotY[2][0] = sin(rY);
+	rotY[2][1] = 0;
+	rotY[2][2] = cos(rY);
+	
+
+	// Rot Z
+	rotZ[0][0] = cos(rZ);
+	rotZ[0][1] = sin(rZ);
+	rotZ[0][2] = 0;
+
+	rotZ[1][0] = -sin(rZ);
+	rotZ[1][1] = cos(rZ);
+	rotZ[1][2] = 0;
+
+	rotZ[2][0] = 0;
+	rotZ[2][1] = 0;
+	rotZ[2][2] = 1;
+
+	return rotX * rotY * rotZ;
 }
 
 template <typename T>

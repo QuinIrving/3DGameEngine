@@ -5,9 +5,9 @@ Cube::Cube(float size) {
 }
 
 void Cube::Rotate(float x, float y, float z) {
-	rotation.x += x;
-	rotation.y += y;
-	rotation.z += z;
+	rotation.x =  std::fmodf(rotation.x + x, 360.f);
+	rotation.y = std::fmodf(rotation.y + y, 360.f);
+	rotation.z = std::fmodf(rotation.z + z, 360.f);
 }
 
 void Cube::Scale(float x, float y, float z) {

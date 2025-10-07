@@ -17,13 +17,13 @@ CubeMesh::CubeMesh() {
 	
 	//Front Face 1:
 	vertexIds.push_back(0);
-	vertexIds.push_back(2);
 	vertexIds.push_back(3);
+	vertexIds.push_back(2);
 
 	// Front Face 2:
 	vertexIds.push_back(0);
-	vertexIds.push_back(3);
 	vertexIds.push_back(1);
+	vertexIds.push_back(3);
 
 	//Back Face 1:
 	vertexIds.push_back(4);
@@ -37,13 +37,13 @@ CubeMesh::CubeMesh() {
 
 	// Right Face 1:
 	vertexIds.push_back(1);
-	vertexIds.push_back(3);
 	vertexIds.push_back(7);
+	vertexIds.push_back(3);
 
 	// Right Face 2:
 	vertexIds.push_back(1);
-	vertexIds.push_back(7);
 	vertexIds.push_back(5);
+	vertexIds.push_back(7);
 
 	// Left Face 1:
 	vertexIds.push_back(0);
@@ -55,22 +55,22 @@ CubeMesh::CubeMesh() {
 	vertexIds.push_back(6);
 	vertexIds.push_back(4);
 
-	// Bottom Face 1:
-	vertexIds.push_back(0);
-	vertexIds.push_back(4);
-	vertexIds.push_back(5);
-
-	// Bottom Face 2:
-	vertexIds.push_back(0);
-	vertexIds.push_back(5);
-	vertexIds.push_back(1);
-
 	// Top Face 1:
+	vertexIds.push_back(0);
+	vertexIds.push_back(5);
+	vertexIds.push_back(4);
+
+	// Top Face 2:
+	vertexIds.push_back(0);
+	vertexIds.push_back(1);
+	vertexIds.push_back(5);
+
+	// Bottom Face 1:
 	vertexIds.push_back(2);
 	vertexIds.push_back(6);
 	vertexIds.push_back(7);
 
-	// Top Face 2:
+	// Bottom Face 2:
 	vertexIds.push_back(2);
 	vertexIds.push_back(7);
 	vertexIds.push_back(3);

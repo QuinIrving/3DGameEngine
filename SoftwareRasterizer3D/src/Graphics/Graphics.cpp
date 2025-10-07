@@ -2,9 +2,26 @@
 #include <math.h>
 #include <iostream>
 #include "Math/GeneralMath.h"
+#include <format>
+#include <ranges>
 
+// Should abstract away from user. They shouldn't know about this private list of objs/entities
+// when they create a new object, it should add it into this list. Some entity manager. That's for a later
+// refactor.
+//void Graphics::Render(const std::vector<Entity/Object/Renderable>& objs/entities) {
+// for each entity {
+//  Pipeline(entity.vertices, entity.indices, entity.modelMatrix);
+// 
+// }
+// }
+//;
 
 void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix) {
+	/*OutputDebugString(std::format(L"{} {} {} {}\n{} {} {} {}\n{} {} {} {}\n{} {} {} {}\n\n\n",
+		modelMatrix[0][0], modelMatrix[0][1], modelMatrix[0][2], modelMatrix[0][3],
+		modelMatrix[1][0], modelMatrix[1][1], modelMatrix[1][2], modelMatrix[1][3], 
+		modelMatrix[2][0], modelMatrix[2][1], modelMatrix[2][2], modelMatrix[2][3], 
+		modelMatrix[3][0], modelMatrix[3][1], modelMatrix[3][2], modelMatrix[3][3]).c_str());*/
 	Mat4<float> MVP = modelMatrix * camera.GetViewMatrix() * projectionMatrix; // could technically optimize this by pre-computed VP once a frame, not once per object.
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
@@ -25,6 +42,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 		// triangle isn't within our view frustum at all, just cull the triangle completely
 		if (!v1.IsInFrustum() && !v2.IsInFrustum() && !v3.IsInFrustum()) {
+			OutputDebugString(L"\nCulled Triangle\n");
 			continue;
 		}
 
@@ -37,6 +55,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 		if (!v1.IsInFrustum() || !v2.IsInFrustum() || !v3.IsInFrustum()) {
 			// this will require clipping the vertices, putting them into our v, and ensuring we keep winding order for our
 			// postClipIds vector as well.
+			OutputDebugString(L"\nCulled Partial Triangle\n");
 		}
 		else {
 			// all are within it, simply add them to the list.
@@ -49,14 +68,15 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 		}
 
 		// The perspective-divided vertices (could have new vertices, so need to iterate over them to create the multiple triangles.
-		for (int i = 0; i < postClipIds.size(); i += 3) {
-			VertexPostClip& vpc1 = v[postClipIds[i]];
-			VertexPostClip& vpc2 = v[postClipIds[i + 1]];
-			VertexPostClip& vpc3 = v[postClipIds[i]];
+		for (int vpcI = 0; vpcI < postClipIds.size(); vpcI += 3) {
+			VertexPostClip& vpc1 = v[postClipIds[vpcI]];
+			VertexPostClip& vpc2 = v[postClipIds[vpcI + 1]];
+			VertexPostClip& vpc3 = v[postClipIds[vpcI + 2]];
 
 			// primitive creation.
-			Triangle t = Triangle(vpc1, vpc2, vpc3);
-			 
+			// just for testing for now (colours), will utilize shaders or something later on.
+			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 3) % 12]);
+			
 			// back face-cull here,
 			
 			// then viewport transformation
@@ -64,10 +84,10 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 			tris.push_back(t);
 		}
 	}
-
-
-
 	// Then rasterizer. which has the fragment shader within it as it calcualtes the fragments per triangle.
+	for (Triangle& tri : tris) {
+		RasterizeTriangle(tri);
+	}
 
 	// Rasterization -> and z-buffer checks
 	// pass each triangle to be rasterized, which also involves z-buffer check
@@ -79,8 +99,13 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 VertexOut Graphics::VertexShader(const VertexIn& vin, const Mat4<float>& MVP) {
 	// no shading for now;
 	Vec4<float> clippedPos = vin * MVP;
-
+	//OutputDebugString(std::format(L"x: {},y: {},z: {}\n", vin.GetPosition().x, vin.GetPosition().y, vin.GetPosition().z).c_str());
+	//OutputDebugString(std::format(L"cX: {},cY: {},cZ: {},cW: {}\n\n", clippedPos.x, clippedPos.y, clippedPos.z, clippedPos.w).c_str());
 	return VertexOut(clippedPos);
+}
+
+void Graphics::ResetZBuffer() {
+	std::ranges::fill(zBuffer, 1.f);
 }
 /*
 For RASTERIZER:
@@ -150,7 +175,7 @@ void Graphics::DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour)
 	Graphics::DrawLine(static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(pos2.x), static_cast<int>(pos2.y), colour);
 }
 
-void Graphics::DrawTriangle(const Triangle& tri) {
+void Graphics::RasterizeTriangle(const Triangle& tri) {
 	VertexPostClip A = tri.GetVertexA();
 	VertexPostClip B = tri.GetVertexB();
 	VertexPostClip C = tri.GetVertexC();
@@ -213,9 +238,17 @@ void Graphics::DrawTriangle(const Triangle& tri) {
 	int edge1 = static_cast<int>(((l - posA.x) * (posC.y - posA.y)) - ((t - posA.y) * (posC.x - posA.x))); // A->C
 	int edge2 = static_cast<int>(((l - posC.x) * (posB.y - posC.y)) - ((t - posC.y) * (posB.x - posC.x))); // C->B
 
-	int e0;
-	int e1;
-	int e2;
+
+	// Total area of triangle
+	float area = ((posC.x - posB.x) * (posA.y - posB.y)) - ((posC.y - posB.y) * (posA.x - posB.x));
+	if (area == 0.0f) {
+		OutputDebugString(L"Area is zero, possible collinear points or degenerate triangle!\n");
+		return;
+	}
+
+	float invArea = 1.0f / area;
+
+	int e0, e1, e2;
 
 	/*
 	Should also get per pixel, theinterpolated attributes and other stuff.
@@ -232,7 +265,73 @@ void Graphics::DrawTriangle(const Triangle& tri) {
 			//OutputDebugString(std::format(L"\nx: {}, y: {}, e0: {}, e1: {}, e2: {}\n", x, y, e0, e1, e2).c_str());
 
 			if (e0 >= 0 && e1 >= 0 && e2 >= 0) {
-				PutPixel(x, y, tri.GetColour());
+				// Varying Varyings = interpolate_varyings (bary, verts);
+
+				/*
+				Varying is Interpolated per-fragment data from vertices like uv, normal etc.
+
+				FragmentInput has int x,y screen coords, float z, Depth [0, 1], Varying varyings.
+
+				FragmentOutput has Vec4 Colour, float z
+
+				fragment shader, simply get tex_colour with sample_texture(input.varyings.uv);
+				out.colour = tex_color * computeLighting(input.varyings.normal);
+				out.z = input.z;
+
+				return out.
+				-
+				*/
+
+				// FragmentInput frag_in = {x, y, z, varyings}
+				
+				// FragmentOutput fragOut = fragment_shader(frag_in);
+
+				// per-fragment ops;
+				// if z < 0 || z > 1 continue. // Clip-depth, we should check if our range is -1 to 1, cause if so, need to change perspective matrix to make our live easier
+
+				// fragout.z >= depthbuffer.get(x, y)) continue;
+
+				// Vec4 final_colour = fragOut.colour;
+				
+				// putpixel: x,y, finalColour
+				// depthbuffer.set(x,y, fragOut.z)
+
+				float u = static_cast<float>(e2) * invArea; // (PBC) opposite A area.
+				float v = static_cast<float>(e1) * invArea; // (PAC) opposite B area
+				float w = static_cast<float>(e0) * invArea; // (PAB) opposite C area.
+
+				//OutputDebugString(std::format(L"u: {}, v: {}, w: {}\n", u, v, w).c_str());
+
+				// ensure coords are valid, sum to 1 and within [0, 1]. Can do this more later.
+				if (u >= 0 && v >= 0 && w >= 0) {
+					// interpolate z. We do this with invW for perspective correct interpolation
+					float interpInvW = u * A.GetInvW() + v * B.GetInvW() + w * C.GetInvW();
+					float interpZ = u * (posA.z * A.GetInvW()) + v * (posB.z * B.GetInvW()) + w * (posC.z * C.GetInvW());
+					// Bring it back to screen space to get final interpoalted value.
+					interpZ /= interpInvW;
+
+					if (interpZ < 0) {
+						OutputDebugString(std::format(L"interp-Z coord: {}", interpZ).c_str());
+					}
+
+					if (zBuffer[y * m_width + x] < interpZ) {
+						e0 += C0x;
+						e1 += C1x;
+						e2 += C2x;
+						continue;
+					}
+
+
+					// interpolate other vertex attributes
+
+					// create fragmentinput with our x,y,z and list of other attributes all interpolated
+
+					// run Fragment shader and get frag_out.
+					// Get the output colour, or whatever else final would be.
+					// if we reach here, update the depth buffer, and write to backbuffer
+					PutPixel(x, y, tri.GetColour());
+					zBuffer[y * m_width + x] = interpZ;
+				}
 			}
 			
 			// move to the right.
@@ -344,6 +443,8 @@ HRESULT Graphics::SetupScreen() {
 		std::fill(pixels + (y * pitch), pixels + y * pitch + stagingDesc.Width, 0xFF000000);
 	}
 
+	ResetZBuffer();
+
 	return 0;
 }
 
@@ -364,8 +465,8 @@ HRESULT Graphics::ResizeWindow(int width, int height) {
 		{ 
 		1/(yScaleFactor * aspectRatio), 0,				0,						  0,
 		0,								1/yScaleFactor, 0,						  0,
-		0,								0,				-((f + n)/(f - n)),		 -1,
-		0,								0,				-((2 * f * n) / (f - n)), 0
+		0,								0,				-(f/(f - n)),		 -1,
+		0,								0,				-((f * n) / (f - n)), 0
 		});
 
 	zBuffer = std::vector<float>(width * height, 1.f); // occurs during rasterization. After perspective divide, z isn't touched while x & y are transformed to screen resolution coords
