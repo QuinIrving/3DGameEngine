@@ -68,16 +68,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		int xPos = win.mouse.GetXPos();
 		int yPos = win.mouse.GetYPos();
 
-		int r = (xPos * 255) / w; // least significant
-		int g = (yPos * 255) / h; // 2nd least
-		int b = 0xBB;
-		int a = 0xFF;
-
-		uint32_t colour = 0;
-		colour |= static_cast<uint32_t>(a) << 24;
-		colour |= static_cast<uint32_t>(b) << 16;
-		colour |= static_cast<uint32_t>(g) << 8;
-		colour |= static_cast<uint32_t>(r);
+		float r = (static_cast<float>(xPos) * 255) / w; // least significant
+		float g = (static_cast<float>(yPos) * 255) / h; // 2nd least
+		float b = 187.f;
+		float a = 255.f;
 
 		// Render
 		win.gfx.SetupScreen();
@@ -86,10 +80,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		std::pair<int, int> p2 = { xPos, yPos };
 		win.gfx.DrawLine(p1, p2);
 
-		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, colour);
+		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, Vec4<float>{r, g, b, a});
 
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(2, 1, 0);
+		c.Rotate(-2, 1, 0);
 
 		win.gfx.Render();
 		Sleep(1);	

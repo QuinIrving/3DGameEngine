@@ -9,13 +9,15 @@
 #include <vector>
 #include "Graphics/VertexIn.h"
 #include "Graphics/VertexOut.h"
+#include "Graphics/FragmentIn.h"
+#include "Graphics/FragmentOut.h"
 #include "Math/Mat4.h"
 #include "Models/Triangle.h"
 #include "Scene/Objects/Camera.h"
 
 class Graphics {
 public:
-	inline static constexpr uint32_t DEFAULT_COLOUR = 0xFF0000FF;
+	inline static constexpr Vec4<float> DEFAULT_COLOUR{255, 0, 0, 255};
 	//inline static consteval Mat4<float> PROJECTION_MATRIX = Mat4<float>([]); // need to make a constexpr method of the projection matrix from mat4
 	Graphics() = default;
 
@@ -24,10 +26,10 @@ public:
 	HRESULT SetupScreen();
 	HRESULT ResizeWindow(int width, int height);
 
-	void PutPixel(int x, int y, uint32_t colour);
-	void DrawLine(int x0, int y0, int x1, int y1, uint32_t colour = DEFAULT_COLOUR);
-	void DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, uint32_t colour = DEFAULT_COLOUR);
-	void DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour = DEFAULT_COLOUR);
+	void PutPixel(int x, int y, Vec4<float> colour);
+	void DrawLine(int x0, int y0, int x1, int y1, const Vec4<float>& colour = DEFAULT_COLOUR);
+	void DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, const Vec4<float>& colour = DEFAULT_COLOUR);
+	void DrawLine(const VertexIn& v1, const VertexIn& v2, const Vec4<float>& colour = DEFAULT_COLOUR);
 
 	// only until we move to an ECS and have a better abstracted system of render queues and the like
 	// hidden from user and managed by our own program.
@@ -40,7 +42,7 @@ private:
 	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
 	void RasterizeTriangle(const Triangle& t); // rasterize a triangle.
 
-	// FragmentOut FragmentShader(const Fragment& frag);
+	FragmentOut FragmentShader(const FragmentIn& frag);
 private:
 	int m_width = 0;
 	int m_height = 0;
@@ -49,10 +51,10 @@ private:
 	Mat4<float> projectionMatrix;
 
 	// just for testing for now, will utilize shaders or something later on.
-	std::array<uint32_t, 12> colours{
-		0xFF641a3a, 0xFFa8a000, 0xFF094c6a, 0xFF1eacb2,
-		0xFF29d351, 0xFFdebf68, 0xFF753ea5, 0xFF93361a,
-		0xFF351892, 0xFF9b7ad6, 0xFFe3e6a5, 0xFFa1c2c0
+	std::array<Vec4<float>, 12> colours{
+		Vec4<float>(178, 10, 216, 255), Vec4<float>(155, 59, 239, 255), Vec4<float>(37, 76, 31, 255), Vec4<float>(84, 50, 37, 255),
+		Vec4<float>(78, 139, 142, 255), Vec4<float>(76, 117, 42, 255), Vec4<float>(161, 252, 213, 255), Vec4<float>(33, 40, 61, 255),
+		Vec4<float>(35, 255, 207, 255), Vec4<float>(166, 193, 75, 255), Vec4<float>(53, 29, 39, 255), Vec4<float>(170, 90, 162, 255)
 	};
 
 	std::vector<float> zBuffer;

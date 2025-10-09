@@ -137,8 +137,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
-    <ClCompile Include="src\Graphics\FragmentIn.cpp" />
-    <ClCompile Include="src\Graphics\FragmentOut.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
     <ClCompile Include="src\Graphics\VertexPostClip.cpp" />

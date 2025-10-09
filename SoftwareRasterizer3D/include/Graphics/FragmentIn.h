@@ -1,5 +1,25 @@
 #pragma once
+#include "Math/Vec4.h"
+#include "Math/Vec3.h"
+#include "Math/Vec2.h"
 
-class FragmentIn {
+struct FragmentIn {
+public: // defaults but for clarity.
+	int x, y;
+	float z; //interpolated z
+	// all attributes should be interpolated (perspective-correct)
+	Vec3<float> normal; // should be normalized after interpolation
+	Vec4<float> colour{ 0, 0, 0, 1 }; // vertex colour (could be blended)
+	Vec2<float> uv; // Texture coordinates. All maps seem to use it
+	Vec3<float> tangent; // for normal mapping
+	Vec3<float> bitangent; // for normal mapping
+
+	FragmentIn() = default;
+	FragmentIn(int x, int y, float z) : x(x), y(y), z(z) {}
+	FragmentIn(int x, int y, float z, const Vec4<float>& colour) : x(x), y(y), z(z), colour(colour) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& normal) : x(x), y(y), z(z), normal(normal.GetNormalized()) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour) : x(x), y(y), z(z), normal(normal.GetNormalized()), colour(colour) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
+		: x(x), y(y), z(z), normal(normal.GetNormalized()), colour(colour), uv(uv), tangent(tangent), bitangent(bitangent) {}
 
 };

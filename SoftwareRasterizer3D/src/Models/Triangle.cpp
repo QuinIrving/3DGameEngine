@@ -1,6 +1,6 @@
 #include "Models/Triangle.h"
 
-Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, uint32_t colour)
+Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec4<float> colour)
 	: A(A), B(B), C(C), triColour(colour)
 {
 	/*
@@ -36,7 +36,7 @@ const VertexPostClip& Triangle::GetVertexC() const {
 	return C;
 }
 
-uint32_t Triangle::GetColour() const {
+Vec4<float> Triangle::GetColour() const {
 	return triColour;
 }
 

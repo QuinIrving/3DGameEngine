@@ -1,5 +1,7 @@
 #pragma once
+#include "Math/Vec4.h"
 
-class FragmentOut {
-
+struct FragmentOut {
+public:
+	Vec4<float> colour;
 };

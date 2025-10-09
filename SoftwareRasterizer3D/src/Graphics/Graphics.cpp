@@ -104,6 +104,12 @@ VertexOut Graphics::VertexShader(const VertexIn& vin, const Mat4<float>& MVP) {
 	return VertexOut(clippedPos);
 }
 
+FragmentOut Graphics::FragmentShader(const FragmentIn& fragIn) {
+	FragmentOut fragOut;
+	fragOut.colour = fragIn.colour;
+	return fragOut;
+}
+
 void Graphics::ResetZBuffer() {
 	std::ranges::fill(zBuffer, 1.f);
 }
@@ -115,17 +121,23 @@ For RASTERIZER:
 Make it so in the game I can swap between the type as well.
 */
 
-void Graphics::PutPixel(int x, int y, uint32_t colour) {
+void Graphics::PutPixel(int x, int y, Vec4<float> colour) {
 	if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
 		OutputDebugString(std::format(L"\n[WARNING] Attempted to draw outside of the window.\nPos: ({}, {}) Window w, h: ({}, {})\n", x, y, m_width, m_height).c_str());
 		return;
 	}
 
-	pixels[y * (mapped.RowPitch / sizeof(uint32_t)) + x] = colour;
+	uint32_t packedColour = 0;
+	packedColour |= static_cast<uint32_t>(colour.w) << 24;
+	packedColour |= static_cast<uint32_t>(colour.z) << 16;
+	packedColour |= static_cast<uint32_t>(colour.y) << 8;
+	packedColour |= static_cast<uint32_t>(colour.x);
+
+	pixels[y * (mapped.RowPitch / sizeof(uint32_t)) + x] = packedColour;
 }
 
 // utilizes Bresenham's line drawing algorithm for quick drawing.
-void Graphics::DrawLine(int x0, int y0, int x1, int y1, uint32_t colour) {
+void Graphics::DrawLine(int x0, int y0, int x1, int y1, const Vec4<float>& colour) {
 	bool isYMajorAxis = std::abs(y1 - y0) > std::abs(x1 - x0);
 	
 	if (isYMajorAxis) {
@@ -163,11 +175,11 @@ void Graphics::DrawLine(int x0, int y0, int x1, int y1, uint32_t colour) {
 	}
 }
 
-void Graphics::DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, uint32_t colour) {
+void Graphics::DrawLine(const std::pair<int, int>& p1, const std::pair<int, int>& p2, const Vec4<float>& colour) {
 	Graphics::DrawLine(p1.first, p1.second, p2.first, p2.second, colour);
 }
 
-void Graphics::DrawLine(const VertexIn& v1, const VertexIn& v2, uint32_t colour) {
+void Graphics::DrawLine(const VertexIn& v1, const VertexIn& v2, const Vec4<float>& colour) {
 	// should change this to a const Vertex but need to figure out the auto with Vec.
 	auto pos1 = v1.GetPosition();
 	auto pos2 = v2.GetPosition();
@@ -325,11 +337,12 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 					// interpolate other vertex attributes
 
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
+					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, tri.GetColour()));
 
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.
 					// if we reach here, update the depth buffer, and write to backbuffer
-					PutPixel(x, y, tri.GetColour());
+					PutPixel(x, y, f.colour);
 					zBuffer[y * m_width + x] = interpZ;
 				}
 			}
