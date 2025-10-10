@@ -10,6 +10,7 @@ public:
 	// Vector addition & subtraction
 	Vec2<T> operator+(const Vec2<T>& rhs) const;
 	Vec2<T> operator-(const Vec2<T>& rhs) const;
+	Vec2<T> operator-() const;
 	Vec2<T>& operator+=(const Vec2<T>& rhs);
 	Vec2<T>& operator-=(const Vec2<T>& rhs);
 
@@ -54,6 +55,11 @@ Vec2<T> Vec2<T>::operator-(const Vec2<T>& rhs) const {
 	T newY = y - rhs.y;
 
 	return Vec2<T>(newX, newY);
+}
+
+template <typename T>
+Vec2<T> Vec2<T>::operator-() const {
+	return Vec2<T>(-x, -y);
 }
 
 template <typename T>

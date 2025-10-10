@@ -14,6 +14,7 @@ public:
 	// Vector addition & subtraction
 	Vec3<T> operator+(const Vec3<T>& rhs) const;
 	Vec3<T> operator-(const Vec3<T>& rhs) const;
+	Vec3<T> operator-() const;
 	Vec3<T>& operator+=(const Vec3<T>& rhs);
 	Vec3<T>& operator-=(const Vec3<T>& rhs);
 
@@ -64,6 +65,11 @@ Vec3<T> Vec3<T>::operator-(const Vec3<T>& rhs) const {
 	T newZ = z - rhs.z;
 
 	return Vec3<T>(newX, newY, newZ);
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator-() const {
+	return Vec3<T>(-x, -y, -z);
 }
 
 template <typename T>

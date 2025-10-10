@@ -41,10 +41,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// Create an initial object for now:
 	float size = 10.f;
 	Cube c = Cube(size);
-	c.Translate(0, 0, -13);
+	c.Translate(-8, 0, -13); // x translate as -15 is good for checking clipping capabilities.
 
-	Sphere s = Sphere();
-	s.Translate(0, 0, -0.2);
+	Sphere s = Sphere(1.f,12,24);
+	s.Translate(0, 0, -0.1);
+	//s.Scale(2, 2, 2);
 	//---------------//
 
 
@@ -86,10 +87,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, Vec4<float>{r, g, b, a});
 
-		// cube
-		//win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		//c.Rotate(-0.02, 0.01, 0);
+		win.gfx.testIndex = 0;
 
+		// cube
+		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
+		c.Rotate(0, -0.04, 0.03);
+
+
+		win.gfx.testIndex = 1;
 		// sphere
 		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
 		s.Rotate(-0.02, 0.01, 0);

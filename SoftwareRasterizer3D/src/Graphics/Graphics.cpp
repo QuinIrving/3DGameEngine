@@ -75,7 +75,8 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 			// primitive creation.
 			// just for testing for now (colours), will utilize shaders or something later on.
-			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 3) % 12]);
+			//Triangle t = (testIndex == 0) ? Triangle(vpc1, vpc2, vpc3, colours[(i / 3) % 12]) : Triangle(vpc1, vpc2, vpc3, Vec4<float>(255, 255, 255, 255));
+			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 6) % 12]);
 			
 			// back face-culling
 			//if (Vec3<float>::DotProduct(t.GetFaceNormal(), Vec3<float>()) < 0.f) { // will do my camera later.

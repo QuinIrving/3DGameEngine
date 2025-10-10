@@ -38,6 +38,7 @@ public:
 	// This should also take in a VertexShader and FragmentShader on next refactor to allow it to be a "programmable" pipeline.
 	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
 
+	int testIndex = 0;
 private:
 	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
 	void RasterizeTriangle(const Triangle& t);
@@ -53,7 +54,7 @@ private:
 
 	// just for testing for now, will utilize shaders or something later on.
 	std::array<Vec4<float>, 12> colours{
-		Vec4<float>(178, 10, 216, 255), Vec4<float>(155, 59, 239, 255), Vec4<float>(37, 76, 31, 255), Vec4<float>(84, 50, 37, 255),
+		Vec4<float>(178, 10, 216, 255), Vec4<float>(155, 59, 239, 255), Vec4<float>(37, 16, 31, 255), Vec4<float>(84, 50, 37, 255),
 		Vec4<float>(78, 139, 142, 255), Vec4<float>(76, 117, 42, 255), Vec4<float>(161, 252, 213, 255), Vec4<float>(33, 40, 61, 255),
 		Vec4<float>(35, 255, 207, 255), Vec4<float>(166, 193, 75, 255), Vec4<float>(53, 29, 39, 255), Vec4<float>(170, 90, 162, 255)
 	};

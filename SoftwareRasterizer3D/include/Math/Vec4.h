@@ -13,6 +13,7 @@ public:
 	// Vector addition & subtraction
 	Vec4<T> operator+(const Vec4<T>& rhs) const;
 	Vec4<T> operator-(const Vec4<T>& rhs) const;
+	Vec4<T> operator-() const;
 	Vec4<T>& operator+=(const Vec4<T>& rhs);
 	Vec4<T>& operator-=(const Vec4<T>& rhs);
 
@@ -67,6 +68,11 @@ Vec4<T> Vec4<T>::operator-(const Vec4<T>& rhs) const {
 	T newW = w - rhs.w;
 
 	return Vec4<T>(newX, newY, newZ, newW);
+}
+
+template <typename T>
+Vec4<T> Vec4<T>::operator-() const {
+	return Vec4<T>(-x, -y, -z, -w);
 }
 
 template <typename T>
