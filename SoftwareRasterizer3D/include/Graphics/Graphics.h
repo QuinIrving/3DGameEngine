@@ -37,12 +37,13 @@ public:
 
 	// This should also take in a VertexShader and FragmentShader on next refactor to allow it to be a "programmable" pipeline.
 	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
-private:
-	//VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
-	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
-	void RasterizeTriangle(const Triangle& t); // rasterize a triangle.
 
+private:
+	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
+	void RasterizeTriangle(const Triangle& t);
+	bool IsTopLeftEdge(const Vec3<float>& A, const Vec3<float>& B) const;
 	FragmentOut FragmentShader(const FragmentIn& frag);
+
 private:
 	int m_width = 0;
 	int m_height = 0;

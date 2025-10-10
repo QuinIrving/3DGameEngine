@@ -77,8 +77,11 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 			// just for testing for now (colours), will utilize shaders or something later on.
 			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 3) % 12]);
 			
-			// back face-cull here,
-			
+			// back face-culling
+			//if (Vec3<float>::DotProduct(t.GetFaceNormal(), Vec3<float>()) < 0.f) { // will do my camera later.
+				//continue;
+			//}
+
 			// then viewport transformation
 			t.ViewportTransform(m_width, m_height);
 			tris.push_back(t);
@@ -233,34 +236,36 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 	}
 
 	// now we have the bounding box of the triangle. We can go from top left to bottom right of the pixels to check which pixels to draw
-	int t = static_cast<int>(floor(top));
-	int b = static_cast<int>(ceil(bottom));
-	int l = static_cast<int>(floor(left));
-	int r = static_cast<int>(ceil(right));
+	int t = static_cast<int>(floorf(top));
+	int b = static_cast<int>(ceilf(bottom));
+	int l = static_cast<int>(floorf(left));
+	int r = static_cast<int>(ceilf(right));
 
 	// first calculate the edges of the triangle for the edge function.
-	int C0x = static_cast<int>(posA.y - posB.y); // B->A
-	int C0y = static_cast<int>(-(posA.x - posB.x));
-	int C1x = static_cast<int>(posC.y - posA.y); // A->C
-	int C1y = static_cast<int>(-(posC.x - posA.x));
-	int C2x = static_cast<int>(posB.y - posC.y); // C->B
-	int C2y = static_cast<int>(-(posB.x - posC.x));
+	float C0x = posA.y - posB.y; // B->A
+	float C0y = -(posA.x - posB.x);
+	float C1x = posC.y - posA.y; // A->C
+	float C1y = -(posC.x - posA.x);
+	float C2x = posB.y - posC.y; // C->B
+	float C2y = -(posB.x - posC.x);
 
-	int edge0 = static_cast<int>(((l - posB.x) * (posA.y - posB.y)) - ((t - posB.y) * (posA.x - posB.x))); // B->A
-	int edge1 = static_cast<int>(((l - posA.x) * (posC.y - posA.y)) - ((t - posA.y) * (posC.x - posA.x))); // A->C
-	int edge2 = static_cast<int>(((l - posC.x) * (posB.y - posC.y)) - ((t - posC.y) * (posB.x - posC.x))); // C->B
+	float startX = floorf(left) + 0.5f;
+	float startY = floorf(top) + 0.5f;
+
+	float edge0 = ((startX - posB.x) * (posA.y - posB.y)) - ((startY - posB.y) * (posA.x - posB.x)); // B->A
+	float edge1 = ((startX - posA.x) * (posC.y - posA.y)) - ((startY - posA.y) * (posC.x - posA.x)); // A->C
+	float edge2 = ((startX - posC.x) * (posB.y - posC.y)) - ((startY - posC.y) * (posB.x - posC.x)); // C->B
 
 
-	// Total area of triangle
+	// Total area of triangle for back-face culling.
 	float area = ((posC.x - posB.x) * (posA.y - posB.y)) - ((posC.y - posB.y) * (posA.x - posB.x));
-	if (area == 0.0f) {
-		OutputDebugString(L"Area is zero, possible collinear points or degenerate triangle!\n");
+	if (area <= 0.f) {
 		return;
 	}
 
 	float invArea = 1.0f / area;
 
-	int e0, e1, e2;
+	float e0, e1, e2;
 
 	/*
 	Should also get per pixel, theinterpolated attributes and other stuff.
@@ -274,47 +279,15 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 		e2 = edge2 + (yDiff * C2y);
 
 		for (int x = l; x <= r; ++x) {
-			//OutputDebugString(std::format(L"\nx: {}, y: {}, e0: {}, e1: {}, e2: {}\n", x, y, e0, e1, e2).c_str());
+			if ((e0 > 0 || e0 > -EPSILON && IsTopLeftEdge(posB, posA))
+				&& (e1 > 0 || e1 > -EPSILON && IsTopLeftEdge(posA, posC))
+				&& (e2 > 0 || e2 > -EPSILON && IsTopLeftEdge(posC, posB))) {
 
-			if (e0 >= 0 && e1 >= 0 && e2 >= 0) {
 				// Varying Varyings = interpolate_varyings (bary, verts);
+				float u = e2 * invArea; // (PBC) opposite A area.
+				float v = e1 * invArea; // (PAC) opposite B area
+				float w = e0 * invArea; // (PAB) opposite C area.
 
-				/*
-				Varying is Interpolated per-fragment data from vertices like uv, normal etc.
-
-				FragmentInput has int x,y screen coords, float z, Depth [0, 1], Varying varyings.
-
-				FragmentOutput has Vec4 Colour, float z
-
-				fragment shader, simply get tex_colour with sample_texture(input.varyings.uv);
-				out.colour = tex_color * computeLighting(input.varyings.normal);
-				out.z = input.z;
-
-				return out.
-				-
-				*/
-
-				// FragmentInput frag_in = {x, y, z, varyings}
-				
-				// FragmentOutput fragOut = fragment_shader(frag_in);
-
-				// per-fragment ops;
-				// if z < 0 || z > 1 continue. // Clip-depth, we should check if our range is -1 to 1, cause if so, need to change perspective matrix to make our live easier
-
-				// fragout.z >= depthbuffer.get(x, y)) continue;
-
-				// Vec4 final_colour = fragOut.colour;
-				
-				// putpixel: x,y, finalColour
-				// depthbuffer.set(x,y, fragOut.z)
-
-				float u = static_cast<float>(e2) * invArea; // (PBC) opposite A area.
-				float v = static_cast<float>(e1) * invArea; // (PAC) opposite B area
-				float w = static_cast<float>(e0) * invArea; // (PAB) opposite C area.
-
-				//OutputDebugString(std::format(L"u: {}, v: {}, w: {}\n", u, v, w).c_str());
-
-				// ensure coords are valid, sum to 1 and within [0, 1]. Can do this more later.
 				if (u >= 0 && v >= 0 && w >= 0) {
 					// interpolate z. We do this with invW for perspective correct interpolation
 					float interpInvW = u * A.GetInvW() + v * B.GetInvW() + w * C.GetInvW();
@@ -469,7 +442,7 @@ HRESULT Graphics::ResizeWindow(int width, int height) {
 	float yScaleFactor = tanf(fovY / 2);
 	float aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height); // Might want to change this to a constant selection in an options menu later but oh well.
 
-	float n{0.1}; // near is defined for some reason
+	float n{1}; // near is defined for some reason
 	float f{1000}; // same for far. maybe for direct3d or something.
 
 	// REALLY POORLY DONE, SHOULD CALL A FUNCTION THAT SIMPLY UPDATES THE PROJECTION MATRIX WITH THE ASPECT RATIO LOL.
@@ -527,4 +500,12 @@ HRESULT Graphics::ResizeWindow(int width, int height) {
 	device->Release();
 	context->Release();*/
 	return 0;
+}
+
+bool Graphics::IsTopLeftEdge(const Vec3<float>& A, const Vec3<float>& B) const {
+	if (A.y == B.y) {
+		return A.x > B.x; // Horizontal edges going left are top edges. 
+	}
+
+	return A.y < B.y; // non-horizontal edges pointing up are top edges.
 }

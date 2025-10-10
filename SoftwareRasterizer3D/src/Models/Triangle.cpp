@@ -3,6 +3,7 @@
 Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec4<float> colour)
 	: A(A), B(B), C(C), triColour(colour)
 {
+	ComputeFaceNormal();
 	/*
 	int r = ;
 	int g = ;
