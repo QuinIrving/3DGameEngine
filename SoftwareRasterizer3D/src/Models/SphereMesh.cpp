@@ -23,7 +23,7 @@ SphereMesh::SphereMesh(float radius, int numLatDivs, int numLongDivs)
 		Vec4<float> vLongPos = initialVPos * Quaternion(longAngle * longIdx, 0.f, 0.f).GetRotationMatrix(); // optimizations could be made here
 		
 		for (int latIdx = 0; latIdx < numLatDivs; ++latIdx) {
-			vertices.push_back(VertexIn(vLongPos * Quaternion(0.f, latAngle * latIdx, 0.f).GetRotationMatrix())); // and optimizations here with my quaternion.
+			vertices.push_back(VertexIn(vLongPos * Quaternion(0.f, 0.f, latAngle * latIdx).GetRotationMatrix())); // and optimizations here with my quaternion.
 		}
 	}
 
