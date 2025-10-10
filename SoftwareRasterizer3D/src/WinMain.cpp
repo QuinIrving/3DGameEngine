@@ -8,6 +8,7 @@
 #include "Models/Triangle.h"
 #include "Scene/Objects/Cube.h"
 #include "Math/MatrixVectorOps.h"
+#include "Scene/Objects/Sphere.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -41,6 +42,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	float size = 10.f;
 	Cube c = Cube(size);
 	c.Translate(0, 0, -13);
+
+	Sphere s = Sphere();
+	s.Translate(0, 0, -0.2);
 	//---------------//
 
 
@@ -82,8 +86,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, Vec4<float>{r, g, b, a});
 
-		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(-0.02, 0.01, 0);
+		// cube
+		//win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
+		//c.Rotate(-0.02, 0.01, 0);
+
+		// sphere
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
+		s.Rotate(-0.02, 0.01, 0);
 
 		win.gfx.Render();
 		Sleep(1);	
