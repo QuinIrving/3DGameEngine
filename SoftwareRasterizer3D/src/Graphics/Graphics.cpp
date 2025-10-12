@@ -45,7 +45,6 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 		v.reserve(6); // max possible amount of vertices after clipping
 		postClipIds.reserve(6); // same for the id's. Max is 2 triangles, with 6 total id's.
 
-
 		// Only will do near-plane for partial clipping for efficiency purposes.
 		if (v1.IsNotInNearFrustum() || v2.IsNotInNearFrustum() || v3.IsNotInNearFrustum()) {
 			// this will require clipping the vertices, putting them into our v, and ensuring we keep winding order for our
@@ -60,33 +59,33 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 			if (v1.IsNotInNearFrustum()) {
 				if (v2.IsNotInNearFrustum()) {
-					OutputDebugString(L"v1 & v2 out\n");
-					//ClipTwoOut(v, postClipIds, v1, v2, v3);
+					//OutputDebugString(L"v1 & v2 out\n");
+					ClipTwoOut(v, postClipIds, v1, v2, v3);
 				}
 				else if (v3.IsNotInNearFrustum()) {
-					OutputDebugString(L"v1 & v3 out\n");
-					//ClipTwoOut(v, postClipIds, v1, v3, v2);
+					//OutputDebugString(L"v1 & v3 out\n"); //
+					ClipTwoOut(v, postClipIds, v3, v1, v2);
 				}
 				else {
-					OutputDebugString(L"v1 only out\n");
-					//ClipOneOut(v, postClipIds, v1, v2, v3);
+					//OutputDebugString(L"v1 only out\n"); //
+					ClipOneOut(v, postClipIds, v1, v3, v2);
 				}
 			}
 			else if (v2.IsNotInNearFrustum()) {
 				// only need to worry about v3, as v1 must already be in the near frustum
 				if (v3.IsNotInNearFrustum()) {
-					OutputDebugString(L"v2 & v3 out\n");
-					//ClipTwoOut(v, postClipIds, v2, v3, v1);
+					//OutputDebugString(L"v2 & v3 out\n");
+					ClipTwoOut(v, postClipIds, v2, v3, v1);
 				}
 				else {
-					OutputDebugString(L"v2 only out\n");
+					//OutputDebugString(L"v2 only out\n");
 					ClipOneOut(v, postClipIds, v2, v1, v3);
 				}
 			}
 			else {
 				// v3 can't also have v1, or v2 due to prior if statements.
 				ClipOneOut(v, postClipIds, v3, v2, v1);
-				OutputDebugString(L"v3 only out\n");
+				//OutputDebugString(L"v3 only out\n");
 			}
 
 		}
@@ -313,10 +312,10 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 	}
 
 	// now we have the bounding box of the triangle. We can go from top left to bottom right of the pixels to check which pixels to draw
-	int t = static_cast<int>(floorf(top));
-	int b = static_cast<int>(ceilf(bottom));
-	int l = static_cast<int>(floorf(left));
-	int r = static_cast<int>(ceilf(right));
+	int t = max(static_cast<int>(floorf(top)), 0);
+	int b = min(static_cast<int>(ceilf(bottom)), m_height - 1);
+	int l = max(static_cast<int>(floorf(left)), 0);
+	int r = min(static_cast<int>(ceilf(right)), m_width - 1);
 
 	// first calculate the edges of the triangle for the edge function.
 	float C0x = posA.y - posB.y; // B->A
@@ -347,7 +346,6 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 	/*
 	Should also get per pixel, theinterpolated attributes and other stuff.
 	*/
-
 	for (int y = t; y <= b; ++y) {
 		// need to reset to the left side of our edge function, but also incorporate the row we are now on.
 		int yDiff = (y - t);
@@ -373,8 +371,8 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 					interpZ /= interpInvW;
 
 					if (interpZ < 0) {
+						OutputDebugString(std::format(L"interp-Z coord: {}\n", interpZ).c_str());
 						continue;
-						//OutputDebugString(std::format(L"interp-Z coord: {}\n", interpZ).c_str());
 					}
 
 					if (zBuffer[y * m_width + x] < interpZ) {

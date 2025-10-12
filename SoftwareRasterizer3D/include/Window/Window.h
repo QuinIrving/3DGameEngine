@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include <Windows.h>
 #include "Input/InputManager.h"
 #include "Input/Mouse.h"

@@ -42,8 +42,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// Create an initial object for now:
 	float size = 1.f;
 	Cube c = Cube(size);
-	c.Translate(0, 0, -1.5); // x translate as -15 is good for checking clipping capabilities.
-	c.Rotate(0, 90, 45);
+	//c.Translate(0, 2, -1.5); // x translate as -15 is good for checking clipping capabilities.
+	c.Translate(3, -2, -1.5);
+	c.Rotate(-61, -75, -45);
 	Sphere s = Sphere(1.f,12,24);
 	//s.Translate(0, 0, -8);
 	//s.Scale(2, 2, 2);
@@ -120,7 +121,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		// cube
 		//float speed1 = -0.04 * deltaTime;
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(0, -2 * deltaTime, 1.5 * deltaTime);
+		//c.Rotate(deltaTime, 0, 0);
+		c.Translate(0, 0, -0.1 * deltaTime);
 
 
 		win.gfx.testIndex = 1;
@@ -129,7 +131,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		//s.Rotate(-1 * deltaTime, 0.5 * deltaTime, 0);
 
 		win.gfx.Render();
-		Sleep(100000);	
+		Sleep(1);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.
