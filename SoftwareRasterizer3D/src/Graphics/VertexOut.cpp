@@ -36,7 +36,11 @@ void VertexOut::SetColour(int r, int g, int b, int a) {
 bool VertexOut::IsInFrustum() const {
 	return (position.x >= -position.w && position.x <= position.w)
 		&& (position.y >= -position.w && position.y <= position.w)
-		&& (position.z >= -position.w && position.z <= position.w);
+		&& (position.z >= 0 && position.z <= position.w); // since we map z to 0 to 1.
+}
+
+bool VertexOut::IsNotInNearFrustum() const {
+	return position.z < 0;
 }
 
 VertexPostClip VertexOut::PerspectiveDivide() const {

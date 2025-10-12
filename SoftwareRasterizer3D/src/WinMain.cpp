@@ -9,6 +9,7 @@
 #include "Scene/Objects/Cube.h"
 #include "Math/MatrixVectorOps.h"
 #include "Scene/Objects/Sphere.h"
+#include <chrono>
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -39,12 +40,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	
 	//---------------//
 	// Create an initial object for now:
-	float size = 10.f;
+	float size = 1.f;
 	Cube c = Cube(size);
-	c.Translate(-8, 0, -13); // x translate as -15 is good for checking clipping capabilities.
-
+	c.Translate(0, 0, -1.5); // x translate as -15 is good for checking clipping capabilities.
+	c.Rotate(0, 90, 45);
 	Sphere s = Sphere(1.f,12,24);
-	s.Translate(0, 0, -0.1);
+	//s.Translate(0, 0, -8);
 	//s.Scale(2, 2, 2);
 	//---------------//
 
@@ -53,7 +54,34 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	MSG msg = { };
 	bool isRunning = true;
 	// don't forget delta time!!!!!!!
+	
+	std::chrono::time_point timeSinceLastFrame = std::chrono::steady_clock::now();
+	int currFrame = 0;
+	int frameCount = 0;
+	float elapsedTime = 0.f;
+
 	while (isRunning) {
+		std::chrono::time_point<std::chrono::steady_clock> currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<float> timeDiff = currentTime - timeSinceLastFrame;
+		timeSinceLastFrame = currentTime;
+		float deltaTime = timeDiff.count();
+
+		elapsedTime += deltaTime;
+		frameCount++;
+
+
+		if (elapsedTime >= 1.f) {
+			float fps = frameCount / elapsedTime;
+
+			//OutputDebugString(std::format(L"Delta Time: {}\n", deltaTime).c_str());
+			//OutputDebugString(std::format(L"FPS: {}\n", fps).c_str());
+
+			elapsedTime = 0.f;
+			frameCount = 0;
+		}
+
+		currFrame++;
+
 		win.kbd.ClearTextBuffer();
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {
@@ -90,17 +118,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.testIndex = 0;
 
 		// cube
+		//float speed1 = -0.04 * deltaTime;
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(0, -0.04, 0.03);
+		c.Rotate(0, -2 * deltaTime, 1.5 * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
-		s.Rotate(-0.02, 0.01, 0);
+		//win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
+		//s.Rotate(-1 * deltaTime, 0.5 * deltaTime, 0);
 
 		win.gfx.Render();
-		Sleep(1);	
+		Sleep(100000);	
 	}
 
 	// SWITCH TO COMPTR's to handle all of this.

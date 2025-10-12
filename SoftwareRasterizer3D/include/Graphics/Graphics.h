@@ -43,6 +43,8 @@ private:
 	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
 	void RasterizeTriangle(const Triangle& t);
 	bool IsTopLeftEdge(const Vec3<float>& A, const Vec3<float>& B) const;
+	void ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
+	void ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
 	FragmentOut FragmentShader(const FragmentIn& frag);
 
 private:

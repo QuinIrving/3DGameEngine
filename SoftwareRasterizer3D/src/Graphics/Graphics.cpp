@@ -17,11 +17,6 @@
 //;
 
 void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix) {
-	/*OutputDebugString(std::format(L"{} {} {} {}\n{} {} {} {}\n{} {} {} {}\n{} {} {} {}\n\n\n",
-		modelMatrix[0][0], modelMatrix[0][1], modelMatrix[0][2], modelMatrix[0][3],
-		modelMatrix[1][0], modelMatrix[1][1], modelMatrix[1][2], modelMatrix[1][3], 
-		modelMatrix[2][0], modelMatrix[2][1], modelMatrix[2][2], modelMatrix[2][3], 
-		modelMatrix[3][0], modelMatrix[3][1], modelMatrix[3][2], modelMatrix[3][3]).c_str());*/
 	Mat4<float> MVP = modelMatrix * camera.GetViewMatrix() * projectionMatrix; // could technically optimize this by pre-computed VP once a frame, not once per object.
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
@@ -42,7 +37,6 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 		// triangle isn't within our view frustum at all, just cull the triangle completely
 		if (!v1.IsInFrustum() && !v2.IsInFrustum() && !v3.IsInFrustum()) {
-			OutputDebugString(L"\nCulled Triangle\n");
 			continue;
 		}
 
@@ -51,11 +45,50 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 		v.reserve(6); // max possible amount of vertices after clipping
 		postClipIds.reserve(6); // same for the id's. Max is 2 triangles, with 6 total id's.
 
-		// some portion of the triangle isn't within our view frustum, need to do clipping to create new vertices and triangle(s)
-		if (!v1.IsInFrustum() || !v2.IsInFrustum() || !v3.IsInFrustum()) {
+
+		// Only will do near-plane for partial clipping for efficiency purposes.
+		if (v1.IsNotInNearFrustum() || v2.IsNotInNearFrustum() || v3.IsNotInNearFrustum()) {
 			// this will require clipping the vertices, putting them into our v, and ensuring we keep winding order for our
 			// postClipIds vector as well.
-			OutputDebugString(L"\nCulled Partial Triangle\n");
+			// clipping can be done, and as we know it's the near plane, we must interpoalte between the z values to the near plane value,
+			// which in this case should be 0, as we map from 0->w instead of -w, w with our projection matrix.
+
+			Vec4<float> pos1 = v1.GetPosition();
+			Vec4<float> pos2 = v2.GetPosition();
+			Vec4<float> pos3 = v3.GetPosition();
+			float t;
+
+			if (v1.IsNotInNearFrustum()) {
+				if (v2.IsNotInNearFrustum()) {
+					OutputDebugString(L"v1 & v2 out\n");
+					//ClipTwoOut(v, postClipIds, v1, v2, v3);
+				}
+				else if (v3.IsNotInNearFrustum()) {
+					OutputDebugString(L"v1 & v3 out\n");
+					//ClipTwoOut(v, postClipIds, v1, v3, v2);
+				}
+				else {
+					OutputDebugString(L"v1 only out\n");
+					//ClipOneOut(v, postClipIds, v1, v2, v3);
+				}
+			}
+			else if (v2.IsNotInNearFrustum()) {
+				// only need to worry about v3, as v1 must already be in the near frustum
+				if (v3.IsNotInNearFrustum()) {
+					OutputDebugString(L"v2 & v3 out\n");
+					//ClipTwoOut(v, postClipIds, v2, v3, v1);
+				}
+				else {
+					OutputDebugString(L"v2 only out\n");
+					ClipOneOut(v, postClipIds, v2, v1, v3);
+				}
+			}
+			else {
+				// v3 can't also have v1, or v2 due to prior if statements.
+				ClipOneOut(v, postClipIds, v3, v2, v1);
+				OutputDebugString(L"v3 only out\n");
+			}
+
 		}
 		else {
 			// all are within it, simply add them to the list.
@@ -75,7 +108,6 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 			// primitive creation.
 			// just for testing for now (colours), will utilize shaders or something later on.
-			//Triangle t = (testIndex == 0) ? Triangle(vpc1, vpc2, vpc3, colours[(i / 3) % 12]) : Triangle(vpc1, vpc2, vpc3, Vec4<float>(255, 255, 255, 255));
 			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 6) % 12]);
 			
 			// back face-culling
@@ -103,10 +135,54 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 VertexOut Graphics::VertexShader(const VertexIn& vin, const Mat4<float>& MVP) {
 	// no shading for now;
 	Vec4<float> clippedPos = vin * MVP;
-	//OutputDebugString(std::format(L"x: {},y: {},z: {}\n", vin.GetPosition().x, vin.GetPosition().y, vin.GetPosition().z).c_str());
-	//OutputDebugString(std::format(L"cX: {},cY: {},cZ: {},cW: {}\n\n", clippedPos.x, clippedPos.y, clippedPos.z, clippedPos.w).c_str());
 	return VertexOut(clippedPos);
 }
+
+void Graphics::ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3) {
+	const Vec4<float>& clip1 = v1.GetPosition();
+	const Vec4<float>& in1 = v2.GetPosition();
+	const Vec4<float>& in2 = v3.GetPosition();
+	
+	// just v1.
+	float t = (-clip1.z) / (in1.z - clip1.z);
+	Vec4<float> v12New = clip1 + ((in1 - clip1) * t);
+	// need to also interpolate attributes?
+	t = (-clip1.z) / (in2.z - clip1.z);
+	Vec4<float> v13New = clip1 + ((in2 - clip1) * t);
+	v.push_back(v2.PerspectiveDivide()); // 0
+	v.push_back(v3.PerspectiveDivide()); // 1
+	v.push_back(VertexOut(v12New).PerspectiveDivide()); // 2
+	v.push_back(VertexOut(v13New).PerspectiveDivide()); // 3
+	postClipIds.push_back(0);
+	postClipIds.push_back(3);
+	postClipIds.push_back(1);
+
+	postClipIds.push_back(0);
+	postClipIds.push_back(2);
+	postClipIds.push_back(3);
+}
+
+void Graphics::ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3) {
+	const Vec4<float>& clip1 = v1.GetPosition();
+	const Vec4<float>& clip2 = v2.GetPosition();
+	const Vec4<float>& in1 = v3.GetPosition();
+	
+	float t = (-clip1.z) / (in1.z - clip1.z);
+	Vec4<float> v2New = clip1 + ((in1 - clip1) * t);
+	// need to also interpolate attributes.
+	t = (-clip2.z) / (in1.z - clip2.z);
+	Vec4<float> v3New = clip2 + ((in1 - clip2) * t);
+
+	
+
+	v.push_back(v3.PerspectiveDivide());
+	postClipIds.push_back(0);
+	v.push_back(VertexOut(v2New).PerspectiveDivide());
+	postClipIds.push_back(1);
+	v.push_back(VertexOut(v3New).PerspectiveDivide());
+	postClipIds.push_back(2);
+}
+
 
 FragmentOut Graphics::FragmentShader(const FragmentIn& fragIn) {
 	FragmentOut fragOut;
@@ -297,7 +373,8 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 					interpZ /= interpInvW;
 
 					if (interpZ < 0) {
-						OutputDebugString(std::format(L"interp-Z coord: {}", interpZ).c_str());
+						continue;
+						//OutputDebugString(std::format(L"interp-Z coord: {}\n", interpZ).c_str());
 					}
 
 					if (zBuffer[y * m_width + x] < interpZ) {
@@ -441,7 +518,8 @@ HRESULT Graphics::ResizeWindow(int width, int height) {
 
 	float fovY = PI / 2; // 90 degrees in radians.
 	float yScaleFactor = tanf(fovY / 2);
-	float aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height); // Might want to change this to a constant selection in an options menu later but oh well.
+	//float aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height); // Might want to change this to a constant selection in an options menu later but oh well.
+	float aspectRatio = 1.777;
 
 	float n{1}; // near is defined for some reason
 	float f{1000}; // same for far. maybe for direct3d or something.
@@ -452,8 +530,8 @@ HRESULT Graphics::ResizeWindow(int width, int height) {
 		{ 
 		1/(yScaleFactor * aspectRatio), 0,				0,						  0,
 		0,								1/yScaleFactor, 0,						  0,
-		0,								0,				-(f/(f - n)),		 -1,
-		0,								0,				-((f * n) / (f - n)), 0
+		0,								0,				-(f/(f - n)),			 -1,
+		0,								0,				-((f * n) / (f - n)),	  0
 		});
 
 	zBuffer = std::vector<float>(width * height, 1.f); // occurs during rasterization. After perspective divide, z isn't touched while x & y are transformed to screen resolution coords

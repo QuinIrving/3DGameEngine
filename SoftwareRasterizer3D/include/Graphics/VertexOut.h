@@ -23,6 +23,7 @@ public:
 	void SetColour(int r, int g, int b, int a = 255);
 
 	bool IsInFrustum() const;
+	bool IsNotInNearFrustum() const;
 	VertexPostClip PerspectiveDivide() const;
 
 private:

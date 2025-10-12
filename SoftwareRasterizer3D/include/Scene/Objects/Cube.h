@@ -20,7 +20,7 @@ public:
 	std::vector<VertexIn>& GetVertices();
 
 private:
-	Vec3<float> position{ 0., 0., -5. };
+	Vec3<float> position{ 0., 0., 0. };
 	Vec3<float> rotation{ 0., 0., 0. };
 	Vec3<float> scale{ .5, .5, .5 };
 	Quaternion delta;
