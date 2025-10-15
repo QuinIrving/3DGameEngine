@@ -55,7 +55,6 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 			Vec4<float> pos1 = v1.GetPosition();
 			Vec4<float> pos2 = v2.GetPosition();
 			Vec4<float> pos3 = v3.GetPosition();
-			float t;
 
 			if (v1.IsNotInNearFrustum()) {
 				if (v2.IsNotInNearFrustum()) {
@@ -312,10 +311,10 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 	}
 
 	// now we have the bounding box of the triangle. We can go from top left to bottom right of the pixels to check which pixels to draw
-	int t = max(static_cast<int>(floorf(top)), 0);
-	int b = min(static_cast<int>(ceilf(bottom)), m_height - 1);
-	int l = max(static_cast<int>(floorf(left)), 0);
-	int r = min(static_cast<int>(ceilf(right)), m_width - 1);
+	int t = static_cast<int>(floorf(top));
+	int b = static_cast<int>(ceilf(bottom));
+	int l = static_cast<int>(floorf(left));
+	int r = static_cast<int>(ceilf(right));
 
 	// first calculate the edges of the triangle for the edge function.
 	float C0x = posA.y - posB.y; // B->A
@@ -349,11 +348,32 @@ void Graphics::RasterizeTriangle(const Triangle& tri) {
 	for (int y = t; y <= b; ++y) {
 		// need to reset to the left side of our edge function, but also incorporate the row we are now on.
 		int yDiff = (y - t);
+
+		if (y < 0) {
+			y = -1; // so continue will get to the correct value of 0;
+			continue;
+		}
+		else if (y >= m_height) {
+			break;
+		}
+		
 		e0 = edge0 + (yDiff * C0y);
 		e1 = edge1 + (yDiff * C1y);
 		e2 = edge2 + (yDiff * C2y);
 
 		for (int x = l; x <= r; ++x) {
+			if (x < 0) {
+				int diff = -x;
+				e0 += diff * C0x;
+				e1 += diff * C1x;
+				e2 += diff * C2x;
+				x = -1; // so continue will get to the correct value of 0;
+				continue;
+			}
+			else if (x >= m_width) {
+				break;
+			}
+
 			if ((e0 > 0 || e0 > -EPSILON && IsTopLeftEdge(posB, posA))
 				&& (e1 > 0 || e1 > -EPSILON && IsTopLeftEdge(posA, posC))
 				&& (e2 > 0 || e2 > -EPSILON && IsTopLeftEdge(posC, posB))) {

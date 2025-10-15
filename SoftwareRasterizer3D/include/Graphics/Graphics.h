@@ -38,7 +38,10 @@ public:
 	// This should also take in a VertexShader and FragmentShader on next refactor to allow it to be a "programmable" pipeline.
 	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
 
+public:
 	int testIndex = 0;
+	Camera camera = Camera();
+
 private:
 	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
 	void RasterizeTriangle(const Triangle& t);
@@ -51,7 +54,6 @@ private:
 	int m_width = 0;
 	int m_height = 0;
 
-	Camera camera = Camera();
 	Mat4<float> projectionMatrix;
 
 	// just for testing for now, will utilize shaders or something later on.

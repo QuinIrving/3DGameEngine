@@ -4,11 +4,12 @@
 #include <string>
 #include "Math/Mat4.h"
 #include "Math/Vec4.h"
+#include "Math/MatrixVectorOps.h"
 #include "Graphics/VertexIn.h"
 #include "Models/Triangle.h"
 #include "Scene/Objects/Cube.h"
-#include "Math/MatrixVectorOps.h"
 #include "Scene/Objects/Sphere.h"
+#include "Scene/Objects/Camera.h"
 #include <chrono>
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
@@ -46,8 +47,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.Translate(3, -2, -1.5);
 	c.Rotate(-61, -75, -45);
 	Sphere s = Sphere(1.f,12,24);
-	//s.Translate(0, 0, -8);
-	//s.Scale(2, 2, 2);
+	s.Translate(0, 0, -8);
+	s.Scale(2, 2, 2);
+
 	//---------------//
 
 
@@ -66,6 +68,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		std::chrono::duration<float> timeDiff = currentTime - timeSinceLastFrame;
 		timeSinceLastFrame = currentTime;
 		float deltaTime = timeDiff.count();
+		win.gameManager.UpdateDeltaTime(deltaTime);
 
 		elapsedTime += deltaTime;
 		frameCount++;
@@ -107,6 +110,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		float b = 187.f;
 		float a = 255.f;
 
+		float speed = 2.1f;
+
+		// CAMERA TEST:
+		if (win.kbd.IsKeyPressed('A')) {
+			win.gfx.camera.Translate(speed * deltaTime, 0, 0);
+		} else if (win.kbd.IsKeyPressed('D')) {
+			win.gfx.camera.Translate(-speed * deltaTime, 0, 0);
+		} else if (win.kbd.IsKeyPressed('W')) {
+			win.gfx.camera.Translate(0, -speed * deltaTime, 0);
+		} else if (win.kbd.IsKeyPressed('S')) {
+			win.gfx.camera.Translate(0, speed * deltaTime, 0);
+		}
+
 		// Render
 		win.gfx.SetupScreen();
 
@@ -121,14 +137,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		// cube
 		//float speed1 = -0.04 * deltaTime;
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		//c.Rotate(deltaTime, 0, 0);
-		c.Translate(0, 0, -0.1 * deltaTime);
+		c.Rotate(deltaTime, 0, 0);
+		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		//win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
-		//s.Rotate(-1 * deltaTime, 0.5 * deltaTime, 0);
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
+		s.Rotate(-1 * deltaTime, 0.5 * deltaTime, 0);
 
 		win.gfx.Render();
 		Sleep(1);	

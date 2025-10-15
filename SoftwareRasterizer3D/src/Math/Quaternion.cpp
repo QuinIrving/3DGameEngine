@@ -79,7 +79,7 @@ Quaternion& Quaternion::operator*=(const Quaternion& rhs) {
 	result.z = (delta.w * rhs.delta.z) + (rhs.delta.w * delta.z) + (delta.x * rhs.delta.y) - (delta.y * rhs.delta.x);
 	result.w = (delta.w * rhs.delta.w) - (delta.x * rhs.delta.x) - (delta.y * rhs.delta.y) - (delta.z * rhs.delta.z);
 
-	delta = result;
+	delta = result.GetNormalized();
 	return *this;
 }
 

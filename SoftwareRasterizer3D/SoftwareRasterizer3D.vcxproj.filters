@@ -69,6 +69,12 @@
     <ClCompile Include="src\Scene\Objects\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Core\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BindingTable\BindingTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Window\Window.h">
@@ -164,5 +170,20 @@
     <ClInclude Include="include\Models\IcosphereMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\Core\GameActions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BindingTable\BindingTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Core\GameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Core\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="resources\app.manifest" />
   </ItemGroup>
 </Project>

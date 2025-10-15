@@ -34,6 +34,7 @@ void VertexOut::SetColour(int r, int g, int b, int a) {
 }
 
 bool VertexOut::IsInFrustum() const {
+	// Annoying bug in this where if vertices are out of two different planes it will be culled, even though the triangle itself will be partially within the frustum.
 	return (position.x >= -position.w && position.x <= position.w)
 		&& (position.y >= -position.w && position.y <= position.w)
 		&& (position.z >= 0 && position.z <= position.w); // since we map z to 0 to 1.

@@ -1,17 +1,20 @@
 #pragma once
 #define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include "Input/InputManager.h"
 #include "Input/Mouse.h"
 #include "Input/Keyboard.h"
 #include "Graphics/Graphics.h"
+#include "Game/Core/GameManager.h"
+#include "BindingTable/GameBindingTable.h"
 
 class Window {
 public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	Window(PCWSTR name, int w, int h) 
-		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard()), width(w), height(h), gfx(Graphics())
+		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard()), width(w), height(h), gfx(Graphics()), gameBindingTable(GameBindingTable()), gameManager(GameManager::GetHandle(gameBindingTable))
 	{};
 
 	BOOL Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle = 0,
@@ -38,6 +41,10 @@ public:
 	Mouse mouse;
 	Keyboard kbd;
 	Graphics gfx;
+	GameBindingTable gameBindingTable;
+	// other binding tables should also be created here
+
+	GameManager& gameManager;
 
 private:
 	PCWSTR className;

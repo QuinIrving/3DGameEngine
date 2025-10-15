@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{ba438a6f-a1bb-42f6-9dcf-a61f64c3c483}</ProjectGuid>
     <RootNamespace>SoftwareRasterizer3D</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <ProjectName>3DGameEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -114,6 +114,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)resources\app.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -134,9 +137,14 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)resources\app.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BindingTable\BindingTable.cpp" />
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
+    <ClCompile Include="src\Game\Core\GameManager.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
     <ClCompile Include="src\Graphics\VertexPostClip.cpp" />
@@ -157,12 +165,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BindingTable\BaseBindingTable.h" />
+    <ClInclude Include="include\BindingTable\BindingTable.h" />
     <ClInclude Include="include\BindingTable\GameBindingTable.h" />
+    <ClInclude Include="include\Game\Core\GameManager.h" />
+    <ClInclude Include="include\Game\Core\GameState.h" />
     <ClInclude Include="include\Graphics\FragmentIn.h" />
     <ClInclude Include="include\Graphics\FragmentOut.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
     <ClInclude Include="include\Graphics\VertexOut.h" />
     <ClInclude Include="include\Graphics\VertexPostClip.h" />
+    <ClInclude Include="include\Game\Core\GameActions.h" />
     <ClInclude Include="include\Input\InputEvent.h" />
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />
@@ -187,6 +199,9 @@
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
     <ClInclude Include="include\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="resources\app.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

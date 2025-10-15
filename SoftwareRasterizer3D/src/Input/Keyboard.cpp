@@ -14,6 +14,7 @@ void Keyboard::OnKeyDown(uint8_t key) {
 	}
 
 	keyStates.set(key, true);
+	keysHeldDown.insert(key);
 }
 
 void Keyboard::OnKeyUp(uint8_t key) {
@@ -22,6 +23,7 @@ void Keyboard::OnKeyUp(uint8_t key) {
 	}
 
 	keyStates.set(key, false);
+	keysHeldDown.erase(key);
 }
 
 void Keyboard::ClearTextBuffer() {

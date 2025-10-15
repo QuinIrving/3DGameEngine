@@ -1,9 +1,16 @@
 #pragma once
 #include <utility>
+#include <set>
 #include "InputManager.h"
 
 class Mouse {
 public:
+	enum class MouseButton {
+		LMB,
+		MMB,
+		RMB
+	};
+
 	Mouse() = default;
 
 	int GetXPos() const;
@@ -30,14 +37,19 @@ public:
 	void SetAccumulator(int);
 	int AddAccumulator(int);
 
+	std::set<MouseButton> GetCurrentlyHeldMouseButtons() { return heldMouseButtons; }
+
 private:
 	bool lmbIsDown = false;
 	bool rmbIsDown = false;
 	bool mmbIsDown = false;
 
+	std::set<MouseButton> heldMouseButtons;
+
 	int mwheelAccumulator = 0;
-	int xPos = 0;
-	int yPos = 0;
+	int xPos = 0; // in pixels not DIPs
+	int yPos = 0; // ^
+	// https://learn.microsoft.com/en-us/windows/win32/learnwin32/dpi-and-device-independent-pixels
 };
 
 /*

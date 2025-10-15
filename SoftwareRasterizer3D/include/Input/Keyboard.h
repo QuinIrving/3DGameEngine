@@ -1,6 +1,7 @@
 #pragma once
 #include <bitset>
 #include <queue>
+#include <set>
 #include "InputManager.h"
 
 class Keyboard {
@@ -17,9 +18,12 @@ public:
 	void AppendText(wchar_t c);
 	wchar_t PopTextChar();
 	bool IsTextEmpty() const;
+	std::set<char> GetKeysHeldDown() const { return keysHeldDown; }
+
 	
 private:
 	std::bitset<256> keyStates;
+	std::set<char> keysHeldDown;
 	std::queue<wchar_t> textBuffer;
 	static constexpr int MAX_BUFFER = 128;
 };
