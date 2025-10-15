@@ -36,7 +36,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 		VertexOut& v3 = clipVertices[indices[i + 2]];
 
 		// triangle isn't within our view frustum at all, just cull the triangle completely
-		if (!v1.IsInFrustum() && !v2.IsInFrustum() && !v3.IsInFrustum()) {
+		if (!VertexOut::IsTriangleInFrustum(v1, v2, v3)) {
 			continue;
 		}
 

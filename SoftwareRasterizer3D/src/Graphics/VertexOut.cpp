@@ -33,11 +33,33 @@ void VertexOut::SetColour(int r, int g, int b, int a) {
 	colour.w = a / 255.f;
 }
 
-bool VertexOut::IsInFrustum() const {
-	// Annoying bug in this where if vertices are out of two different planes it will be culled, even though the triangle itself will be partially within the frustum.
-	return (position.x >= -position.w && position.x <= position.w)
-		&& (position.y >= -position.w && position.y <= position.w)
-		&& (position.z >= 0 && position.z <= position.w); // since we map z to 0 to 1.
+bool VertexOut::IsTriangleInFrustum(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3) {
+	const Vec4<float>& pos1 = v1.GetPosition();
+	const Vec4<float>& pos2 = v2.GetPosition();
+	const Vec4<float>& pos3 = v3.GetPosition();
+
+	// check against all planes.
+	bool xPlanes = v1.IsInFrustumPlane(TestPlane::X) || v2.IsInFrustumPlane(TestPlane::X) || v3.IsInFrustumPlane(TestPlane::X);
+	bool yPlanes = v1.IsInFrustumPlane(TestPlane::Y) || v2.IsInFrustumPlane(TestPlane::Y) || v3.IsInFrustumPlane(TestPlane::Y);
+	bool zPlanes = v1.IsInFrustumPlane(TestPlane::Z) || v2.IsInFrustumPlane(TestPlane::Z) || v3.IsInFrustumPlane(TestPlane::Z);
+
+	return xPlanes && yPlanes && zPlanes;
+}
+
+bool VertexOut::IsInFrustumPlane(TestPlane plane) const {
+	switch (plane) {
+	case TestPlane::X:
+		return position.x >= -position.w && position.x <= position.w;
+		break;
+	case TestPlane::Y:
+		return position.y >= -position.w && position.y <= position.w;
+		break;
+	case TestPlane::Z:
+		return position.z >= 0 && position.z <= position.w;
+		break;
+	default:
+		return false;
+	}
 }
 
 bool VertexOut::IsNotInNearFrustum() const {

@@ -117,9 +117,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			win.gfx.camera.Translate(speed * deltaTime, 0, 0);
 		} else if (win.kbd.IsKeyPressed('D')) {
 			win.gfx.camera.Translate(-speed * deltaTime, 0, 0);
-		} else if (win.kbd.IsKeyPressed('W')) {
+		} else if (win.kbd.IsKeyPressed('Q')) {
+			win.gfx.camera.Translate(0, 0, -speed * deltaTime);
+		} else if (win.kbd.IsKeyPressed('E')) {
+			win.gfx.camera.Translate(0, 0, speed * deltaTime);
+		}
+		else if (win.kbd.IsKeyPressed('W')) {
 			win.gfx.camera.Translate(0, -speed * deltaTime, 0);
-		} else if (win.kbd.IsKeyPressed('S')) {
+		}
+		else if (win.kbd.IsKeyPressed('S')) {
 			win.gfx.camera.Translate(0, speed * deltaTime, 0);
 		}
 

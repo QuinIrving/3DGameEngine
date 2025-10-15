@@ -7,6 +7,13 @@
 
 class VertexOut {
 public:
+	enum class TestPlane {
+		X,
+		Y,
+		Z
+	};
+
+public:
 	VertexOut() = default;
 	VertexOut(Vec4<float> pos) : position(pos) {}
 	//VertexOut(Vec3<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
@@ -22,7 +29,8 @@ public:
 	const Vec3<float>& CalculateNormal();
 	void SetColour(int r, int g, int b, int a = 255);
 
-	bool IsInFrustum() const;
+	static bool IsTriangleInFrustum(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
+	bool IsInFrustumPlane(TestPlane plane) const;
 	bool IsNotInNearFrustum() const;
 	VertexPostClip PerspectiveDivide() const;
 
