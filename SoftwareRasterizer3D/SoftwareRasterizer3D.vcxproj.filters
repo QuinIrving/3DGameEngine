@@ -75,6 +75,9 @@
     <ClCompile Include="src\BindingTable\BindingTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Core\Events\CameraRotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Window\Window.h">
@@ -170,7 +173,7 @@
     <ClInclude Include="include\Models\IcosphereMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\Core\GameActions.h">
+    <ClInclude Include="include\Game\Core\Actions\GameActions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\BindingTable\BindingTable.h">
@@ -180,6 +183,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\Core\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Core\Events\GameEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Core\Actions\IGameAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Core\Events\CameraRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

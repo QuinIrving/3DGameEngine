@@ -11,6 +11,8 @@
 #include "Scene/Objects/Sphere.h"
 #include "Scene/Objects/Camera.h"
 #include <chrono>
+#include "Game/Core/Events/GameEvent.h"
+#include "Game/Core/Events/CameraRotate.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -100,6 +102,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		if (!isRunning) {
 			break;
+		}
+
+		while (!win.IsEventBufferEmpty()) {
+			auto gOpt = win.PopEventBuffer();
+			GameEvent& g = **gOpt; //optional -> unique_ptr -> GameEvent reference.
+
+			switch (g.GetType()) {
+				case GameEvent::Type::CameraRotate: 
+				{
+					CameraRotate& cr = static_cast<CameraRotate&>(g);
+					OutputDebugString(std::format(L"From Event Buffer. Yaw: {}, Pitch: {}\n", cr.GetYaw(), cr.GetPitch()).c_str());
+				}
+
+			}
+
 		}
 
 		// process

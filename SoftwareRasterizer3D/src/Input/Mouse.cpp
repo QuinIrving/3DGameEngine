@@ -50,15 +50,15 @@ bool Mouse::IsMMBDown() const {
 	return mmbIsDown;
 }
 
-void Mouse::UpdateLMBDown(InputStatus newState) {
-	lmbIsDown = (bool) newState;
+void Mouse::UpdateLMBDown(InputState newState) {
+	lmbIsDown = newState;
 }
 
-void Mouse::UpdateRMBDown(InputStatus newState) {
+void Mouse::UpdateRMBDown(InputState newState) {
 	rmbIsDown = (bool) newState;
 }
 
-void Mouse::UpdateMMBDown(InputStatus newState) {
+void Mouse::UpdateMMBDown(InputState newState) {
 	mmbIsDown = (bool) newState;
 }
 

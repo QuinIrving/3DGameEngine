@@ -17,7 +17,7 @@ public:
 	};
 
 	InputEvent() = default;
-
+	// maybe switch the bool is pressed to our input of Up down state, will see if it's worth.
 	InputEvent(EventType type, char key, float deltaTime, std::pair<int, int> mousePos, bool isPressed = false, int wheelDelta = 0)
 		: type(type), key(key), deltaTime(deltaTime), mousePos(mousePos), isPressed(isPressed), wheelDelta(wheelDelta) {}
 

@@ -61,7 +61,7 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		// here before the updates of keyboard, is when I want to do my call to GameManager
 		// game state might need to contain the delta time.
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::KEYBOARD, key, 0, mouse.GetPos(), true, 0), gameManager.GetGameState(), kbd);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::KEYBOARD, key, 0, mouse.GetPos(), InputState(InputState::InputStatus::DOWN), 0), gameManager.GetGameState(), eventBuffer, kbd);
 
 		kbd.OnKeyDown(static_cast<uint8_t>(wParam));
 		break;
@@ -70,7 +70,7 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	case WM_KEYUP:
 	{
 		char key = static_cast<char>(wParam);
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::KEYBOARD, key, 0, mouse.GetPos(), false, 0), gameManager.GetGameState(), kbd);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::KEYBOARD, key, 0, mouse.GetPos(), InputState(InputState::InputStatus::UP), 0), gameManager.GetGameState(), eventBuffer, kbd);
 
 		kbd.OnKeyUp(static_cast<uint8_t>(wParam));
 		break;
@@ -84,28 +84,28 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	*******            Mouse    Messages            *****
 	****************************************************/
 	case WM_LBUTTONDOWN:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::LMB, gameManager.GetDeltaTime(), mouse.GetPos(), true, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateLMBDown(InputStatus::DOWN);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::LMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::DOWN), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateLMBDown(InputState(InputState::InputStatus::DOWN));
 		break;
 	case WM_LBUTTONUP:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::LMB, gameManager.GetDeltaTime(), mouse.GetPos(), false, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateLMBDown(InputStatus::UP);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::LMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::UP), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateLMBDown(InputState(InputState::InputStatus::UP));
 		break;
 	case WM_RBUTTONDOWN:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::RMB, (char)InputEvent::EventType::RMB, gameManager.GetDeltaTime(), mouse.GetPos(), true, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateRMBDown(InputStatus::DOWN);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::RMB, (char)InputEvent::EventType::RMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::DOWN), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateRMBDown(InputState(InputState::InputStatus::DOWN));
 		break;
 	case WM_RBUTTONUP:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::RMB, (char)InputEvent::EventType::RMB, gameManager.GetDeltaTime(), mouse.GetPos(), false, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateRMBDown(InputStatus::UP);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::RMB, (char)InputEvent::EventType::RMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::UP), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateRMBDown(InputState(InputState::InputStatus::UP));
 		break;
 	case WM_MBUTTONDOWN:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::MMB, gameManager.GetDeltaTime(), mouse.GetPos(), true, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateMMBDown(InputStatus::DOWN);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::MMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::DOWN), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateMMBDown(InputState(InputState::InputStatus::DOWN));
 		break;
 	case WM_MBUTTONUP:
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::MMB, gameManager.GetDeltaTime(), mouse.GetPos(), false, 0), gameManager.GetGameState(), kbd);
-		mouse.UpdateMMBDown(InputStatus::UP);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::LMB, (char)InputEvent::EventType::MMB, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::UP), 0), gameManager.GetGameState(), eventBuffer, kbd);
+		mouse.UpdateMMBDown(InputState(InputState::InputStatus::UP));
 		break;
 
 	case WM_MOUSEMOVE: {
@@ -113,7 +113,7 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		int yPos = GET_Y_LPARAM(lParam);
 
 		// need to add difference between current and new as well in here
-		gameManager.HandleInput(InputEvent(InputEvent::EventType::MOUSEMOVE, (char)InputEvent::EventType::MOUSEMOVE, gameManager.GetDeltaTime(), xPos, yPos, false, 0), gameManager.GetGameState(), kbd);
+		gameManager.HandleInput(InputEvent(InputEvent::EventType::MOUSEMOVE, (char)InputEvent::EventType::MOUSEMOVE, gameManager.GetDeltaTime(), xPos, yPos, InputState(InputState::InputStatus::DOWN), 0), gameManager.GetGameState(), eventBuffer, kbd);
 		mouse.SetPos(xPos, yPos);
 		break;
 	}
@@ -127,7 +127,7 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		int actions = acc / 120;
 		acc %= 120;
 
-		gameManager.HandleInput(InputEvent(e, (char)e, gameManager.GetDeltaTime(), mouse.GetPos(), false, actions), gameManager.GetGameState(), kbd);
+		gameManager.HandleInput(InputEvent(e, (char)e, gameManager.GetDeltaTime(), mouse.GetPos(), InputState(InputState::InputStatus::DOWN), actions), gameManager.GetGameState(), eventBuffer, kbd);
 		mouse.SetAccumulator(acc);
 		break;
 	}
@@ -165,4 +165,19 @@ LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 void Window::SetClientSize(int width, int height) {
 	client_w = width;
 	client_h = height;
+}
+
+bool Window::IsEventBufferEmpty() const {
+	return eventBuffer.size() == 0;
+}
+
+std::optional<std::unique_ptr<GameEvent>> Window::PopEventBuffer() {
+	if (IsEventBufferEmpty()) {
+		return std::nullopt;
+	}
+
+	std::unique_ptr<GameEvent> e = std::move(eventBuffer.front());
+	eventBuffer.pop();
+	
+	return e;
 }

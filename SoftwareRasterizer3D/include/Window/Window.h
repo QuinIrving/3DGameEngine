@@ -14,7 +14,7 @@ public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	Window(PCWSTR name, int w, int h) 
-		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard()), width(w), height(h), gfx(Graphics()), gameBindingTable(GameBindingTable()), gameManager(GameManager::GetHandle(gameBindingTable))
+		: hwnd(NULL), className(name), mouse(Mouse()), kbd(Keyboard()), width(w), height(h), gfx(Graphics()), eventBuffer(std::queue<std::unique_ptr<GameEvent>>()), gameBindingTable(GameBindingTable()), gameManager(GameManager::GetHandle(gameBindingTable))
 	{};
 
 	BOOL Create(PCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle = 0,
@@ -37,10 +37,14 @@ public:
 
 	void SetClientSize(int width, int height);
 
+	bool IsEventBufferEmpty() const;
+	std::optional<std::unique_ptr<GameEvent>> PopEventBuffer();
+
 public:
 	Mouse mouse;
 	Keyboard kbd;
 	Graphics gfx;
+	std::queue<std::unique_ptr<GameEvent>> eventBuffer;
 	GameBindingTable gameBindingTable;
 	// other binding tables should also be created here
 

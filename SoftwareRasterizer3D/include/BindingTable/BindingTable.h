@@ -4,6 +4,9 @@
 #include <functional>
 #include "Input/InputEvent.h"
 #include "Game/Core/GameState.h"
+#include "Game/Core/Actions/IGameAction.h"
+#include <memory>
+#include <queue>
 
 class BindingTable {
 	/*
@@ -23,17 +26,17 @@ class BindingTable {
 public:
 	BindingTable() = default; // need to link to some initialization that maps our keys and mouse from default (and saves the re-mapped versions? with a default provided still)
 
-	void CallKeyboardAction(const InputEvent& e, GameState& state, char key); // just being explicit, not technically needed lol.
-	void CallMouseAction(const InputEvent& e, GameState& state, InputEvent::EventType type); // just being explicit like key, eventype isn't technically needed as e contains it.
+	void CallKeyboardAction(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer, char key); // just being explicit, not technically needed lol.
+	void CallMouseAction(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer, InputEvent::EventType type); // just being explicit like key, eventype isn't technically needed as e contains it.
 
 protected:
 	// may want 1 map for keyboard stuff, a different map for mouse stuff.
-	std::unordered_map<char, std::function<void(const InputEvent& e, GameState& state)>> keyboardActionMap;
+	std::unordered_map<char, std::shared_ptr<IGameAction>> keyboardActionMap;
 
 	// mwheelup vs mwheel down? not sure if it matters, seems to be different in most game mappings
 	// LMB, RMB, MMB, MouseMove. MouseMove on held? not sure how we are going to handle all of this, maybe don't care and handle in function
 	//I guess mouse move will not be re-bindable, as I will only use it for looking around game area, or adjusting objects/blocks?
-	std::unordered_map<InputEvent::EventType, std::function<void(const InputEvent& e, GameState& state)>> mouseActionMap;
+	std::unordered_map<InputEvent::EventType, std::shared_ptr<IGameAction>> mouseActionMap;
 
 	// can either update state or trigger events or both.
 };

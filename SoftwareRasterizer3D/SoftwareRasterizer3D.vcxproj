@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="src\BindingTable\BindingTable.cpp" />
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
+    <ClCompile Include="src\Game\Core\Events\CameraRotate.cpp" />
     <ClCompile Include="src\Game\Core\GameManager.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
@@ -167,6 +168,9 @@
     <ClInclude Include="include\BindingTable\BaseBindingTable.h" />
     <ClInclude Include="include\BindingTable\BindingTable.h" />
     <ClInclude Include="include\BindingTable\GameBindingTable.h" />
+    <ClInclude Include="include\Game\Core\Events\GameEvent.h" />
+    <ClInclude Include="include\Game\Core\Events\CameraRotate.h" />
+    <ClInclude Include="include\Game\Core\Actions\IGameAction.h" />
     <ClInclude Include="include\Game\Core\GameManager.h" />
     <ClInclude Include="include\Game\Core\GameState.h" />
     <ClInclude Include="include\Graphics\FragmentIn.h" />
@@ -174,7 +178,7 @@
     <ClInclude Include="include\Graphics\Graphics.h" />
     <ClInclude Include="include\Graphics\VertexOut.h" />
     <ClInclude Include="include\Graphics\VertexPostClip.h" />
-    <ClInclude Include="include\Game\Core\GameActions.h" />
+    <ClInclude Include="include\Game\Core\Actions\GameActions.h" />
     <ClInclude Include="include\Input\InputEvent.h" />
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />

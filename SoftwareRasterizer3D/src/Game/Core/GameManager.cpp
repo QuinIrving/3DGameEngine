@@ -5,13 +5,13 @@ GameManager& GameManager::GetHandle(BindingTable& inputMap) {
 	return g;
 }
 
-void GameManager::HandleInput(const InputEvent& e, GameState& state, Keyboard& kbd) {
+void GameManager::HandleInput(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer, Keyboard& kbd) {
 	if (e.type == InputEvent::EventType::INVALID) {
 		return;
 	}
 
 	if (e.type == InputEvent::EventType::KEYBOARD) {
-		inputMap.CallKeyboardAction(e, state, e.key);
+		inputMap.CallKeyboardAction(e, state, eventBuffer, e.key);
 
 		// if it's a specific type of action, we can also clear the text buffer now, either pass in the function to CallKeyboard Action or do a check if it's
 		// an action that will do the specific thing <- probably best way.
@@ -20,5 +20,5 @@ void GameManager::HandleInput(const InputEvent& e, GameState& state, Keyboard& k
 		return;
 	}
 
-	inputMap.CallMouseAction(e, state, e.type);
+	inputMap.CallMouseAction(e, state, eventBuffer, e.type);
 }

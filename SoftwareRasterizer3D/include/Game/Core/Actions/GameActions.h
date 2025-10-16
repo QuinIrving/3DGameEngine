@@ -1,9 +1,13 @@
 #pragma once
+#include "IGameAction.h"
 #include "Input/InputEvent.h"
-#include "GameState.h"
+#include "Game/Core/GameState.h"
+#include "Game/Core/Events/GameEvent.h"
+#include "Game/Core/Events/CameraRotate.h"
 #define WIN32_LEAN_AND_MEAN
 #include "Windows.h"
 #include <format>
+#include <queue>
 
 /*
 onMouseMove, need to update camera via new positions in x/y to be the angles for rotation of the camera.
@@ -19,6 +23,32 @@ to the game for processing in the logic section of the game loop before renderin
 
 */
 
+class MouseMoveAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		// is a release commmand, don't care.
+		if (!e.isPressed) {
+			return;
+		}
+		
+		eventBuffer.push(std::make_unique<CameraRotate>(1.5f, 2.5f));
+		//OutputDebugString(L"Test Mouse Move\n");
+	}
+};
+
+class MouseClickAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		// is a release commmand, don't care.
+		if (!e.isPressed) {
+			return;
+		}
+
+		OutputDebugString(std::format(L"Test Delta Time: {}\n", e.deltaTime).c_str());
+	}
+};
+
+/*
 void MouseMove(const InputEvent& e, GameState& state) {
 	// update camera?
 	// take x and y coords and utilize the difference from current state object to get then apply rotation as necessary to the camera.
@@ -27,4 +57,4 @@ void MouseMove(const InputEvent& e, GameState& state) {
 
 void TestThing(const InputEvent& e, GameState& state) {
 	OutputDebugString(std::format(L"Test Delta Time: {}\n", e.deltaTime).c_str());
-}
+}*/

@@ -29,9 +29,9 @@ public:
 	bool IsRMBDown() const;
 	bool IsMMBDown() const;
 
-	void UpdateLMBDown(InputStatus);
-	void UpdateRMBDown(InputStatus);
-	void UpdateMMBDown(InputStatus);
+	void UpdateLMBDown(InputState);
+	void UpdateRMBDown(InputState);
+	void UpdateMMBDown(InputState);
 
 	int GetMWheelAccumulator() const;
 	void SetAccumulator(int);
