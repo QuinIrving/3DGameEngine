@@ -1,11 +1,13 @@
 #pragma once
+#include "Vec3.h"
 #include "Vec4.h"
 #include "Mat4.h"
+#include "Quaternion.h"
 #include <cmath>
 #include "GeneralMath.h"
 
 template <typename T>
-Vec4<T> Vec4<T>::operator*(const Mat4<T>& rhs) const {
+inline Vec4<T> Vec4<T>::operator*(const Mat4<T>& rhs) const {
 	T newX = DotProduct(Vec4<T>(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0]));
 	T newY = DotProduct(Vec4<T>(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1]));
 	T newZ = DotProduct(Vec4<T>(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2]));
@@ -15,7 +17,7 @@ Vec4<T> Vec4<T>::operator*(const Mat4<T>& rhs) const {
 }
 
 template <typename T>
-Vec4<T>& Vec4<T>::operator*=(const Mat4<T>& rhs) {
+inline Vec4<T>& Vec4<T>::operator*=(const Mat4<T>& rhs) {
 	T newX = DotProduct(Vec4<T>(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0]));
 	T newY = DotProduct(Vec4<T>(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1]));
 	T newZ = DotProduct(Vec4<T>(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2]));
@@ -30,7 +32,7 @@ Vec4<T>& Vec4<T>::operator*=(const Mat4<T>& rhs) {
 }
 
 template <typename T>
-Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) const {
+inline Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) const {
 	std::array<T, 16> multipliedData;
 
 	for (int r = 0; r < 4; ++r) {
@@ -44,7 +46,7 @@ Mat4<T> Mat4<T>::operator*(const Mat4<T>& rhs) const {
 }
 
 template <typename T>
-Mat4<T>& Mat4<T>::operator*=(const Mat4<T>& rhs) {
+inline Mat4<T>& Mat4<T>::operator*=(const Mat4<T>& rhs) {
 	std::array<T, 16> multipliedData;
 
 	for (int r = 0; r < 4; ++r) {
@@ -178,4 +180,39 @@ inline Mat4<T> Mat4<T>::Scale(Vec4<T> v) {
 	m[1][1] = v.y;
 	m[2][2] = v.z;
 	return m;
+}
+
+template <typename T>
+inline Vec3<T> Vec3<T>::operator*(const Quaternion& q) const {
+	Vec4<float> v = *this;
+	v.w = 0;
+	Quaternion vQuat = Quaternion(v);
+	Quaternion result = q * vQuat * ~q;
+	const Vec4<float>& delta = result.GetDelta();
+	return Vec3<float>(delta.x, delta.y, delta.z);
+}
+
+template <typename T>
+inline Vec3<T>& Vec3<T>::operator*=(const Quaternion& q) {
+	Vec4<float> v = *this;
+	v.w = 0;
+	Quaternion vQuat = Quaternion(v);
+	*this = Vec3<float>((q * vQuat * ~q).GetDelta());
+	return *this;
+}
+
+template <typename T>
+inline Vec4<T> Vec4<T>::operator*(const Quaternion& q) const {
+
+	Quaternion vQuat = Quaternion(Vec4<float>(this->x, this->y, this->z, 0.f));
+	Quaternion result = q * vQuat * ~q;
+	const Vec4<float>& delta = result.GetDelta();
+	return Vec4<float>(delta.x, delta.y, delta.z, 1.f);
+}
+
+template <typename T>
+inline Vec4<T>& Vec4<T>::operator*=(const Quaternion& q) {
+	Quaternion vQuat = Quaternion(Vec4<float>(this->x, this->y, this->z, 0.f));
+	this = (q * vQuat * ~q).GetDelta();
+	return *this;
 }

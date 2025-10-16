@@ -44,8 +44,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	float size = 1.f;
 	Cube c = Cube(size);
 	//c.Translate(0, 2, -1.5); // x translate as -15 is good for checking clipping capabilities.
-	c.Translate(3, -2, -1.5);
-	c.Rotate(-61, -75, -45);
+	c.Translate(3, -5, -1.5);
+	//c.Rotate(-61, -75, -45);
+	c.Scale(25, 1, 25);
 	Sphere s = Sphere(1.f,12,24);
 	s.Translate(0, 0, -8);
 	s.Scale(2, 2, 2);
@@ -114,19 +115,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// CAMERA TEST:
 		if (win.kbd.IsKeyPressed('A')) {
-			win.gfx.camera.Translate(speed * deltaTime, 0, 0);
-		} else if (win.kbd.IsKeyPressed('D')) {
 			win.gfx.camera.Translate(-speed * deltaTime, 0, 0);
-		} else if (win.kbd.IsKeyPressed('Q')) {
+		} else if (win.kbd.IsKeyPressed('D')) {
+			win.gfx.camera.Translate(speed * deltaTime, 0, 0);
+		} else if (win.kbd.IsKeyPressed('W')) {
 			win.gfx.camera.Translate(0, 0, -speed * deltaTime);
-		} else if (win.kbd.IsKeyPressed('E')) {
+		} else if (win.kbd.IsKeyPressed('S')) {
 			win.gfx.camera.Translate(0, 0, speed * deltaTime);
 		}
-		else if (win.kbd.IsKeyPressed('W')) {
+		else if (win.kbd.IsKeyPressed('Q')) {
+			win.gfx.camera.Translate(0, speed * deltaTime, 0);
+		}
+		else if (win.kbd.IsKeyPressed('E')) {
 			win.gfx.camera.Translate(0, -speed * deltaTime, 0);
 		}
-		else if (win.kbd.IsKeyPressed('S')) {
-			win.gfx.camera.Translate(0, speed * deltaTime, 0);
+
+		if (win.kbd.IsKeyPressed('U')) {
+			win.gfx.camera.RotateXY(-0.45f * deltaTime, 0.f);
+			//win.gfx.camera.Translate(0, speed * deltaTime, 0);
+		}
+		else if (win.kbd.IsKeyPressed('J')) {
+			win.gfx.camera.RotateXY(0.45f * deltaTime, 0.f);
+			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
+		}
+		else if (win.kbd.IsKeyPressed('K')) {
+			win.gfx.camera.RotateXY(0.f, -0.45f * deltaTime);
+			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
+		}
+		else if (win.kbd.IsKeyPressed('L')) {
+			win.gfx.camera.RotateXY(0.f, 0.45f * deltaTime);
+			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
 		}
 
 		// Render
@@ -143,7 +161,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		// cube
 		//float speed1 = -0.04 * deltaTime;
 		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
-		c.Rotate(deltaTime, 0, 0);
+		//c.Rotate(deltaTime, 0, 0);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 

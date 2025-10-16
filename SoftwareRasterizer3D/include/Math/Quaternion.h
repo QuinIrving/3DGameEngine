@@ -7,9 +7,9 @@ class Quaternion {
 public:
 	// we distinguish our quaternion as x,y,z,w, but our w acts like the standard (even though it's at the bottom)
 	Quaternion() : delta(Vec4<float>(0.f, 0.f, 0.f, 1.f)) {};
-	Quaternion(float x, float y, float z, float w) : delta(Vec4<float>(x, y, z, w).GetNormalized()) {};
-	Quaternion(float real, const Vec3<float>& vector) : delta(Vec4<float>(vector.x, vector.y, vector.z, real).GetNormalized()) {};
-	Quaternion(const Vec4<float>& delta) : delta(delta.GetNormalized()) {};
+	Quaternion(float x, float y, float z, float w) : delta(Vec4<float>(x, y, z, w)) {};
+	Quaternion(float real, const Vec3<float>& vector) : delta(Vec4<float>(vector.x, vector.y, vector.z, real)) {};
+	Quaternion(const Vec4<float>& delta) : delta(delta) {};
 	Quaternion(const Vec3<float>& axis, float angle); // axis angle
 	Quaternion(float rotX, float rotY, float rotZ); // euler angles
 	Quaternion(const Mat4<float>& rotMat); // rot mat4
@@ -31,6 +31,8 @@ public:
 	// Quaternion Conjugation in place.
 	Quaternion& Conjugate();
 
+	Vec4<float> GetDelta() { return delta; };
+
 	Mat4<float> GetRotationMatrix() const;
 
 	// Quaternion multiply (Hamilton Product)
@@ -40,6 +42,8 @@ public:
 	Quaternion& operator*=(const Vec4<float>& rhs);
 	Quaternion operator*(const Vec3<float>& rhs) const; // transform to Vec4 with w = 0.
 	Quaternion& operator*=(const Vec3<float>& rhs);*/
+
+	void Normalize();
 
 private:
 	Vec4<float> delta; // x, y, z are vector components

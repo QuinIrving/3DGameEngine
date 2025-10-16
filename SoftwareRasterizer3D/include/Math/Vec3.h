@@ -1,6 +1,8 @@
 #pragma once
 #include <cmath>
 
+class Quaternion;
+
 template <typename T>
 class Vec4;
 
@@ -24,6 +26,9 @@ public:
 	Vec3<T>& operator*=(const T scalar);
 	Vec3<T>& operator/=(const T scalar);
 
+	Vec3<T> operator*(const Quaternion& q) const;
+	Vec3<T>& operator*=(const Quaternion& q);
+
 	// Equality, check if all element's are equal
 	bool operator==(const Vec3<T>& rhs) const;
 	bool operator!=(const Vec3<T>& rhs) const;
@@ -35,6 +40,7 @@ public:
 	constexpr static Vec3<T> CrossProduct(const Vec3<T>& lhs, const Vec3<T>& rhs);
 
 	Vec3<T> GetNormalized() const;
+	Vec3<T>& Normalize();
 	T GetMagnitude() const;
 	T GetMagnitudeSquared() const;
 
@@ -192,6 +198,22 @@ Vec3<T> Vec3<T>::GetNormalized() const {
 	T newZ = z / mag;
 
 	return Vec3<T>(newX, newY, newZ);
+}
+
+template <typename T>
+Vec3<T>& Vec3<T>::Normalize()  {
+	T mag = this->GetMagnitude();
+
+	if (mag == 0) {
+		// probably should do some exception here.
+		return *this;
+	}
+
+	x /= mag;
+	y /= mag;
+	z /= mag;
+
+	return *this;
 }
 
 template <typename T>

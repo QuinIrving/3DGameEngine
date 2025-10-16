@@ -2,7 +2,14 @@
 
 // we distinguish our quaternion as x,y,z,w, but our w acts like the standard (even though it's at the bottom)
 Quaternion::Quaternion(const Vec3<float>& axis, float angle) { // axis angle
-	// bypass for now.
+	Vec3<float> axisNormalized = axis.GetNormalized();
+	float s = sinf(angle * 0.5f);
+
+	delta = Vec4<float>();
+	delta.x = axisNormalized.x * s;
+	delta.y = axisNormalized.y * s;
+	delta.z = axisNormalized.z * s;
+	delta.w = cosf(angle * 0.5f);
 }
 Quaternion::Quaternion(float rotX, float rotY, float rotZ) { // euler angles
 	// q = qx * qy * qz.
@@ -24,7 +31,7 @@ Quaternion::Quaternion(float rotX, float rotY, float rotZ) { // euler angles
 	float z = (cosX * cosY * sinZ) - (sinX * sinY * cosZ);
 	float w = (cosX * cosY * cosZ) + (sinX * sinY * sinZ);
 
-	delta = Vec4<float>(x, y, z, w).GetNormalized();
+	delta = Vec4<float>(x, y, z, w);
 }
 
 Quaternion::Quaternion(const Mat4<float>& rotMat) { // rot mat4
@@ -69,7 +76,7 @@ Quaternion Quaternion::operator*(const Quaternion& rhs) const { // rotation comp
 	result.z = (delta.w * rhs.delta.z) + (rhs.delta.w * delta.z) + (delta.x * rhs.delta.y) - (delta.y * rhs.delta.x);
 	result.w = (delta.w * rhs.delta.w) - (delta.x * rhs.delta.x) - (delta.y * rhs.delta.y) - (delta.z * rhs.delta.z);
 
-	return Quaternion(result); // result already gets normalized in constructor.
+	return Quaternion(result);
 }
 
 Quaternion& Quaternion::operator*=(const Quaternion& rhs) {
@@ -79,7 +86,7 @@ Quaternion& Quaternion::operator*=(const Quaternion& rhs) {
 	result.z = (delta.w * rhs.delta.z) + (rhs.delta.w * delta.z) + (delta.x * rhs.delta.y) - (delta.y * rhs.delta.x);
 	result.w = (delta.w * rhs.delta.w) - (delta.x * rhs.delta.x) - (delta.y * rhs.delta.y) - (delta.z * rhs.delta.z);
 
-	delta = result.GetNormalized();
+	delta = result;
 	return *this;
 }
 
@@ -101,7 +108,11 @@ Mat4<float> Quaternion::GetRotationMatrix() const {
 	return m;
 }
 
-/* maybe good later.
+void Quaternion::Normalize() {
+	delta = delta.GetNormalized();
+}
+
+/* Probably actually need it a lil different.
 Quaternion Quaternion::operator*(const Vec4<float>& rhs) const {
 	
 }
@@ -116,5 +127,5 @@ Quaternion Quaternion::operator*(const Vec3<float>& rhs) const { // transform to
 
 Quaternion& Quaternion::operator*=(const Vec3<float>& rhs) {
 
-}
-*/
+	return *this;
+}*/

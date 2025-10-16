@@ -3,6 +3,8 @@
 #include "Vec3.h"
 #include "Mat4.h"
 
+class Quaternion;
+
 template <typename T>
 class Vec4 {
 public:
@@ -25,6 +27,9 @@ public:
 
 	Vec4<T> operator*(const Mat4<T>& rhs) const;
 	Vec4<T>& operator*=(const Mat4<T>& rhs);
+
+	Vec4<T> operator*(const Quaternion& q) const;
+	Vec4<T>& operator*=(const Quaternion& q);
 
 	// Equality, check if all element's are equal
 	bool operator==(const Vec4<T>& rhs) const;

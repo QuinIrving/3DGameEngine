@@ -37,6 +37,8 @@ public:
 	RowProxy operator[](int row);
 	const RowProxy operator[](int row) const;
 
+	Mat4<T> GetTranspose() const;
+
 	std::array<T, 4> GetValues();
 
 	/*Mat4<T>& Translate(const Vec3<T>& v, T w = T(1));
@@ -174,6 +176,18 @@ const T& Mat4<T>::RowProxy::operator[](int col) const {
 	}
 
 	return row[col];
+}
+
+template <typename T>
+Mat4<T> Mat4<T>::GetTranspose() const {
+	Mat4<float> m;
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			m[i][j] = (*this)[j][i];
+		}
+	}
+
+	return m;
 }
 
 // want some way to change the idea of getting a direction vs a position vector (0, vs 1 on the vec4 version when multiplying)

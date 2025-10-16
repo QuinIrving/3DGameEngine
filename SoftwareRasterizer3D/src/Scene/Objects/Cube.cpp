@@ -25,6 +25,7 @@ void Cube::Translate(float x, float y, float z) {
 Mat4<float> Cube::GetModelMatrix() {
 	if (rotation.x != 0.f || rotation.y != 0.f || rotation.z != 0.f) {
 		delta *= Quaternion(rotation.x, rotation.y, rotation.z);
+		delta.Normalize();
 
 		rotation.x = 0;
 		rotation.y = 0;
