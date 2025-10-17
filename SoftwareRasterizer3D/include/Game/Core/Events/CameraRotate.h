@@ -4,13 +4,13 @@
 
 class CameraRotate : public GameEvent {
 public:
-	CameraRotate(float yaw, float pitch) : GameEvent(GameEvent::Type::CameraRotate), yaw(yaw), pitch(pitch) {};
+	CameraRotate(float pitch, float yaw) : GameEvent(GameEvent::Type::CameraRotate), pitch(pitch), yaw(yaw) {};
 
 	std::pair<float, float> GetAngles();
 	float GetYaw();
 	float GetPitch();
 
 private:
-	float yaw;
 	float pitch;
+	float yaw;
 };

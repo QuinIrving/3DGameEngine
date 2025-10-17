@@ -11,7 +11,7 @@ class Camera {
 public:
 	Camera() = default;
 
-	void RotateXY(float rotX, float rotY);
+	void RotateXY(float addPitch, float addYaw);
 	void Translate(float x, float y, float z);
 	void FreecamTranslate(float x, float y, float z);
 
@@ -21,8 +21,12 @@ private:
 	Quaternion rotation;
 	Vec4<float> position;
 
-	float yaw;
 	float pitch;
+	float yaw;
+
+	// freecam switch, and makes it so we don't need to worry about max rotation.
+
+	static constexpr float MAX_PITCH = 89.f * DEGREE_TO_RADIANS;
 
 	// use angles to update input deltas (multiplied by sensitivity),
 	// if in regular camera mode (fps): clamp the pitch by 89f and -89f to be almost straight up and almost straight down.

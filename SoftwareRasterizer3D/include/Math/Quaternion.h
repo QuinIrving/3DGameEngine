@@ -43,7 +43,7 @@ public:
 	Quaternion operator*(const Vec3<float>& rhs) const; // transform to Vec4 with w = 0.
 	Quaternion& operator*=(const Vec3<float>& rhs);*/
 
-	void Normalize();
+	Quaternion& Normalize();
 
 private:
 	Vec4<float> delta; // x, y, z are vector components

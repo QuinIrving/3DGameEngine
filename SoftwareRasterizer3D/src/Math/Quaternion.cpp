@@ -108,8 +108,10 @@ Mat4<float> Quaternion::GetRotationMatrix() const {
 	return m;
 }
 
-void Quaternion::Normalize() {
+Quaternion& Quaternion::Normalize() {
 	delta = delta.GetNormalized();
+
+	return *this;
 }
 
 /* Probably actually need it a lil different.

@@ -128,7 +128,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		float b = 187.f;
 		float a = 255.f;
 
-		float speed = 2.1f;
+		float speed = 4.1f;
 
 		// CAMERA TEST:
 		if (win.kbd.IsKeyPressed('A')) {
@@ -148,19 +148,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		}
 
 		if (win.kbd.IsKeyPressed('U')) {
-			win.gfx.camera.RotateXY(-0.45f * deltaTime, 0.f);
+			win.gfx.camera.RotateXY(speed/2 * deltaTime, 0.f);
 			//win.gfx.camera.Translate(0, speed * deltaTime, 0);
 		}
 		else if (win.kbd.IsKeyPressed('J')) {
-			win.gfx.camera.RotateXY(0.45f * deltaTime, 0.f);
+			win.gfx.camera.RotateXY(-speed/2 * deltaTime, 0.f);
 			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
 		}
 		else if (win.kbd.IsKeyPressed('K')) {
-			win.gfx.camera.RotateXY(0.f, -0.45f * deltaTime);
+			win.gfx.camera.RotateXY(0.f, speed/2 * deltaTime);
 			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
 		}
 		else if (win.kbd.IsKeyPressed('L')) {
-			win.gfx.camera.RotateXY(0.f, 0.45f * deltaTime);
+			win.gfx.camera.RotateXY(0.f, -speed/2 * deltaTime);
 			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
 		}
 
