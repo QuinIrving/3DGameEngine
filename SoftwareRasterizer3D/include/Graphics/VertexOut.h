@@ -8,9 +8,12 @@
 class VertexOut {
 public:
 	enum class TestPlane {
-		X,
-		Y,
-		Z
+		LEFT, // x >= -w in plane
+		RIGHT, // x <= w in plane
+		TOP, // y >= -w in plane
+		BOTTOM, // y <= w in plane
+		FRONT, // z >= 0 in plane
+		BACK // z <= w in plane
 	};
 
 public:

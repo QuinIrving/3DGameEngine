@@ -4,8 +4,7 @@
 #include "Math/Quaternion.h"
 #include "Math/GeneralMath.h"
 #include "Math/MatrixVectorOps.h"
-// View matrix - keep it normal, then a function to get the inverse once a frame.
-// only rotation and translation needed for a camera.
+
 // potentially FOV and other stuff for perspective matrix maybe?
 class Camera {
 public:

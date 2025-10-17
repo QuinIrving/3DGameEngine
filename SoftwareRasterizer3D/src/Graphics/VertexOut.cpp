@@ -39,23 +39,36 @@ bool VertexOut::IsTriangleInFrustum(const VertexOut& v1, const VertexOut& v2, co
 	const Vec4<float>& pos3 = v3.GetPosition();
 
 	// check against all planes.
-	bool xPlanes = v1.IsInFrustumPlane(TestPlane::X) || v2.IsInFrustumPlane(TestPlane::X) || v3.IsInFrustumPlane(TestPlane::X);
-	bool yPlanes = v1.IsInFrustumPlane(TestPlane::Y) || v2.IsInFrustumPlane(TestPlane::Y) || v3.IsInFrustumPlane(TestPlane::Y);
-	bool zPlanes = v1.IsInFrustumPlane(TestPlane::Z) || v2.IsInFrustumPlane(TestPlane::Z) || v3.IsInFrustumPlane(TestPlane::Z);
+	bool vertInLeftPlane = v1.IsInFrustumPlane(TestPlane::LEFT) || v2.IsInFrustumPlane(TestPlane::LEFT) || v3.IsInFrustumPlane(TestPlane::LEFT);
+	bool vertInRightPlane = v1.IsInFrustumPlane(TestPlane::RIGHT) || v2.IsInFrustumPlane(TestPlane::RIGHT) || v3.IsInFrustumPlane(TestPlane::RIGHT);
+	bool vertInTopPlane = v1.IsInFrustumPlane(TestPlane::TOP) || v2.IsInFrustumPlane(TestPlane::TOP) || v3.IsInFrustumPlane(TestPlane::TOP);
+	bool vertInBottomPlane = v1.IsInFrustumPlane(TestPlane::BOTTOM) || v2.IsInFrustumPlane(TestPlane::BOTTOM) || v3.IsInFrustumPlane(TestPlane::BOTTOM);
+	bool vertInFrontPlane = v1.IsInFrustumPlane(TestPlane::FRONT) || v2.IsInFrustumPlane(TestPlane::FRONT) || v3.IsInFrustumPlane(TestPlane::FRONT);
+	bool vertInBackPlane = v1.IsInFrustumPlane(TestPlane::BACK) || v2.IsInFrustumPlane(TestPlane::BACK) || v3.IsInFrustumPlane(TestPlane::BACK);
 
-	return xPlanes && yPlanes && zPlanes;
+	return vertInLeftPlane && vertInRightPlane && vertInTopPlane && vertInBottomPlane && vertInFrontPlane && vertInBackPlane;
 }
 
 bool VertexOut::IsInFrustumPlane(TestPlane plane) const {
+	
 	switch (plane) {
-	case TestPlane::X:
-		return position.x >= -position.w && position.x <= position.w;
+	case TestPlane::LEFT:
+		return position.x >= -position.w;
 		break;
-	case TestPlane::Y:
-		return position.y >= -position.w && position.y <= position.w;
+	case TestPlane::RIGHT:
+		return position.x <= position.w;
 		break;
-	case TestPlane::Z:
-		return position.z >= 0 && position.z <= position.w;
+	case TestPlane::TOP:
+		return position.y >= -position.w;
+		break;
+	case TestPlane::BOTTOM:
+		return position.y <= position.w;
+		break;
+	case TestPlane::FRONT:
+		return position.z >= 0;
+		break;
+	case TestPlane::BACK:
+		return position.z <= position.w;
 		break;
 	default:
 		return false;
