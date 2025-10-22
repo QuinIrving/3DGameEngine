@@ -14,6 +14,7 @@
 #include "Math/Mat4.h"
 #include "Models/Triangle.h"
 #include "Scene/Objects/Camera.h"
+#include "Shaders/ShaderSignatures.h"
 
 class Graphics {
 public:
@@ -35,20 +36,20 @@ public:
 	// hidden from user and managed by our own program.
 	void ResetZBuffer();
 
-	// This should also take in a VertexShader and FragmentShader on next refactor to allow it to be a "programmable" pipeline.
-	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix);
+	// Make this an explicit template later.
+	void Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix, TVertexShader auto& VertexShader, TFragmentShader auto& FragmentShader);
 
 public:
 	int testIndex = 0;
 	Camera camera = Camera();
 
 private:
-	VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
-	void RasterizeTriangle(const Triangle& t);
+	//VertexOut VertexShader(const VertexIn& vin, const Mat4<float>& MVP);
+	void RasterizeTriangle(const Triangle& t, TFragmentShader auto& FragmentShader); // utilize an explicit template later.
 	bool IsTopLeftEdge(const Vec3<float>& A, const Vec3<float>& B) const;
 	void ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
 	void ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& postClipIds, const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
-	FragmentOut FragmentShader(const FragmentIn& frag);
+	//FragmentOut FragmentShader(const FragmentIn& frag);
 
 private:
 	int m_width = 0;
@@ -83,3 +84,5 @@ private:
 
 	size_t pitch;
 };
+
+#include "Graphics/Graphics.hpp"

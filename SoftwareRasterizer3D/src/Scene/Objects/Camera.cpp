@@ -38,6 +38,10 @@ void Camera::Translate(float x, float y, float z) {
 	position += right;
 }
 
+void Camera::Translate(const Vec3<float>& v) {
+	Translate(v.x, v.y, v.z);
+}
+
 void Camera::FreecamTranslate(float x, float y, float z) {
 	Vec3<float> tPos = Vec3<float>(x, y, z) * Quaternion(pitch, yaw, 0.f).Normalize();
 

@@ -25,6 +25,7 @@ public:
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 
 	const Vec4<float>& GetPosition() const;
+	const Vec3<float>& GetViewPosition() const;
 	const Vec4<float>& GetColour() const;
 	const Vec3<float>& GetNormal() const;
 	const Vec2<float>& GetUV() const;
@@ -39,6 +40,7 @@ public:
 
 private:
 	Vec4<float> position;
+	Vec3<float> viewPosition{}; // vertex in's multiplied only by MV, for normal calculations during triangle assembly.
 	Vec4<float> colour;
 	Vec3<float> normal;
 	Vec2<float> UV = { 0, 0 };

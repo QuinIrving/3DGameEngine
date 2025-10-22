@@ -4,6 +4,7 @@
 #include "Game/Core/GameState.h"
 #include "Game/Core/Events/GameEvent.h"
 #include "Game/Core/Events/CameraRotate.h"
+#include "Math/GeneralMath.h"
 #define WIN32_LEAN_AND_MEAN
 #include "Windows.h"
 #include <format>
@@ -31,8 +32,13 @@ public:
 			return;
 		}
 		
-		eventBuffer.push(std::make_unique<CameraRotate>(1.5f, 2.5f));
-		//OutputDebugString(L"Test Mouse Move\n");
+		//DEGREE_TO_RADIANS;
+		
+		Vec2<float> t = e.prevMousePosDiff;
+		float pitch = -t.y * state.MouseSensitivity;
+		float yaw = -t.x * state.MouseSensitivity;
+
+		eventBuffer.push(std::make_unique<CameraRotate>(pitch, yaw));
 	}
 };
 
@@ -45,6 +51,54 @@ public:
 		}
 
 		OutputDebugString(std::format(L"Test Delta Time: {}\n", e.deltaTime).c_str());
+	}
+};
+
+class MoveForwardAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		if (!e.isPressed) {
+			state.MovingForward = false;
+			return;
+		}
+
+		state.MovingForward = true;
+	}
+};
+
+class MoveBackwardsAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		if (!e.isPressed) {
+			state.MovingBackward = false;
+			return;
+		}
+
+		state.MovingBackward = true;
+	}
+};
+
+class MoveLeftAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		if (!e.isPressed) {
+			state.MovingLeft = false;
+			return;
+		}
+
+		state.MovingLeft = true;
+	}
+};
+
+class MoveRightAction : public IGameAction {
+public:
+	void Execute(const InputEvent& e, GameState& state, std::queue<std::unique_ptr<GameEvent>>& eventBuffer) override {
+		if (!e.isPressed) {
+			state.MovingRight = false;
+			return;
+		}
+
+		state.MovingRight = true;
 	}
 };
 

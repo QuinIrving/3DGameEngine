@@ -146,6 +146,8 @@
     <ClCompile Include="src\BindingTable\GameBindingTable.cpp" />
     <ClCompile Include="src\Game\Core\Events\CameraRotate.cpp" />
     <ClCompile Include="src\Game\Core\GameManager.cpp" />
+    <ClCompile Include="src\Game\Systems\CameraSystem.cpp" />
+    <ClCompile Include="src\Game\Systems\MovementSystem.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
     <ClCompile Include="src\Graphics\VertexPostClip.cpp" />
@@ -173,6 +175,8 @@
     <ClInclude Include="include\Game\Core\Actions\IGameAction.h" />
     <ClInclude Include="include\Game\Core\GameManager.h" />
     <ClInclude Include="include\Game\Core\GameState.h" />
+    <ClInclude Include="include\Game\Systems\CameraSystem.h" />
+    <ClInclude Include="include\Game\Systems\MovementSystem.h" />
     <ClInclude Include="include\Graphics\FragmentIn.h" />
     <ClInclude Include="include\Graphics\FragmentOut.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
@@ -202,10 +206,20 @@
     <ClInclude Include="include\Scene\Objects\Cube.h" />
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
+    <ClInclude Include="include\Shaders\FragmentShaders\DefaultFragmentShader.h" />
+    <ClInclude Include="include\Shaders\ShaderSignatures.h" />
+    <ClInclude Include="include\Shaders\VertexShaders\DefaultVertexShader.h" />
     <ClInclude Include="include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="resources\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Graphics\Graphics.hpp">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

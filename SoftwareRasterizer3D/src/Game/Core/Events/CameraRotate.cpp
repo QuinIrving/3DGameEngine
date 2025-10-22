@@ -1,7 +1,11 @@
 #include "Game/Core/Events/CameraRotate.h"
 
-std::pair<float, float> CameraRotate::GetAngles() {
-	return std::pair<float, float>(yaw, pitch);
+Vec2<float> CameraRotate::GetFpsAngles() {
+	return Vec2<float>(pitch, yaw);
+}
+
+Vec3<float> CameraRotate::GetFreecamAngles() {
+	return Vec3<float>(pitch, yaw, roll);
 }
 
 float CameraRotate::GetYaw() {
@@ -10,4 +14,8 @@ float CameraRotate::GetYaw() {
 
 float CameraRotate::GetPitch() {
 	return pitch;
+}
+
+float CameraRotate::GetRoll() {
+	return roll;
 }

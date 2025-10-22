@@ -13,6 +13,9 @@
 #include <chrono>
 #include "Game/Core/Events/GameEvent.h"
 #include "Game/Core/Events/CameraRotate.h"
+#include "Game/Systems/MovementSystem.h"
+#include "Shaders/FragmentShaders/DefaultFragmentShader.h"
+#include "Shaders/VertexShaders/DefaultVertexShader.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -49,7 +52,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.Translate(3, -5, -1.5);
 	//c.Rotate(-61, -75, -45);
 	c.Scale(25, 1, 25);
-	Sphere s = Sphere(1.f,12,24);
+	Sphere s = Sphere(1.f,12,6); // 12 24 (or default 24, 12)
 	s.Translate(0, 0, -8);
 	s.Scale(2, 2, 2);
 
@@ -104,6 +107,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			break;
 		}
 
+		// ALL OF THIS IS SUPER UGLY. Need to do some abstraction to get this stuff looking manageable.
+		Vec3<float> cameraRot{};
 		while (!win.IsEventBufferEmpty()) {
 			auto gOpt = win.PopEventBuffer();
 			GameEvent& g = **gOpt; //optional -> unique_ptr -> GameEvent reference.
@@ -112,11 +117,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 				case GameEvent::Type::CameraRotate: 
 				{
 					CameraRotate& cr = static_cast<CameraRotate&>(g);
-					OutputDebugString(std::format(L"From Event Buffer. Yaw: {}, Pitch: {}\n", cr.GetYaw(), cr.GetPitch()).c_str());
+					cameraRot += cr.GetFreecamAngles();
 				}
 
 			}
 
+		}
+
+		// still ugly here.
+		if (win.gameManager.GetGameState().InFpsCameraMode) {
+			win.gfx.camera.RotateXY(cameraRot.x, cameraRot.y);
+		}
+		else { // in freecam do something else
+			
 		}
 
 		// process
@@ -131,61 +144,32 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		float speed = 4.1f;
 
 		// CAMERA TEST:
-		if (win.kbd.IsKeyPressed('A')) {
-			win.gfx.camera.Translate(-speed * deltaTime, 0, 0);
-		} else if (win.kbd.IsKeyPressed('D')) {
-			win.gfx.camera.Translate(speed * deltaTime, 0, 0);
-		} else if (win.kbd.IsKeyPressed('W')) {
-			win.gfx.camera.Translate(0, 0, -speed * deltaTime);
-		} else if (win.kbd.IsKeyPressed('S')) {
-			win.gfx.camera.Translate(0, 0, speed * deltaTime);
-		}
-		else if (win.kbd.IsKeyPressed('Q')) {
-			win.gfx.camera.Translate(0, speed * deltaTime, 0);
-		}
-		else if (win.kbd.IsKeyPressed('E')) {
-			win.gfx.camera.Translate(0, -speed * deltaTime, 0);
-		}
-
-		if (win.kbd.IsKeyPressed('U')) {
-			win.gfx.camera.RotateXY(speed/2 * deltaTime, 0.f);
-			//win.gfx.camera.Translate(0, speed * deltaTime, 0);
-		}
-		else if (win.kbd.IsKeyPressed('J')) {
-			win.gfx.camera.RotateXY(-speed/2 * deltaTime, 0.f);
-			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
-		}
-		else if (win.kbd.IsKeyPressed('K')) {
-			win.gfx.camera.RotateXY(0.f, speed/2 * deltaTime);
-			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
-		}
-		else if (win.kbd.IsKeyPressed('L')) {
-			win.gfx.camera.RotateXY(0.f, -speed/2 * deltaTime);
-			//win.gfx.camera.Translate(0, -speed * deltaTime, 0);
-		}
+		//GameState& state = win.gameManager.GetGameState();
+		
+		win.gfx.camera.Translate(MovementSystem::ComputeTranslation(win.gameManager.GetGameState(), deltaTime));
 
 		// Render
 		win.gfx.SetupScreen();
 
-		std::pair<int, int> p1 = { win.GetClientWidth() / 2, win.GetClientHeight() / 2 };
-		std::pair<int, int> p2 = { xPos, yPos };
-		win.gfx.DrawLine(p1, p2);
+		//std::pair<int, int> p1 = { win.GetClientWidth() / 2, win.GetClientHeight() / 2 };
+		//std::pair<int, int> p2 = { xPos, yPos };
+		//win.gfx.DrawLine(p1, p2);
 
-		win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, Vec4<float>{r, g, b, a});
+		//win.gfx.PutPixel(win.GetClientWidth() / 2, win.GetClientHeight() / 2, Vec4<float>{r, g, b, a});
 
 		win.gfx.testIndex = 0;
 
 		// cube
 		//float speed1 = -0.04 * deltaTime;
-		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix());
+		//win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix(), DefaultVertexShader, DefaultFragmentShader);
 		//c.Rotate(deltaTime, 0, 0);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix());
-		s.Rotate(-1 * deltaTime, 0.5 * deltaTime, 0);
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix(), DefaultVertexShader, DefaultFragmentShader);
+		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.f);
 
 		win.gfx.Render();
 		Sleep(1);	

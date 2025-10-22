@@ -59,4 +59,6 @@ private:
 
 	int client_w;
 	int client_h;
+
+	float g_DPIScale;
 };

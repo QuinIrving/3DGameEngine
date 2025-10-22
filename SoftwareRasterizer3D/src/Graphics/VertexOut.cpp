@@ -8,6 +8,10 @@ const Vec4<float>& VertexOut::GetPosition() const {
 	return position;
 }
 
+const Vec3<float>& VertexOut::GetViewPosition() const {
+	return viewPosition;
+}
+
 const Vec4<float>& VertexOut::GetColour() const {
 	return colour;
 }

@@ -12,6 +12,7 @@ public:
 
 	void RotateXY(float addPitch, float addYaw);
 	void Translate(float x, float y, float z);
+	void Translate(const Vec3<float>& v);
 	void FreecamTranslate(float x, float y, float z);
 
 	Mat4<float> GetViewMatrix() const;
