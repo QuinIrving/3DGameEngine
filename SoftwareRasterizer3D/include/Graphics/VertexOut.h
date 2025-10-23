@@ -21,6 +21,7 @@ public:
 	VertexOut(Vec4<float> pos) : position(pos) {}
 	//VertexOut(Vec3<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
 	VertexOut(float x, float y, float z, float w) : position(Vec4<float>(x, y, z, w)) {}
+	VertexOut(Vec4<float> pos, Vec3<float> viewPos, Vec3<float> normal) : position(pos), viewPosition(viewPos), normal(normal) {}
 
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 
@@ -30,8 +31,9 @@ public:
 	const Vec3<float>& GetNormal() const;
 	const Vec2<float>& GetUV() const;
 
-	const Vec3<float>& CalculateNormal();
+	//const Vec3<float>& CalculateNormal();
 	void SetColour(int r, int g, int b, int a = 255);
+
 
 	static bool IsTriangleInFrustum(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3);
 	bool IsInFrustumPlane(TestPlane plane) const;

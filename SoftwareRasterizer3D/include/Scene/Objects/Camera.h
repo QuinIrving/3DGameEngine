@@ -14,6 +14,7 @@ public:
 	void Translate(float x, float y, float z);
 	void Translate(const Vec3<float>& v);
 	void FreecamTranslate(float x, float y, float z);
+	const Vec4<float>& GetPosition() const;
 
 	Mat4<float> GetViewMatrix() const;
 

@@ -49,3 +49,7 @@ void Camera::FreecamTranslate(float x, float y, float z) {
 	position.y += tPos.y;
 	position.z += tPos.z;
 }
+
+const Vec4<float>& Camera::GetPosition() const {
+	return position;
+}

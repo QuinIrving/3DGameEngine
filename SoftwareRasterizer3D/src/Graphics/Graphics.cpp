@@ -13,7 +13,7 @@ void Graphics::ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	// just v1.
 	float t = (-clip1.z) / (in1.z - clip1.z);
 	Vec4<float> v12New = clip1 + ((in1 - clip1) * t);
-	// need to also interpolate attributes?
+	// need to also interpolate attributes
 	t = (-clip1.z) / (in2.z - clip1.z);
 	Vec4<float> v13New = clip1 + ((in2 - clip1) * t);
 	v.push_back(v2.PerspectiveDivide()); // 0

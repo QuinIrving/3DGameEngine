@@ -93,12 +93,11 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 			// primitive creation.
 			// just for testing for now (colours), will utilize shaders or something later on.
-			Triangle t = Triangle(vpc1, vpc2, vpc3, colours[(i / 6) % 12]);
-			
-			// back face-culling
-			//if (Vec3<float>::DotProduct(t.GetFaceNormal(), Vec3<float>()) < 0.f) { // will do my camera later.
-				//continue;
-			//}
+			Triangle t = Triangle(vpc1, vpc2, vpc3, Triangle::ComputeFaceNormal(vpc1.GetViewPosition(), vpc2.GetViewPosition(), vpc3.GetViewPosition()), colours[(i / 6) % 12]);
+
+			if (Vec3<float>::DotProduct(t.GetFaceNormal(), vpc1.GetViewPosition()) < 0) {
+				continue;
+			}
 
 			// then viewport transformation
 			t.ViewportTransform(m_width, m_height);
@@ -186,7 +185,7 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 
 	// Total area of triangle for back-face culling.
 	float area = ((posC.x - posB.x) * (posA.y - posB.y)) - ((posC.y - posB.y) * (posA.x - posB.x));
-	if (area <= 0.f) {
+	if (area == 0.f) { // <=
 		return;
 	}
 

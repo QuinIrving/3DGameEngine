@@ -24,11 +24,11 @@ const Vec2<float>& VertexOut::GetUV() const {
 	return UV;
 }
 
-const Vec3<float>& VertexOut::CalculateNormal() {
+/*const Vec3<float>& VertexOut::CalculateNormal() {
 	return normal;
 	// not sure exactly how to implement this.
 	// saw something about summing face normals of the faces that share the vertex. and normalize it.
-}
+}*/
 
 void VertexOut::SetColour(int r, int g, int b, int a) {
 	colour.x = r / 255.f;
@@ -90,5 +90,5 @@ VertexPostClip VertexOut::PerspectiveDivide() const {
 
 	float invW = 1 / position.w;
 
-	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
+	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, viewPosition, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
 }
