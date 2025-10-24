@@ -8,6 +8,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
 
+	OutputDebugString(L"NEW FRAME:\n");
 	// Vertex Shader:
 	for (const VertexIn &v : vertices) {
 		clipVertices.push_back(VertexShader(v, modelMatrix, viewMatrix, projectionMatrix));
@@ -94,8 +95,8 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 			// primitive creation.
 			// just for testing for now (colours), will utilize shaders or something later on.
 			Triangle t = Triangle(vpc1, vpc2, vpc3, Triangle::ComputeFaceNormal(vpc1.GetViewPosition(), vpc2.GetViewPosition(), vpc3.GetViewPosition()), colours[(i / 6) % 12]);
-
-			if (Vec3<float>::DotProduct(t.GetFaceNormal(), vpc1.GetViewPosition()) < 0) {
+		
+			if (Vec3<float>::DotProduct(t.GetFaceNormal(), vpc1.GetViewPosition()) > 0) {
 				continue;
 			}
 
@@ -168,24 +169,24 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 	int r = static_cast<int>(ceilf(right));
 
 	// first calculate the edges of the triangle for the edge function.
-	float C0x = posA.y - posB.y; // B->A
-	float C0y = -(posA.x - posB.x);
-	float C1x = posC.y - posA.y; // A->C
-	float C1y = -(posC.x - posA.x);
-	float C2x = posB.y - posC.y; // C->B
-	float C2y = -(posB.x - posC.x);
+	float C0x = posB.y - posA.y; // A->B
+	float C0y = -(posB.x - posA.x);
+	float C1x = posC.y - posB.y; // B->C
+	float C1y = -(posC.x - posB.x);
+	float C2x = posA.y - posC.y; // C->A
+	float C2y = -(posA.x - posC.x);
 
 	float startX = floorf(left) + 0.5f;
 	float startY = floorf(top) + 0.5f;
 
-	float edge0 = ((startX - posB.x) * (posA.y - posB.y)) - ((startY - posB.y) * (posA.x - posB.x)); // B->A
-	float edge1 = ((startX - posA.x) * (posC.y - posA.y)) - ((startY - posA.y) * (posC.x - posA.x)); // A->C
-	float edge2 = ((startX - posC.x) * (posB.y - posC.y)) - ((startY - posC.y) * (posB.x - posC.x)); // C->B
+	float edge0 = ((startX - posA.x) * (posB.y - posA.y)) - ((startY - posA.y) * (posB.x - posA.x)); // A->B
+	float edge1 = ((startX - posB.x) * (posC.y - posB.y)) - ((startY - posB.y) * (posC.x - posB.x)); // B->C
+	float edge2 = ((startX - posC.x) * (posA.y - posC.y)) - ((startY - posC.y) * (posA.x - posC.x)); // C->A
 
 
 	// Total area of triangle for back-face culling.
-	float area = ((posC.x - posB.x) * (posA.y - posB.y)) - ((posC.y - posB.y) * (posA.x - posB.x));
-	if (area == 0.f) { // <=
+	float area = (((posC.x - posB.x) * (posA.y - posB.y)) - ((posC.y - posB.y) * (posA.x - posB.x)));
+	if (area <= 0.f) { // <=
 		return;
 	}
 
@@ -225,14 +226,14 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 				break;
 			}
 
-			if ((e0 > 0 || e0 > -EPSILON && IsTopLeftEdge(posB, posA))
-				&& (e1 > 0 || e1 > -EPSILON && IsTopLeftEdge(posA, posC))
-				&& (e2 > 0 || e2 > -EPSILON && IsTopLeftEdge(posC, posB))) {
+			if ((e0 < 0 || e0 < EPSILON && IsTopLeftEdge(posA, posB))
+				&& (e1 < 0 || e1 < EPSILON && IsTopLeftEdge(posB, posC))
+				&& (e2 < 0 || e2 < EPSILON && IsTopLeftEdge(posC, posA))) {
 
 				// Varying Varyings = interpolate_varyings (bary, verts);
-				float u = e2 * invArea; // (PBC) opposite A area.
-				float v = e1 * invArea; // (PAC) opposite B area
-				float w = e0 * invArea; // (PAB) opposite C area.
+				float u = -e1 * invArea; // (PBC) opposite B (B->C).
+				float v = -e2 * invArea; // (PAC) opposite C (C->A)
+				float w = -e0 * invArea; // (PAB) opposite A (A->B).
 
 				if (u >= 0 && v >= 0 && w >= 0) {
 					// interpolate z. We do this with invW for perspective correct interpolation

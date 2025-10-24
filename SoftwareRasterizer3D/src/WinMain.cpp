@@ -50,7 +50,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	Cube c = Cube(size);
 	c.Translate(0, 2, -3.5); // x translate as -15 is good for checking clipping capabilities.
 	//c.Translate(3, -5, -1.5);
-	//c.Rotate(-61, -75, -45);
+	c.Rotate(-61, -75, -45);
 	//c.Scale(25, 1, 25);
 	Sphere s = Sphere(1.f,12,6); // 12 24 (or default 24, 12)
 	s.Translate(0, 0, -8);

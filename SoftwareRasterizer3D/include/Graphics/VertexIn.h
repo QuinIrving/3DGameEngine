@@ -18,7 +18,7 @@ public:
 	const Vec3<float>& GetNormal() const;
 	const Vec2<float>& GetUV() const;
 
-	const Vec3<float>& CalculateNormal();
+	void SetNormal(Vec3<float> norm);
 	void SetColour(int r, int g, int b, int a = 255);
 
 private:

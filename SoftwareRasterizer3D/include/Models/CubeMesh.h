@@ -10,6 +10,8 @@ public:
 	std::vector<uint32_t>& GetVertexIds();
 	std::vector<VertexIn>& GetVertices();
 
+	void SetVertexNormals();
+
 private:
 	std::vector<VertexIn> vertices;
 	std::vector<uint32_t> vertexIds;

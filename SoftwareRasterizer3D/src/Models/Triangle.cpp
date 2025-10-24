@@ -42,8 +42,8 @@ Vec4<float> Triangle::GetColour() const {
 }
 
 Vec3<float> Triangle::ComputeFaceNormal(const Vec3<float>& A, const Vec3<float>& B, const Vec3<float>& C) {
-	const Vec3<float> u = B - A;
-	const Vec3<float> v = C - A;
+	const Vec3<float> u = C - A;
+	const Vec3<float> v = B - A;
 
 	return Vec3<float>::CrossProduct(u, v).GetNormalized();
 }

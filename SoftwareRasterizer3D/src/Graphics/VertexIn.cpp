@@ -21,11 +21,9 @@ const Vec2<float>& VertexIn::GetUV() const {
 	return UV;
 }
 
-const Vec3<float>& VertexIn::CalculateNormal() {
-	return normal;
-	// not sure exactly how to implement this.
-	// saw something about summing face normals of the faces that share the vertex. and normalize it.
-}
+void VertexIn::SetNormal(Vec3<float> norm) {
+	normal = norm;
+} 
 
 void VertexIn::SetColour(int r, int g, int b, int a) {
 	colour.x = r / 255.f;
