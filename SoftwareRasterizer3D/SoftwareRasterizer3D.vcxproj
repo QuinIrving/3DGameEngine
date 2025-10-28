@@ -117,6 +117,9 @@
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)resources\app.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PostBuildEvent>
+      <Command>xcopy /E /I /Y "$(ProjectDir)resources" "$(OutDir)resources"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,6 +143,9 @@
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)resources\app.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PostBuildEvent>
+      <Command>xcopy /E /I /Y "$(ProjectDir)resources" "$(OutDir)resources"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BindingTable\BindingTable.cpp" />
@@ -149,6 +155,7 @@
     <ClCompile Include="src\Game\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\Game\Systems\MovementSystem.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
+    <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\Graphics\VertexOut.cpp" />
     <ClCompile Include="src\Graphics\VertexPostClip.cpp" />
     <ClCompile Include="src\Input\Keyboard.cpp" />
@@ -179,9 +186,11 @@
     <ClInclude Include="include\Game\Core\GameState.h" />
     <ClInclude Include="include\Game\Systems\CameraSystem.h" />
     <ClInclude Include="include\Game\Systems\MovementSystem.h" />
+    <ClInclude Include="include\Graphics\Colour.h" />
     <ClInclude Include="include\Graphics\FragmentIn.h" />
     <ClInclude Include="include\Graphics\FragmentOut.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
+    <ClInclude Include="include\Graphics\Texture.h" />
     <ClInclude Include="include\Graphics\VertexOut.h" />
     <ClInclude Include="include\Graphics\VertexPostClip.h" />
     <ClInclude Include="include\Game\Core\Actions\GameActions.h" />
@@ -209,6 +218,7 @@
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
     <ClInclude Include="include\Scene\Objects\UnfoldedCube.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
+    <ClInclude Include="include\Shaders\FragmentShaders\BasicTextureMapFragmentShader.h" />
     <ClInclude Include="include\Shaders\FragmentShaders\DefaultFragmentShader.h" />
     <ClInclude Include="include\Shaders\ShaderSignatures.h" />
     <ClInclude Include="include\Shaders\VertexShaders\DefaultVertexShader.h" />
@@ -223,6 +233,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png" />
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png" />
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png" />
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png" />
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

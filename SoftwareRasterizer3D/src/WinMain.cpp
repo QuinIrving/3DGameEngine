@@ -17,6 +17,8 @@
 #include "Game/Systems/MovementSystem.h"
 #include "Shaders/FragmentShaders/DefaultFragmentShader.h"
 #include "Shaders/VertexShaders/DefaultVertexShader.h"
+#include "Graphics/Texture.h"
+#include "Shaders/FragmentShaders/BasicTextureMapFragmentShader.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -61,6 +63,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 
 	//---------------//
+	// Create an initial texture for testing.
+	Texture t{"resources/Textures/Cobblestone/CobblestoneWall01_1K_BaseColor.png"};
+
 
 
 	// Run the message loop
@@ -165,14 +170,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// cube
 		//float speed1 = -0.04 * deltaTime;
-		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix(), DefaultVertexShader, DefaultFragmentShader);
+		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix(), DefaultVertexShader, BasicTextureMapFragmentShader);
 		c.Rotate(deltaTime, 0, deltaTime);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix(), DefaultVertexShader, DefaultFragmentShader);
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix(), DefaultVertexShader, BasicTextureMapFragmentShader);
 		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.f);
 
 		win.gfx.Render();

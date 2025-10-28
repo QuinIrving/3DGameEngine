@@ -90,6 +90,9 @@
     <ClCompile Include="src\Scene\Objects\UnfoldedCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Window\Window.h">
@@ -225,8 +228,37 @@
     <ClInclude Include="include\Scene\Objects\UnfoldedCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics\Colour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shaders\FragmentShaders\BasicTextureMapFragmentShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="resources\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
