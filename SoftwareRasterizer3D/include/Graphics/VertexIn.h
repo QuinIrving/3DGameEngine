@@ -8,8 +8,11 @@ class VertexIn {
 public:
 	VertexIn() = default;
 	VertexIn(Vec3<float> pos) : position(Vec3<float>(pos)) {}
+	VertexIn(Vec3<float> pos, Vec3<float> normal, Vec2<float> uv={0,0}) : position(Vec3<float>(pos)), normal(normal), UV(uv) {}
 	VertexIn(Vec4<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
+	VertexIn(Vec4<float> pos, Vec3<float> normal, Vec2<float> uv = { 0,0 }) : position(Vec3<float>(pos.x, pos.y, pos.z)), normal(normal), UV(uv) {}
 	VertexIn(float x, float y, float z) : position(Vec3<float>(x, y, z)) {}
+	VertexIn(float x, float y, float z, Vec3<float> normal, Vec2<float> uv) : position(Vec3<float>(x, y, z)), normal(normal), UV(uv) {}
 
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 

@@ -159,9 +159,11 @@
     <ClCompile Include="src\Models\Teapot.cpp" />
     <ClCompile Include="src\Models\Triangle.cpp" />
     <ClCompile Include="src\Graphics\VertexIn.cpp" />
+    <ClCompile Include="src\Models\UnfoldedCubeMesh.cpp" />
     <ClCompile Include="src\Scene\Objects\Camera.cpp" />
     <ClCompile Include="src\Scene\Objects\Cube.cpp" />
     <ClCompile Include="src\Scene\Objects\Sphere.cpp" />
+    <ClCompile Include="src\Scene\Objects\UnfoldedCube.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\WinMain.cpp" />
@@ -205,6 +207,7 @@
     <ClInclude Include="include\Scene\Objects\Camera.h" />
     <ClInclude Include="include\Scene\Objects\Cube.h" />
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
+    <ClInclude Include="include\Scene\Objects\UnfoldedCube.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
     <ClInclude Include="include\Shaders\FragmentShaders\DefaultFragmentShader.h" />
     <ClInclude Include="include\Shaders\ShaderSignatures.h" />

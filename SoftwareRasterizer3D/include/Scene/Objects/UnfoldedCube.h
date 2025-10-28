@@ -1,14 +1,14 @@
 #pragma once
-#include "Models/CubeMesh.h"
+#include "Models/UnfoldedCubeMesh.h"
 #include "Math/MatrixVectorOps.h"
 #include "Math/Mat4.h"
 #include "Math/Vec3.h"
 #include "Math/Quaternion.h"
 
-class Cube {
+class UnfoldedCube {
 public:
-	Cube() = default;
-	Cube(float size);
+	UnfoldedCube() = default;
+	UnfoldedCube(float size);
 
 	// Want an ECS so need just making this as a placeholder for now to test my work until refactor time again
 	void Rotate(float x, float y, float z);
@@ -24,5 +24,5 @@ private:
 	Vec3<float> rotation{ 0., 0., 0. };
 	Vec3<float> scale{ .5, .5, .5 };
 	Quaternion delta;
-	CubeMesh cube;
+	UnfoldedCubeMesh cube;
 };

@@ -21,7 +21,7 @@ public:
 	VertexOut(Vec4<float> pos) : position(pos) {}
 	//VertexOut(Vec3<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
 	VertexOut(float x, float y, float z, float w) : position(Vec4<float>(x, y, z, w)) {}
-	VertexOut(Vec4<float> pos, Vec3<float> viewPos, Vec3<float> normal) : position(pos), viewPosition(viewPos), normal(normal) {}
+	VertexOut(Vec4<float> pos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv) : position(pos), viewPosition(viewPos), normal(normal), UV(uv) {}
 
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 

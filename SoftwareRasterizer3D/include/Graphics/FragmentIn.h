@@ -8,7 +8,8 @@ public: // defaults but for clarity.
 	int x, y;
 	float z; //interpolated z
 	// all attributes should be interpolated (perspective-correct)
-	Vec3<float> normal; // should be normalized after interpolation
+	Vec3<float> vertNormal; // should be normalized after interpolation
+	Vec3<float> faceNormal;
 	Vec4<float> colour{ 0, 0, 0, 1 }; // vertex colour (could be blended)
 	Vec2<float> uv; // Texture coordinates. All maps seem to use it
 	Vec3<float> tangent; // for normal mapping
@@ -17,9 +18,9 @@ public: // defaults but for clarity.
 	FragmentIn() = default;
 	FragmentIn(int x, int y, float z) : x(x), y(y), z(z) {}
 	FragmentIn(int x, int y, float z, const Vec4<float>& colour) : x(x), y(y), z(z), colour(colour) {}
-	FragmentIn(int x, int y, float z, const Vec3<float>& normal) : x(x), y(y), z(z), normal(normal.GetNormalized()) {}
-	FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour) : x(x), y(y), z(z), normal(normal.GetNormalized()), colour(colour) {}
-	FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
-		: x(x), y(y), z(z), normal(normal.GetNormalized()), colour(colour), uv(uv), tangent(tangent), bitangent(bitangent) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& vertNormal) : x(x), y(y), z(z), vertNormal(vertNormal.GetNormalized()) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& vertNormal, const Vec3<float>& faceNormal, const Vec4<float>& colour) : x(x), y(y), z(z), vertNormal(vertNormal.GetNormalized()), colour(colour) {}
+	FragmentIn(int x, int y, float z, const Vec3<float>& vertNormal, const Vec3<float>& faceNormal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent)
+		: x(x), y(y), z(z), vertNormal(vertNormal.GetNormalized()), faceNormal(faceNormal), colour(colour), uv(uv), tangent(tangent), bitangent(bitangent) {}
 
 };

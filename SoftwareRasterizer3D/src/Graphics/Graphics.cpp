@@ -12,14 +12,23 @@ void Graphics::ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	
 	// just v1.
 	float t = (-clip1.z) / (in1.z - clip1.z);
-	Vec4<float> v12New = clip1 + ((in1 - clip1) * t);
+	Vec4<float> v12Pos = clip1 + ((in1 - clip1) * t);
+	Vec3<float> v12ViewPos = v1.GetViewPosition() + ((v2.GetViewPosition() - v1.GetViewPosition()) * t);
+	Vec3<float> v12Normal = v1.GetNormal() + ((v2.GetNormal() - v1.GetNormal()) * t);
+	Vec2<float> v12UV = v1.GetUV() + ((v2.GetUV() - v1.GetUV()) * t);
+
 	// need to also interpolate attributes
 	t = (-clip1.z) / (in2.z - clip1.z);
-	Vec4<float> v13New = clip1 + ((in2 - clip1) * t);
+	Vec4<float> v13Pos = clip1 + ((in2 - clip1) * t);
+	Vec3<float> v13ViewPos = v1.GetViewPosition() + ((v3.GetViewPosition() - v1.GetViewPosition()) * t);
+	Vec3<float> v13Normal = v1.GetNormal() + ((v3.GetNormal() - v1.GetNormal()) * t);
+	Vec2<float> v13UV = v1.GetUV() + ((v3.GetUV() - v1.GetUV()) * t);
+
+
 	v.push_back(v2.PerspectiveDivide()); // 0
 	v.push_back(v3.PerspectiveDivide()); // 1
-	v.push_back(VertexOut(v12New).PerspectiveDivide()); // 2
-	v.push_back(VertexOut(v13New).PerspectiveDivide()); // 3
+	v.push_back(VertexOut(v12Pos, v12ViewPos, v12Normal, v12UV).PerspectiveDivide()); // 2
+	v.push_back(VertexOut(v13Pos, v13ViewPos, v13Normal, v13UV).PerspectiveDivide()); // 3
 	postClipIds.push_back(0);
 	postClipIds.push_back(3);
 	postClipIds.push_back(1);
@@ -35,18 +44,25 @@ void Graphics::ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	const Vec4<float>& in1 = v3.GetPosition();
 	
 	float t = (-clip1.z) / (in1.z - clip1.z);
-	Vec4<float> v2New = clip1 + ((in1 - clip1) * t);
+	Vec4<float> v1Pos = clip1 + ((in1 - clip1) * t);
+	Vec3<float> v1ViewPos = v1.GetViewPosition() + ((v3.GetViewPosition() - v1.GetViewPosition()) * t);
+	Vec3<float> v1Normal = v1.GetNormal() + ((v3.GetNormal() - v1.GetNormal()) * t);
+	Vec2<float> v1UV = v1.GetUV() + ((v3.GetUV() - v1.GetUV()) * t);
+
 	// need to also interpolate attributes.
 	t = (-clip2.z) / (in1.z - clip2.z);
-	Vec4<float> v3New = clip2 + ((in1 - clip2) * t);
+	Vec4<float> v2Pos = clip2 + ((in1 - clip2) * t);
+	Vec3<float> v2ViewPos = v2.GetViewPosition() + ((v3.GetViewPosition() - v2.GetViewPosition()) * t);
+	Vec3<float> v2Normal = v2.GetNormal() + ((v3.GetNormal() - v2.GetNormal()) * t);
+	Vec2<float> v2UV = v2.GetUV() + ((v3.GetUV() - v2.GetUV()) * t);
 
 	
 
 	v.push_back(v3.PerspectiveDivide());
 	postClipIds.push_back(0);
-	v.push_back(VertexOut(v2New).PerspectiveDivide());
+	v.push_back(VertexOut(v1Pos, v1ViewPos, v1Normal, v1UV).PerspectiveDivide());
 	postClipIds.push_back(1);
-	v.push_back(VertexOut(v3New).PerspectiveDivide());
+	v.push_back(VertexOut(v2Pos, v2ViewPos, v2Normal, v2UV).PerspectiveDivide());
 	postClipIds.push_back(2);
 }
 

@@ -20,7 +20,7 @@ const Vec2<float>& VertexPostClip::GetUV() const {
 	return UV;
 }
 
-const bool VertexPostClip::GetInvW() const {
+const float VertexPostClip::GetInvW() const {
 	return invW;
 }
 

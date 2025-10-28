@@ -8,7 +8,6 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
 
-	OutputDebugString(L"NEW FRAME:\n");
 	// Vertex Shader:
 	for (const VertexIn &v : vertices) {
 		clipVertices.push_back(VertexShader(v, modelMatrix, viewMatrix, projectionMatrix));
@@ -239,8 +238,12 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 					// interpolate z. We do this with invW for perspective correct interpolation
 					float interpInvW = u * A.GetInvW() + v * B.GetInvW() + w * C.GetInvW();
 					float interpZ = u * (posA.z * A.GetInvW()) + v * (posB.z * B.GetInvW()) + w * (posC.z * C.GetInvW());
-					// Bring it back to screen space to get final interpoalted value.
+					Vec3<float> interpVertNormal = (A.GetNormal() * A.GetInvW()) * u + (B.GetNormal() * B.GetInvW()) * v + (C.GetNormal() * C.GetInvW()) * w;
+					Vec2<float> interpUV = (A.GetUV() * A.GetInvW()) * u + (B.GetUV() * B.GetInvW()) * v + (C.GetUV() * C.GetInvW()) * w;
+					// Bring it back to screen space to get final interpolated value.
 					interpZ /= interpInvW;
+					interpVertNormal /= interpInvW;
+					interpUV /= interpInvW;
 
 					if (interpZ < 0) {
 						OutputDebugString(std::format(L"interp-Z coord: {}\n", interpZ).c_str());
@@ -256,9 +259,9 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 
 
 					// interpolate other vertex attributes
-
+					//FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
-					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, tri.GetColour()));
+					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetColour(), interpUV, {}, {}));
 
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.

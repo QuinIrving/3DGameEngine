@@ -14,7 +14,7 @@ public:
 	const Vec4<float>& GetColour() const;
 	const Vec3<float>& GetNormal() const;
 	const Vec2<float>& GetUV() const;
-	const bool GetInvW() const;
+	const float GetInvW() const;
 
 	void ViewportTransform(int width, int height);
 
