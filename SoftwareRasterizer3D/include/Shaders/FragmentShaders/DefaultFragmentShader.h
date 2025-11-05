@@ -1,8 +1,28 @@
 #pragma once
 #include "Shaders/ShaderSignatures.h"
 
-FragmentOut DefaultFragmentShader(const FragmentIn& fragIn) {
+FragmentOut DefaultFragmentShader(const FragmentIn& fragIn, const Material& material) {
 	FragmentOut fragOut;
-	fragOut.colour = fragIn.colour;
+
+	// no textures, so just handle base colour.
+	if (!material.albedoTexture || *material.albedoTexture == NULL) {
+		fragOut.colour = material.baseColour;
+		return fragOut;
+	}
+
+	// some other flows here needed to add in as we add in PBR.
+	Colour c;
+	switch (material.samplingMode) {
+	case TextureSamplingMode::Nearest:
+		c = (*material.albedoTexture)->SampleNearest(fragIn.uv.x, fragIn.uv.y);
+		break;
+	case TextureSamplingMode::Bilinear:
+		c = (*material.albedoTexture)->SampleBilinear(fragIn.uv.x, fragIn.uv.y);
+		break;
+	default:
+		c = {1.f, 1.f, 1.f, 1.f}; // should be base colour instead.
+	}
+
+	fragOut.colour = { c.r * 255.f, c.g * 255.f, c.b * 255.f, c.a * 255.f };
 	return fragOut;
 }

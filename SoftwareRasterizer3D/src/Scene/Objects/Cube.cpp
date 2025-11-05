@@ -22,7 +22,7 @@ void Cube::Translate(float x, float y, float z) {
 	position.z += z;
 }
 
-Mat4<float> Cube::GetModelMatrix() {
+ModelAttributes Cube::GetModelAttributes() {
 	if (rotation.x != 0.f || rotation.y != 0.f || rotation.z != 0.f) {
 		delta *= Quaternion(rotation.x, rotation.y, rotation.z);
 		delta.Normalize();
@@ -31,7 +31,11 @@ Mat4<float> Cube::GetModelMatrix() {
 		rotation.y = 0;
 		rotation.z = 0;
 	}
-	return Mat4<float>::Scale(scale) * delta.GetRotationMatrix() * Mat4<float>::Translate(position);
+
+	ModelAttributes ma;
+	ma.material = material;
+	ma.modelMatrix = Mat4<float>::Scale(scale) * delta.GetRotationMatrix() * Mat4<float>::Translate(position);
+	return ma;
 }
 
 std::vector<uint32_t>& Cube::GetVertexIds() {

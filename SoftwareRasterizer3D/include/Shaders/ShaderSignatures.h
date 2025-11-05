@@ -8,11 +8,11 @@
 #include "Math/Mat4.h"
 
 template <typename T>
-concept TVertexShader = requires(T shader, const VertexIn& vin, const Mat4<float>& M, const Mat4<float>& V, const Mat4<float>& P) {
-	{ shader(vin, M, V, P) } -> std::same_as<VertexOut>;
+concept TVertexShader = requires(T shader, const VertexIn& vin, const ModelAttributes& MA, const Mat4<float>& V, const Mat4<float>& P) {
+	{ shader(vin, MA, V, P) } -> std::same_as<VertexOut>;
 };
 
 template <typename T>
-concept TFragmentShader = requires(T shader, const FragmentIn& fragIn) {
-	{ shader(fragIn) } -> std::same_as<FragmentOut>;
+concept TFragmentShader = requires(T shader, const Material& material, const FragmentIn& fragIn) {
+	{ shader(fragIn, material) } -> std::same_as<FragmentOut>;
 };

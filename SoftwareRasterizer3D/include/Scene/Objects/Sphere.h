@@ -1,6 +1,7 @@
 #pragma once
 #include "Models/SphereMesh.h"
 #include "Math/Quaternion.h"
+#include "Graphics/ModelAttributes.h"
 
 class Sphere {
 public:
@@ -11,11 +12,12 @@ public:
 	void Scale(float x, float y, float z);
 	void Translate(float x, float y, float z);
 
-	Mat4<float> GetModelMatrix();
+	ModelAttributes GetModelAttributes();
 
 	const std::vector<VertexIn>& GetVertices() const { return s.GetVertices(); };
 	const std::vector<uint32_t>& GetVertexIds() const { return s.GetVertexIds(); };
 
+	Material material;
 private:
 	Vec3<float> position{ 0., 0., -5. };
 	Vec3<float> rotation{ 0., 0., 0. };

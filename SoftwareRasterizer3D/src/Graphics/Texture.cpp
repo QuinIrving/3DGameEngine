@@ -6,13 +6,18 @@
 // external dependency, should remove later. Just use for now for testing texturing.
 #include "Graphics/DependentLibrariesForNow/stb_image.h"
 
-Colour Texture::Sample(float u, float v) const {
+Colour Texture::SampleNearest(float u, float v) const {
 	u = std::clamp(u, 0.f, 1.f);
 	v = std::clamp(v, 0.f, 1.f);
 
 	int x = static_cast<int>(u * (width - 1));
 	int y = static_cast<int>(v * (height - 1));
 	return texels.at(y * width + x);
+}
+
+Colour Texture::SampleBilinear(float u, float v) const {
+	// TODO: implement this later.
+	return Colour();
 }
 
 Texture::Texture(const std::string& texturePath) {

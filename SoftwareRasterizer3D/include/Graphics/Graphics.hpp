@@ -3,14 +3,14 @@
 // Should abstract away from user. They shouldn't know about this private list of objs/entities
 // when they create a new object, it should add it into this list. Some entity manager. That's for a later
 // refactor.
-void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const Mat4<float>& modelMatrix, TVertexShader auto& VertexShader, TFragmentShader auto& FragmentShader) {
+void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const ModelAttributes& modelAttributes, TVertexShader auto& VertexShader, TFragmentShader auto& FragmentShader) {
 	const Mat4<float>& viewMatrix = camera.GetViewMatrix(); // could technically optimize this by pre-computed VP once a frame, not once per object.
 	std::vector<VertexOut> clipVertices;
 	clipVertices.reserve(vertices.size());
 
 	// Vertex Shader:
 	for (const VertexIn &v : vertices) {
-		clipVertices.push_back(VertexShader(v, modelMatrix, viewMatrix, projectionMatrix));
+		clipVertices.push_back(VertexShader(v, modelAttributes, viewMatrix, projectionMatrix));
 	}
 
 	std::vector<Triangle> tris;
@@ -106,7 +106,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 	}
 	// Then rasterizer. which has the fragment shader within it as it calcualtes the fragments per triangle.
 	for (Triangle& tri : tris) {
-		RasterizeTriangle(tri, FragmentShader);
+		RasterizeTriangle(tri, modelAttributes, FragmentShader);
 	}
 
 	// Rasterization -> and z-buffer checks
@@ -116,7 +116,7 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 }
 
-void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& FragmentShader) {
+void Graphics::RasterizeTriangle(const Triangle& tri, const ModelAttributes& modelAttributes, TFragmentShader auto& FragmentShader) {
 	VertexPostClip A = tri.GetVertexA();
 	VertexPostClip B = tri.GetVertexB();
 	VertexPostClip C = tri.GetVertexC();
@@ -261,7 +261,7 @@ void Graphics::RasterizeTriangle(const Triangle& tri, TFragmentShader auto& Frag
 					// interpolate other vertex attributes
 					//FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
-					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetColour(), interpUV, {}, {}));
+					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetColour(), interpUV, {}, {}), modelAttributes.material);
 
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.

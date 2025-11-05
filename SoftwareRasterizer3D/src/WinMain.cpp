@@ -64,9 +64,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	//---------------//
 	// Create an initial texture for testing.
-	Texture t{"resources/Textures/Cobblestone/CobblestoneWall01_1K_BaseColor.png"};
+	static const Texture t1{"resources/Textures/Cobblestone/CobblestoneWall01_1K_BaseColor.png"};
+	static const Texture t2{ "resources/Textures/StoneWall/StoneWall03_2K_BaseColor.png" };
 
-
+	s.material.albedoTexture = &t1;
+	c.material.albedoTexture = &t2;
 
 	// Run the message loop
 	MSG msg = { };
@@ -170,14 +172,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// cube
 		//float speed1 = -0.04 * deltaTime;
-		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelMatrix(), DefaultVertexShader, BasicTextureMapFragmentShader);
+		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelAttributes(), DefaultVertexShader, DefaultFragmentShader);
 		c.Rotate(deltaTime, 0, deltaTime);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelMatrix(), DefaultVertexShader, BasicTextureMapFragmentShader);
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelAttributes(), DefaultVertexShader, DefaultFragmentShader);
 		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.f);
 
 		win.gfx.Render();

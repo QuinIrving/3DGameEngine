@@ -4,6 +4,7 @@
 #include "Math/Mat4.h"
 #include "Math/Vec3.h"
 #include "Math/Quaternion.h"
+#include "Graphics/ModelAttributes.h"
 
 class Cube {
 public:
@@ -15,10 +16,11 @@ public:
 	void Scale(float x, float y, float z);
 	void Translate(float x, float y, float z);
 
-	Mat4<float> GetModelMatrix();
+	ModelAttributes GetModelAttributes();
 	std::vector<uint32_t>& GetVertexIds();
 	std::vector<VertexIn>& GetVertices();
 
+	Material material; // not a pointer, will refactor later when we want to do sharing.
 private:
 	Vec3<float> position{ 0., 0., 0. };
 	Vec3<float> rotation{ 0., 0., 0. };

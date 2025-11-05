@@ -190,6 +190,7 @@
     <ClInclude Include="include\Graphics\FragmentIn.h" />
     <ClInclude Include="include\Graphics\FragmentOut.h" />
     <ClInclude Include="include\Graphics\Graphics.h" />
+    <ClInclude Include="include\Graphics\ModelAttributes.h" />
     <ClInclude Include="include\Graphics\Texture.h" />
     <ClInclude Include="include\Graphics\VertexOut.h" />
     <ClInclude Include="include\Graphics\VertexPostClip.h" />
