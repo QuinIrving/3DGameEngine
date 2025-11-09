@@ -240,6 +240,36 @@
     <ClInclude Include="include\Graphics\ModelAttributes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Delta\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Delta\SpotLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Area\TriangularLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Area\RectangularLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Area\SphericalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Lights\Delta\DirectionalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shaders\FragmentShaders\FlatShadedFragmentShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shaders\FragmentShaders\PhongFragmentShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shaders\FragmentShaders\GouraudFragmentShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="resources\app.manifest" />

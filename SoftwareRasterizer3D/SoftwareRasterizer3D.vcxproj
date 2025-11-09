@@ -214,6 +214,13 @@
     <ClInclude Include="include\Models\Triangle.h" />
     <ClInclude Include="include\Graphics\VertexIn.h" />
     <ClInclude Include="include\Models\UnfoldedCubeMesh.h" />
+    <ClInclude Include="include\Scene\Lights\Area\RectangularLight.h" />
+    <ClInclude Include="include\Scene\Lights\Area\SphericalLight.h" />
+    <ClInclude Include="include\Scene\Lights\Area\TriangularLight.h" />
+    <ClInclude Include="include\Scene\Lights\Delta\DirectionalLight.h" />
+    <ClInclude Include="include\Scene\Lights\Light.h" />
+    <ClInclude Include="include\Scene\Lights\Delta\PointLight.h" />
+    <ClInclude Include="include\Scene\Lights\Delta\SpotLight.h" />
     <ClInclude Include="include\Scene\Objects\Camera.h" />
     <ClInclude Include="include\Scene\Objects\Cube.h" />
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
@@ -221,6 +228,9 @@
     <ClInclude Include="include\Scene\SceneManager.h" />
     <ClInclude Include="include\Shaders\FragmentShaders\BasicTextureMapFragmentShader.h" />
     <ClInclude Include="include\Shaders\FragmentShaders\DefaultFragmentShader.h" />
+    <ClInclude Include="include\Shaders\FragmentShaders\FlatShadedFragmentShader.h" />
+    <ClInclude Include="include\Shaders\FragmentShaders\GouraudFragmentShader.h" />
+    <ClInclude Include="include\Shaders\FragmentShaders\PhongFragmentShader.h" />
     <ClInclude Include="include\Shaders\ShaderSignatures.h" />
     <ClInclude Include="include\Shaders\VertexShaders\DefaultVertexShader.h" />
     <ClInclude Include="include\Window\Window.h" />

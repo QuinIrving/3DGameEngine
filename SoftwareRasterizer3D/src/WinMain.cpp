@@ -19,6 +19,8 @@
 #include "Shaders/VertexShaders/DefaultVertexShader.h"
 #include "Graphics/Texture.h"
 #include "Shaders/FragmentShaders/BasicTextureMapFragmentShader.h"
+#include "Shaders/FragmentShaders/FlatShadedFragmentShader.h"
+#include "Shaders/FragmentShaders/PhongFragmentShader.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -55,7 +57,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	//c.Rotate(-61, -75, -45);
 	Sphere s = Sphere(1.f,12,6);
 	s.Translate(0, 0, -8);
-	s.Scale(2, 2, 2);
+	s.Scale(2, 1.5, 2.5);
 
 	UnfoldedCube c = UnfoldedCube(size);
 	c.Translate(13, 3, -5.5);
@@ -67,7 +69,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	static const Texture t1{"resources/Textures/Cobblestone/CobblestoneWall01_1K_BaseColor.png"};
 	static const Texture t2{ "resources/Textures/StoneWall/StoneWall03_2K_BaseColor.png" };
 
-	s.material.albedoTexture = &t1;
+	//s.material.albedoTexture = &t1;
 	c.material.albedoTexture = &t2;
 
 	// Run the message loop
@@ -172,15 +174,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// cube
 		//float speed1 = -0.04 * deltaTime;
-		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelAttributes(), DefaultVertexShader, DefaultFragmentShader);
+		//win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
 		c.Rotate(deltaTime, 0, deltaTime);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
 		win.gfx.testIndex = 1;
 		// sphere
-		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelAttributes(), DefaultVertexShader, DefaultFragmentShader);
-		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.f);
+		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
+		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.08f * deltaTime);
 
 		win.gfx.Render();
 		Sleep(1);	
