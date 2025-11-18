@@ -8,6 +8,10 @@ const Vec4<float>& VertexOut::GetPosition() const {
 	return position;
 }
 
+const Vec3<float>& VertexOut::GetWorldPosition() const {
+	return worldPosition;
+}
+
 const Vec3<float>& VertexOut::GetViewPosition() const {
 	return viewPosition;
 }
@@ -90,5 +94,5 @@ VertexPostClip VertexOut::PerspectiveDivide() const {
 
 	float invW = 1 / position.w;
 
-	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, viewPosition, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
+	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, worldPosition, viewPosition, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
 }

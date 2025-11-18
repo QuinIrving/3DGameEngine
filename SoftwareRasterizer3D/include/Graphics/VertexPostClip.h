@@ -6,10 +6,11 @@
 class VertexPostClip {
 public:
 	VertexPostClip() = default;
-	VertexPostClip(Vec3<float> position, float invW, Vec3<float> viewPosition, Vec4<float> colour, Vec3<float> normal, Vec2<float> UV) 
-		: position(position), invW(invW), viewPosition(viewPosition), colour(colour), normal(normal), UV(UV) {}
+	VertexPostClip(Vec3<float> position, float invW, Vec3<float> worldPosition, Vec3<float> viewPosition, Vec4<float> colour, Vec3<float> normal, Vec2<float> UV) 
+		: position(position), invW(invW), worldPosition(worldPosition), viewPosition(viewPosition), colour(colour), normal(normal), UV(UV) {}
 
 	const Vec3<float>& GetPosition() const;
+	const Vec3<float>& GetWorldPosition() const;
 	const Vec3<float>& GetViewPosition() const;
 	const Vec4<float>& GetColour() const;
 	const Vec3<float>& GetNormal() const;
@@ -20,6 +21,7 @@ public:
 
 private:
 	Vec3<float> position;
+	Vec3<float> worldPosition;
 	Vec3<float> viewPosition;
 	float invW;
 	Vec4<float> colour;

@@ -7,7 +7,7 @@
 class Triangle {
 public:
 	Triangle() = default;
-	Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec3<float> normal = {}, Vec4<float> colour = Vec4<float>(255, 0, 0, 255)); // Will change later (bad way to handle colour as well).
+	Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec3<float> normal = {}, Vec3<float> worldNormal = {}, Vec4<float> colour = Vec4<float>(255, 0, 0, 255)); // Will change later (bad way to handle colour as well).
 	//Triangle(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, uint32_t colour = 0xFF0000FF); // WIll change later
 
 	const VertexPostClip& GetVertexA() const;
@@ -15,6 +15,7 @@ public:
 	const VertexPostClip& GetVertexC() const;
 	Vec4<float> GetColour() const;
 	Vec3<float> GetFaceNormal() const;
+	Vec3<float> GetFaceWorldNormal() const;
 	
 	void ViewportTransform(int width, int height);
 
@@ -29,6 +30,7 @@ private:
 
 	Vec4<float> triColour; // colour class instead?
 	Vec3<float> faceNormal;
+	Vec3<float> faceWorldNormal;
 	// maybe interpolate per-vertex normals
 	// maybe edge vectors pre-calc?
 	

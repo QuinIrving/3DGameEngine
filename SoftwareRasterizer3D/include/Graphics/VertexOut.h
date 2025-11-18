@@ -21,11 +21,12 @@ public:
 	VertexOut(Vec4<float> pos) : position(pos) {}
 	//VertexOut(Vec3<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
 	VertexOut(float x, float y, float z, float w) : position(Vec4<float>(x, y, z, w)) {}
-	VertexOut(Vec4<float> pos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv) : position(pos), viewPosition(viewPos), normal(normal), UV(uv) {}
+	VertexOut(Vec4<float> pos, Vec3<float> worldPos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv) : position(pos), worldPosition(worldPos), viewPosition(viewPos), normal(normal), UV(uv) {}
 
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 
 	const Vec4<float>& GetPosition() const;
+	const Vec3<float>& GetWorldPosition() const;
 	const Vec3<float>& GetViewPosition() const;
 	const Vec4<float>& GetColour() const;
 	const Vec3<float>& GetNormal() const;
@@ -42,6 +43,7 @@ public:
 
 private:
 	Vec4<float> position;
+	Vec3<float> worldPosition{}; // vert in's multiplied only by M, for normal calculations during triangle assembly lol.
 	Vec3<float> viewPosition{}; // vertex in's multiplied only by MV, for normal calculations during triangle assembly.
 	Vec4<float> colour;
 	Vec3<float> normal;

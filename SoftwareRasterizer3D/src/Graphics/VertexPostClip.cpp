@@ -4,6 +4,10 @@ const Vec3<float>& VertexPostClip::GetPosition() const {
 	return position;
 }
 
+const Vec3<float>& VertexPostClip::GetWorldPosition() const {
+	return worldPosition;
+}
+
 const Vec3<float>& VertexPostClip::GetViewPosition() const {
 	return viewPosition;
 }

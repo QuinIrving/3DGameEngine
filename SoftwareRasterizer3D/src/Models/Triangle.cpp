@@ -1,7 +1,7 @@
 #include "Models/Triangle.h"
 
-Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec3<float> normal, Vec4<float> colour)
-	: A(A), B(B), C(C), faceNormal(normal), triColour(colour)
+Triangle::Triangle(VertexPostClip A, VertexPostClip B, VertexPostClip C, Vec3<float> normal, Vec3<float> worldNormal, Vec4<float> colour)
+	: A(A), B(B), C(C), faceNormal(normal), faceWorldNormal(worldNormal), triColour(colour)
 {
 	//ComputeFaceNormal();
 	/*
@@ -48,6 +48,9 @@ Vec3<float> Triangle::ComputeFaceNormal(const Vec3<float>& A, const Vec3<float>&
 	return Vec3<float>::CrossProduct(u, v).GetNormalized();
 }
 
+Vec3<float> Triangle::GetFaceWorldNormal() const {
+	return faceWorldNormal;
+}
 
 Vec3<float> Triangle::GetFaceNormal() const {
 	return faceNormal;

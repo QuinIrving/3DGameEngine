@@ -39,6 +39,9 @@ public:
 
 	Mat4<T> GetTranspose() const;
 
+	// only requires getting the Mat3 top left corner inverse, as the translations don't affect normals.
+	Mat4<T> GetNormalMatrix() const;
+
 	std::array<T, 4> GetValues();
 
 	/*Mat4<T>& Translate(const Vec3<T>& v, T w = T(1));
@@ -180,7 +183,7 @@ const T& Mat4<T>::RowProxy::operator[](int col) const {
 
 template <typename T>
 Mat4<T> Mat4<T>::GetTranspose() const {
-	Mat4<float> m;
+	Mat4<T> m;
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
 			m[i][j] = (*this)[j][i];
@@ -188,6 +191,46 @@ Mat4<T> Mat4<T>::GetTranspose() const {
 	}
 
 	return m;
+}
+
+template <typename T>
+Mat4<T> Mat4<T>::GetNormalMatrix() const {
+	// only the upper 3x3 matters as for a normal translation doesn't come into play, only the rotation and scaling.
+
+	T a = (*this)[0][0], b = (*this)[0][1], c = (*this)[0][2];
+	T d = (*this)[1][0], e = (*this)[1][1], f = (*this)[1][2];
+	T g = (*this)[2][0], h = (*this)[2][1], i = (*this)[2][2];
+
+	// Determinant:
+	T det = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+	T invDet = 1.f / det;
+
+	// Cofactor matrix (inverse)
+	Mat4<T> inv;
+	inv[0][0] = (e * i - f * h) * invDet;
+	inv[0][1] = -(b * i - c * h) * invDet;
+	inv[0][2] = (b * f - c * e) * invDet;
+
+	inv[1][0] = -(d * i - f * g) * invDet;
+	inv[1][1] = (a * i - c * g) * invDet;
+	inv[1][2] = -(a * f - c * d) * invDet;
+
+	inv[2][0] = (d * h - e * g) * invDet;
+	inv[2][1] = -(a * h - b * g) * invDet;
+	inv[2][2] = (a * e - b * d) * invDet;
+
+	// Transpose, only the 3x3 not the translation parts.
+	Mat4<T> normal;
+	for (int r = 0; r < 3; r++) {
+		for (int c = 0; c < 3; c++) {
+			normal[r][c] = inv[c][r];
+		}
+	}
+
+	// not sure if we even need this but will keep the factor there for consistency.
+	normal[3][3] = 1;
+
+	return normal;
 }
 
 // want some way to change the idea of getting a direction vs a position vector (0, vs 1 on the vec4 version when multiplying)

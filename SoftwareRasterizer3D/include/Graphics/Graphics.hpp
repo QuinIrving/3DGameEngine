@@ -93,7 +93,9 @@ void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector
 
 			// primitive creation.
 			// just for testing for now (colours), will utilize shaders or something later on.
-			Triangle t = Triangle(vpc1, vpc2, vpc3, Triangle::ComputeFaceNormal(vpc1.GetViewPosition(), vpc2.GetViewPosition(), vpc3.GetViewPosition()), colours[(i / 6) % 12]);
+			// Using world position, as we don't want to utilize 
+			Triangle t = Triangle(vpc1, vpc2, vpc3, Triangle::ComputeFaceNormal(vpc1.GetViewPosition(), vpc2.GetViewPosition(), vpc3.GetViewPosition()), 
+								Triangle::ComputeFaceNormal(vpc1.GetWorldPosition(), vpc2.GetWorldPosition(), vpc3.GetWorldPosition()), colours[(i / 6) % 12]);
 		
 			if (Vec3<float>::DotProduct(t.GetFaceNormal(), vpc1.GetViewPosition()) > 0) {
 				continue;
@@ -261,7 +263,7 @@ void Graphics::RasterizeTriangle(const Triangle& tri, const ModelAttributes& mod
 					// interpolate other vertex attributes
 					//FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
-					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetColour(), interpUV, {}, {}), modelAttributes.material);
+					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetFaceWorldNormal(), tri.GetColour(), interpUV, {}, {}), modelAttributes.material);
 
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.

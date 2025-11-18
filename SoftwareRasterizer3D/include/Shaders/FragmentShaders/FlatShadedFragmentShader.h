@@ -40,7 +40,7 @@ FragmentOut FlatShadedFragmentShader(const FragmentIn& fragIn, const Material& m
 	Custom Addition for testing out flat shading in basic respect.
 	*******/
 	// fancy name just for the diffuse intensity
-	float lambertianReflectance = std::max(0.1f, fragIn.faceNormal.DotProduct(-directionLight.direction));
+	float lambertianReflectance = std::max(0.1f, fragIn.faceWorldNormal.DotProduct(-directionLight.direction));
 	lambertianReflectance *= directionLight.intensity;
 	// don't forget about colour, and looping through later, and better ways to do some of this.
 
