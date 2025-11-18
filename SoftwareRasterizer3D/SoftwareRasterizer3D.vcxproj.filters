@@ -93,6 +93,9 @@
     <ClCompile Include="src\Graphics\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Objects\Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Window\Window.h">
@@ -270,28 +273,60 @@
     <ClInclude Include="include\Shaders\FragmentShaders\GouraudFragmentShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Loaders\OBJLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Models\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene\Objects\Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="resources\app.manifest" />
+    <None Include="resources\Models\bunny.obj" />
+    <None Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
+    <None Include="resources\**\*.*" />
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\**\*.*">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\Models\bunny.obj" />
+    <None Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
+    <None Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
+    <None Include="resources\**\*.*" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <Text Include="resources\Models\bunny.obj" />
+    <Text Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png" />
+    <Text Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png" />
+    <Text Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png" />
+    <Text Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png" />
+    <Text Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
+    <Text Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
+    <Text Include="resources\**\*.*" />
   </ItemGroup>
 </Project>

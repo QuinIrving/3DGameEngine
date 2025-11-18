@@ -169,6 +169,7 @@
     <ClCompile Include="src\Models\UnfoldedCubeMesh.cpp" />
     <ClCompile Include="src\Scene\Objects\Camera.cpp" />
     <ClCompile Include="src\Scene\Objects\Cube.cpp" />
+    <ClCompile Include="src\Scene\Objects\Object.cpp" />
     <ClCompile Include="src\Scene\Objects\Sphere.cpp" />
     <ClCompile Include="src\Scene\Objects\UnfoldedCube.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\Keyboard.h" />
     <ClInclude Include="include\Input\Mouse.h" />
+    <ClInclude Include="include\Loaders\OBJLoader.h" />
     <ClInclude Include="include\Math\GeneralMath.h" />
     <ClInclude Include="include\Math\Mat3.h" />
     <ClInclude Include="include\Math\Mat4.h" />
@@ -209,6 +211,7 @@
     <ClInclude Include="include\Math\Vec4.h" />
     <ClInclude Include="include\Models\CubeMesh.h" />
     <ClInclude Include="include\Models\IcosphereMesh.h" />
+    <ClInclude Include="include\Models\Mesh.h" />
     <ClInclude Include="include\Models\SphereMesh.h" />
     <ClInclude Include="include\Models\Teapot.h" />
     <ClInclude Include="include\Models\Triangle.h" />
@@ -223,6 +226,7 @@
     <ClInclude Include="include\Scene\Lights\Delta\SpotLight.h" />
     <ClInclude Include="include\Scene\Objects\Camera.h" />
     <ClInclude Include="include\Scene\Objects\Cube.h" />
+    <ClInclude Include="include\Scene\Objects\Object.h" />
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
     <ClInclude Include="include\Scene\Objects\UnfoldedCube.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
@@ -236,9 +240,6 @@
     <ClInclude Include="include\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="resources\app.manifest" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\Graphics\Graphics.hpp">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -246,12 +247,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\Textures\Cobblestone\CobblestoneWall01_1K_BaseColor.png" />
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_AO.png" />
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_BaseColor.png" />
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Height.png" />
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
-    <Image Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
+    <None Include="resources\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\Models\dragon-1500.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

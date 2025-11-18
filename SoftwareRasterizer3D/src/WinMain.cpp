@@ -21,6 +21,9 @@
 #include "Shaders/FragmentShaders/BasicTextureMapFragmentShader.h"
 #include "Shaders/FragmentShaders/FlatShadedFragmentShader.h"
 #include "Shaders/FragmentShaders/PhongFragmentShader.h"
+#include "Models/Mesh.h"
+#include "Scene/Objects/Object.h"
+#include "Loaders/OBJLoader.h"
 
 constexpr wchar_t WND_TITLE[] = L"3DGameEngine";
 constexpr wchar_t WND_NAME[] = L"Main Window Class";
@@ -55,14 +58,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	//Cube c = Cube(size);
 	//c.Translate(0, 2, -3.5); // x translate as -15 is good for checking clipping capabilities.
 	//c.Rotate(-61, -75, -45);
-	Sphere s = Sphere(1.f,12,6);
+	Sphere s = Sphere(1.f,48,24);
 	s.Translate(0, 0, -8);
-	s.Scale(2, 1.5, 2.5);
+	s.Scale(3, 3, 3);
 
 	UnfoldedCube c = UnfoldedCube(size);
 	c.Translate(13, 3, -5.5);
 	c.Scale(6, 6, 6);
 
+	//---------------//
+	// Create an initial object for testing
+	Object dragon = loadOBJ("resources/Models/dragon-1500.obj", 16.f);
+	dragon.Translate(24, -12, -12);
+	Object bunny = loadOBJ("resources/Models/bunny.obj", 36.f);
+	bunny.Translate(-12, -4, 4);
 
 	//---------------//
 	// Create an initial texture for testing.
@@ -71,6 +80,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	//s.material.albedoTexture = &t1;
 	c.material.albedoTexture = &t2;
+	dragon.material.albedoTexture = &t1;
 
 	// Run the message loop
 	MSG msg = { };
@@ -174,8 +184,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 		// cube
 		//float speed1 = -0.04 * deltaTime;
-		//win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
-		c.Rotate(deltaTime, 0, deltaTime);
+		win.gfx.Pipeline(c.GetVertices(), c.GetVertexIds(), c.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
+		c.Rotate(deltaTime, -0.6f * deltaTime, deltaTime);
 		//c.Translate(0, 0, -0.1f * deltaTime);
 
 
@@ -183,6 +193,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		// sphere
 		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
 		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.08f * deltaTime);
+
+		win.gfx.Pipeline(dragon.GetVertices(), dragon.GetVertexIds(), dragon.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
+
+		win.gfx.Pipeline(bunny.GetVertices(), bunny.GetVertexIds(), bunny.GetModelAttributes(), DefaultVertexShader, FlatShadedFragmentShader);
 
 		win.gfx.Render();
 		Sleep(1);	

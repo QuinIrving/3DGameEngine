@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Override so resources will always be passed to git
+!resources/
+!resources/**/
+!resources/**/*.obj
