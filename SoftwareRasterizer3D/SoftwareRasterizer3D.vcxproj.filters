@@ -96,6 +96,12 @@
     <ClCompile Include="src\Scene\Objects\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Models\QuadMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Objects\Quad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Window\Window.h">
@@ -282,6 +288,12 @@
     <ClInclude Include="include\Scene\Objects\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Scene\Objects\Quad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Models\QuadMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\Models\bunny.obj" />
@@ -328,5 +340,13 @@
     <Text Include="resources\Textures\StoneWall\StoneWall03_2K_Normal.png" />
     <Text Include="resources\Textures\StoneWall\StoneWall03_2K_Roughness.png" />
     <Text Include="resources\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Textures\BrickWall\brickwall.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Textures\BrickWall\brickwall_normal.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

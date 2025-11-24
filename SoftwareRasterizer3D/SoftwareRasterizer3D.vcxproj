@@ -162,6 +162,7 @@
     <ClCompile Include="src\Input\Mouse.cpp" />
     <ClCompile Include="src\Math\Quaternion.cpp" />
     <ClCompile Include="src\Models\CubeMesh.cpp" />
+    <ClCompile Include="src\Models\QuadMesh.cpp" />
     <ClCompile Include="src\Models\SphereMesh.cpp" />
     <ClCompile Include="src\Models\Teapot.cpp" />
     <ClCompile Include="src\Models\Triangle.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="src\Scene\Objects\Camera.cpp" />
     <ClCompile Include="src\Scene\Objects\Cube.cpp" />
     <ClCompile Include="src\Scene\Objects\Object.cpp" />
+    <ClCompile Include="src\Scene\Objects\Quad.cpp" />
     <ClCompile Include="src\Scene\Objects\Sphere.cpp" />
     <ClCompile Include="src\Scene\Objects\UnfoldedCube.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
@@ -212,6 +214,7 @@
     <ClInclude Include="include\Models\CubeMesh.h" />
     <ClInclude Include="include\Models\IcosphereMesh.h" />
     <ClInclude Include="include\Models\Mesh.h" />
+    <ClInclude Include="include\Models\QuadMesh.h" />
     <ClInclude Include="include\Models\SphereMesh.h" />
     <ClInclude Include="include\Models\Teapot.h" />
     <ClInclude Include="include\Models\Triangle.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="include\Scene\Objects\Camera.h" />
     <ClInclude Include="include\Scene\Objects\Cube.h" />
     <ClInclude Include="include\Scene\Objects\Object.h" />
+    <ClInclude Include="include\Scene\Objects\Quad.h" />
     <ClInclude Include="include\Scene\Objects\Sphere.h" />
     <ClInclude Include="include\Scene\Objects\UnfoldedCube.h" />
     <ClInclude Include="include\Scene\SceneManager.h" />
@@ -254,6 +258,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\Models\dragon-1500.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Textures\BrickWall\brickwall.jpg" />
+    <Image Include="resources\Textures\BrickWall\brickwall_normal.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

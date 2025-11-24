@@ -13,9 +13,21 @@ enum class TextureSamplingMode {
 	// bicubic?
 };
 
+// maybe flat, gouraud, phong for shading technique
+
+// lightingmodel / illuminationmodel:
+/*
+Lambert,        // Standard Diffuse Only
+HalfLambert,    // Stylized Diffuse Only (Softer shadows)
+PhongSpecular,  // Adds classic Specular highlights
+BlinnPhong,     // Better Specular highlights
+PBR,            // Physically Based Reflection (Complex)
+*/
+
 enum class Lighting {
 	None,
 	Flat,
+	HalfLambert,
 	Gouraud,
 	Phong,
 	BlinnPhong,

@@ -11,6 +11,7 @@
 #include "Scene/Objects/Sphere.h"
 #include "Scene/Objects/Camera.h"
 #include "Scene/Objects/UnfoldedCube.h"
+#include "Scene/Objects/Quad.h"
 #include <chrono>
 #include "Game/Core/Events/GameEvent.h"
 #include "Game/Core/Events/CameraRotate.h"
@@ -66,6 +67,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.Translate(13, 3, -5.5);
 	c.Scale(6, 6, 6);
 
+	Quad quad = Quad(50, 50);
+	quad.Translate(10, 0, 2);
+	quad.Rotate(0, 45, 0);
+
 	//---------------//
 	// Create an initial object for testing
 	Object dragon = loadOBJ("resources/Models/dragon-1500.obj", 16.f);
@@ -81,6 +86,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	//s.material.albedoTexture = &t1;
 	c.material.albedoTexture = &t2;
 	dragon.material.albedoTexture = &t1;
+	quad.material.albedoTexture = &t1;
 
 	// Run the message loop
 	MSG msg = { };
@@ -197,6 +203,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.Pipeline(dragon.GetVertices(), dragon.GetVertexIds(), dragon.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
 
 		win.gfx.Pipeline(bunny.GetVertices(), bunny.GetVertexIds(), bunny.GetModelAttributes(), DefaultVertexShader, FlatShadedFragmentShader);
+
+		win.gfx.Pipeline(quad.GetVertices(), quad.GetVertexIds(), quad.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
 
 		win.gfx.Render();
 		Sleep(1);	
