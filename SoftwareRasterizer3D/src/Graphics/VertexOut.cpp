@@ -28,6 +28,14 @@ const Vec2<float>& VertexOut::GetUV() const {
 	return UV;
 }
 
+const Vec3<float>& VertexOut::GetTangent() const {
+	return tangent;
+}
+
+const Vec3<float>& VertexOut::GetBitangent() const {
+	return bitangent;
+}
+
 /*const Vec3<float>& VertexOut::CalculateNormal() {
 	return normal;
 	// not sure exactly how to implement this.
@@ -94,5 +102,5 @@ VertexPostClip VertexOut::PerspectiveDivide() const {
 
 	float invW = 1 / position.w;
 
-	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, worldPosition, viewPosition, colour, normal, UV); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
+	return VertexPostClip(Vec3<float>(pX, pY, pZ), invW, worldPosition, viewPosition, colour, normal, UV, tangent, bitangent); // pass in all of the calculated normal, texcord, colour, x,y,z, invW, and other vertex attributes.
 }

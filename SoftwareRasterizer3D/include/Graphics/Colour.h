@@ -18,6 +18,10 @@ struct Colour {
 		return *this;
 	}
 
+	Vec3<float> GetVectorizedValues() const {
+		return Vec3<float>(r, g, b);
+	}
+
 	float r;
 	float g;
 	float b;

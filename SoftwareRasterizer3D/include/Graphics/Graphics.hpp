@@ -242,10 +242,14 @@ void Graphics::RasterizeTriangle(const Triangle& tri, const ModelAttributes& mod
 					float interpZ = u * (posA.z * A.GetInvW()) + v * (posB.z * B.GetInvW()) + w * (posC.z * C.GetInvW());
 					Vec3<float> interpVertNormal = (A.GetNormal() * A.GetInvW()) * u + (B.GetNormal() * B.GetInvW()) * v + (C.GetNormal() * C.GetInvW()) * w;
 					Vec2<float> interpUV = (A.GetUV() * A.GetInvW()) * u + (B.GetUV() * B.GetInvW()) * v + (C.GetUV() * C.GetInvW()) * w;
+					Vec3<float> interpTangent = (A.GetTangent() * A.GetInvW()) * u + (B.GetTangent() * B.GetInvW()) * v + (C.GetTangent() * C.GetInvW()) * w;
+					Vec3<float> interpBitangent = (A.GetBitangent() * A.GetInvW()) * u + (B.GetBitangent() * B.GetInvW()) * v + (C.GetBitangent() * C.GetInvW()) * w;
 					// Bring it back to screen space to get final interpolated value.
 					interpZ /= interpInvW;
 					interpVertNormal /= interpInvW;
 					interpUV /= interpInvW;
+					interpTangent /= interpInvW;
+					interpBitangent /= interpInvW;
 
 					if (interpZ < 0) {
 						OutputDebugString(std::format(L"interp-Z coord: {}\n", interpZ).c_str());
@@ -259,11 +263,12 @@ void Graphics::RasterizeTriangle(const Triangle& tri, const ModelAttributes& mod
 						continue;
 					}
 
+					//!!!! MAY WANT TO CALCULATE BITANGENT ON THE FLY PER FRAGMENT, RATHER THAN IN VERTEX SHADER.
 
 					// interpolate other vertex attributes
 					//FragmentIn(int x, int y, float z, const Vec3<float>& normal, const Vec4<float>& colour, const Vec2<float>& uv, const Vec3<float>& tangent, const Vec3<float>& bitangent) 
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
-					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetFaceWorldNormal(), tri.GetColour(), interpUV, {}, {}), modelAttributes.material);
+					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetFaceWorldNormal(), tri.GetColour(), interpUV, interpTangent, interpBitangent), modelAttributes.material);
 
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.

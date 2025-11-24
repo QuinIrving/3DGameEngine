@@ -21,6 +21,14 @@ const Vec2<float>& VertexIn::GetUV() const {
 	return UV;
 }
 
+const Vec3<float>& VertexIn::GetTangent() const {
+	return tangent;
+}
+
+const float VertexIn::GetTangentW() const {
+	return tangentW;
+}
+
 void VertexIn::SetNormal(Vec3<float> norm) {
 	normal = norm;
 } 
@@ -30,4 +38,12 @@ void VertexIn::SetColour(int r, int g, int b, int a) {
 	colour.y = g / 255.f;
 	colour.z = b / 255.f;
 	colour.w = a / 255.f;
+}
+
+void VertexIn::SetTangent(Vec3<float> t) {
+	tangent = t;
+}
+
+void VertexIn::SetTangentW(float tw) {
+	tangentW = tw;
 }

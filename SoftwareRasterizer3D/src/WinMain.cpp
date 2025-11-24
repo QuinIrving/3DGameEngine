@@ -82,11 +82,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// Create an initial texture for testing.
 	static const Texture t1{"resources/Textures/Cobblestone/CobblestoneWall01_1K_BaseColor.png"};
 	static const Texture t2{ "resources/Textures/StoneWall/StoneWall03_2K_BaseColor.png" };
+	static const Texture t3{ "resources/Textures/BrickWall/brickwall.jpg" };
+	static const Texture n1{ "resources/Textures/BrickWall/brickwall_normal.jpg" };
 
 	//s.material.albedoTexture = &t1;
 	c.material.albedoTexture = &t2;
 	dragon.material.albedoTexture = &t1;
-	quad.material.albedoTexture = &t1;
+	quad.material.albedoTexture = &t3;
+	quad.material.normalMap = &n1;
 
 	// Run the message loop
 	MSG msg = { };

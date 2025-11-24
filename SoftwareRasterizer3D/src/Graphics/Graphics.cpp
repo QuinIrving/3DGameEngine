@@ -17,6 +17,8 @@ void Graphics::ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	Vec3<float> v12WorldPos = v1.GetWorldPosition() + ((v2.GetWorldPosition() - v1.GetWorldPosition()) * t);
 	Vec3<float> v12Normal = v1.GetNormal() + ((v2.GetNormal() - v1.GetNormal()) * t);
 	Vec2<float> v12UV = v1.GetUV() + ((v2.GetUV() - v1.GetUV()) * t);
+	Vec3<float> v12Tangent = v1.GetTangent() + ((v2.GetTangent() - v1.GetTangent()) * t);
+	Vec3<float> v12Bitangent = v1.GetBitangent() + ((v2.GetBitangent() - v1.GetBitangent()) * t);
 
 	// need to also interpolate attributes
 	t = (-clip1.z) / (in2.z - clip1.z);
@@ -25,12 +27,14 @@ void Graphics::ClipOneOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	Vec3<float> v13ViewPos = v1.GetViewPosition() + ((v3.GetViewPosition() - v1.GetViewPosition()) * t);
 	Vec3<float> v13Normal = v1.GetNormal() + ((v3.GetNormal() - v1.GetNormal()) * t);
 	Vec2<float> v13UV = v1.GetUV() + ((v3.GetUV() - v1.GetUV()) * t);
+	Vec3<float> v13Tangent = v1.GetTangent() + ((v3.GetTangent() - v1.GetTangent()) * t);
+	Vec3<float> v13Bitangent = v1.GetBitangent() + ((v3.GetBitangent() - v1.GetBitangent()) * t);
 
 
 	v.push_back(v2.PerspectiveDivide()); // 0
 	v.push_back(v3.PerspectiveDivide()); // 1
-	v.push_back(VertexOut(v12Pos, v12WorldPos, v12ViewPos, v12Normal, v12UV).PerspectiveDivide()); // 2
-	v.push_back(VertexOut(v13Pos, v13WorldPos, v13ViewPos, v13Normal, v13UV).PerspectiveDivide()); // 3
+	v.push_back(VertexOut(v12Pos, v12WorldPos, v12ViewPos, v12Normal, v12UV, v12Tangent, v12Bitangent).PerspectiveDivide()); // 2
+	v.push_back(VertexOut(v13Pos, v13WorldPos, v13ViewPos, v13Normal, v13UV, v13Tangent, v13Bitangent).PerspectiveDivide()); // 3
 	postClipIds.push_back(0);
 	postClipIds.push_back(3);
 	postClipIds.push_back(1);
@@ -51,6 +55,8 @@ void Graphics::ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	Vec3<float> v1ViewPos = v1.GetViewPosition() + ((v3.GetViewPosition() - v1.GetViewPosition()) * t);
 	Vec3<float> v1Normal = v1.GetNormal() + ((v3.GetNormal() - v1.GetNormal()) * t);
 	Vec2<float> v1UV = v1.GetUV() + ((v3.GetUV() - v1.GetUV()) * t);
+	Vec3<float> v1Tangent = v1.GetTangent() + ((v3.GetTangent() - v1.GetTangent()) * t);
+	Vec3<float> v1Bitangent = v1.GetBitangent() + ((v3.GetBitangent() - v1.GetBitangent()) * t);
 
 	// need to also interpolate attributes.
 	t = (-clip2.z) / (in1.z - clip2.z);
@@ -59,14 +65,16 @@ void Graphics::ClipTwoOut(std::vector<VertexPostClip>& v, std::vector<int>& post
 	Vec3<float> v2ViewPos = v2.GetViewPosition() + ((v3.GetViewPosition() - v2.GetViewPosition()) * t);
 	Vec3<float> v2Normal = v2.GetNormal() + ((v3.GetNormal() - v2.GetNormal()) * t);
 	Vec2<float> v2UV = v2.GetUV() + ((v3.GetUV() - v2.GetUV()) * t);
+	Vec3<float> v2Tangent = v2.GetTangent() + ((v3.GetTangent() - v2.GetTangent()) * t);
+	Vec3<float> v2Bitangent = v2.GetBitangent() + ((v3.GetBitangent() - v2.GetBitangent()) * t);
 
 	
 
 	v.push_back(v3.PerspectiveDivide());
 	postClipIds.push_back(0);
-	v.push_back(VertexOut(v1Pos, v1WorldPos, v1ViewPos, v1Normal, v1UV).PerspectiveDivide());
+	v.push_back(VertexOut(v1Pos, v1WorldPos, v1ViewPos, v1Normal, v1UV, v1Tangent, v1Bitangent).PerspectiveDivide());
 	postClipIds.push_back(1);
-	v.push_back(VertexOut(v2Pos, v2WorldPos, v2ViewPos, v2Normal, v2UV).PerspectiveDivide());
+	v.push_back(VertexOut(v2Pos, v2WorldPos, v2ViewPos, v2Normal, v2UV, v2Tangent, v2Bitangent).PerspectiveDivide());
 	postClipIds.push_back(2);
 }
 

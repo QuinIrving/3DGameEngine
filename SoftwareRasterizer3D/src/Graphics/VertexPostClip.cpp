@@ -28,6 +28,14 @@ const float VertexPostClip::GetInvW() const {
 	return invW;
 }
 
+const Vec3<float>& VertexPostClip::GetTangent() const {
+	return tangent;
+}
+
+const Vec3<float>& VertexPostClip::GetBitangent() const {
+	return bitangent;
+}
+
 void VertexPostClip::ViewportTransform(int width, int height) {
 	// may want to check z here, if it's -1,1 it means I need to change my projection matrix.
 	position.x = (position.x + 1.f) * 0.5f * width;

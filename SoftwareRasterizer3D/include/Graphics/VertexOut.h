@@ -21,7 +21,10 @@ public:
 	VertexOut(Vec4<float> pos) : position(pos) {}
 	//VertexOut(Vec3<float> pos) : position(Vec3<float>(pos.x, pos.y, pos.z)) {}
 	VertexOut(float x, float y, float z, float w) : position(Vec4<float>(x, y, z, w)) {}
-	VertexOut(Vec4<float> pos, Vec3<float> worldPos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv) : position(pos), worldPosition(worldPos), viewPosition(viewPos), normal(normal), UV(uv) {}
+	VertexOut(Vec4<float> pos, Vec3<float> worldPos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv) 
+		: position(pos), worldPosition(worldPos), viewPosition(viewPos), normal(normal), UV(uv) {};
+	VertexOut(Vec4<float> pos, Vec3<float> worldPos, Vec3<float> viewPos, Vec3<float> normal, Vec2<float> uv, Vec3<float> tangent, Vec3<float> bitangent) 
+		: position(pos), worldPosition(worldPos), viewPosition(viewPos), normal(normal), UV(uv), tangent(tangent), bitangent(bitangent) {};
 
 	Vec4<float> operator*(const Mat4<float>& rhs) const;
 
@@ -31,6 +34,8 @@ public:
 	const Vec4<float>& GetColour() const;
 	const Vec3<float>& GetNormal() const;
 	const Vec2<float>& GetUV() const;
+	const Vec3<float>& GetTangent() const;
+	const Vec3<float>& GetBitangent() const;
 
 	//const Vec3<float>& CalculateNormal();
 	void SetColour(int r, int g, int b, int a = 255);
@@ -48,7 +53,9 @@ private:
 	Vec4<float> colour;
 	Vec3<float> normal;
 	Vec2<float> UV = { 0, 0 };
-	// 	e.g., tangent, binormal, bone weights, etc.
+	Vec3<float> tangent = { 0, 0, 0 };
+	Vec3<float> bitangent = { 0, 0, 0 };
+	//  bone weights, etc.
 };
 
 //3d pos is (x, y, z, 1)
