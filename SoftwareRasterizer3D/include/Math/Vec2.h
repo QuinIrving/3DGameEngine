@@ -20,6 +20,9 @@ public:
 	Vec2<T>& operator*=(const T scalar);
 	Vec2<T>& operator/=(const T scalar);
 
+	Vec2<T> operator^(const T scalar) const;
+	Vec2<T>& operator^=(const T scalar);
+
 	// Equality, check if all element's are equal
 	bool operator==(const Vec2<T>& rhs) const;
 	bool operator!=(const Vec2<T>& rhs) const;
@@ -116,6 +119,22 @@ Vec2<T>& Vec2<T>::operator/=(const T scalar) {
 
 	x /= scalar;
 	y /= scalar;
+
+	return *this;
+}
+
+template <typename T>
+Vec2<T> Vec2<T>::operator^(const T scalar) const {
+	T newX = static_cast<T>(std::pow(x, scalar));
+	T newY = static_cast<T>(std::pow(y, scalar));
+
+	return Vec2<T>(newX, newY);
+}
+
+template <typename T>
+Vec2<T>& Vec2<T>::operator^=(const T scalar) {
+	x = static_cast<T>(std::pow(x, scalar));
+	y = static_cast<T>(std::pow(y, scalar));
 
 	return *this;
 }

@@ -31,6 +31,11 @@ public:
 	Vec4<T> operator*(const Quaternion& q) const;
 	Vec4<T>& operator*=(const Quaternion& q);
 
+	/*
+	Vec4<T> operator^(const T scalar) const;
+	Vec4<T>& operator^=(const T scalar);
+	*/
+
 	// Equality, check if all element's are equal
 	bool operator==(const Vec4<T>& rhs) const;
 	bool operator!=(const Vec4<T>& rhs) const;
@@ -149,6 +154,27 @@ Vec4<T>& Vec4<T>::operator/=(const T scalar) {
 
 	return *this;
 }
+
+/*
+template <typename T>
+Vec4<T> Vec4<T>::operator^(const T scalar) const {
+	T newX = static_cast<T>(std::pow(x, scalar));
+	T newY = static_cast<T>(std::pow(y, scalar));
+	T newZ = static_cast<T>(std::pow(z, scalar));
+	T newW = static_cast<T>(std::pow(w, scalar));
+
+	return Vec4<T>(newX, newY, newZ, newW);
+}
+
+template <typename T>
+Vec4<T>& Vec4<T>::operator^=(const T scalar) {
+	x = static_cast<T>(std::pow(x, scalar));
+	y = static_cast<T>(std::pow(y, scalar));
+	z = static_cast<T>(std::pow(z, scalar));
+	w = static_cast<T>(std::pow(w, scalar));
+
+	return *this;
+}*/
 
 template <typename T>
 bool Vec4<T>::operator==(const Vec4<T>& rhs) const {

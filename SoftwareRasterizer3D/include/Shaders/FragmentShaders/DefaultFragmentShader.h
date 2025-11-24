@@ -20,8 +20,10 @@ FragmentOut DefaultFragmentShader(const FragmentIn& fragIn, const Material& mate
 		default:
 			c = { 1.f, 1.f, 1.f, 1.f }; // should be base colour instead.
 		}
+
+		c = Colour(c.GetVectorizedValues() ^ GAMMA_LINEAR, c.a);
 	}
 
-	fragOut.colour = { c.r * 255.f, c.g * 255.f, c.b * 255.f, c.a * 255.f };
+	fragOut.colour = { c.r, c.g, c.b, c.a };
 	return fragOut;
 }

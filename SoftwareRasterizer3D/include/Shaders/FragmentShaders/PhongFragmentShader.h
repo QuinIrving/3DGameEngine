@@ -32,6 +32,9 @@ FragmentOut PhongFragmentShader(const FragmentIn& fragIn, const Material& materi
 		default:
 			c = { 1.f, 1.f, 1.f, 1.f }; // should be base colour instead.
 		}
+
+		// need to transform sRGB to linear space for albedo values:
+		c = Colour(c.GetVectorizedValues() ^ GAMMA_LINEAR, c.a);
 	}
 
 	/**********
@@ -61,6 +64,6 @@ FragmentOut PhongFragmentShader(const FragmentIn& fragIn, const Material& materi
 	End of custom addition
 	*/
 
-	fragOut.colour = { c.r * 255.f, c.g * 255.f, c.b * 255.f, c.a * 255.f };
+	fragOut.colour = { c.r, c.g, c.b, c.a};
 	return fragOut;
 }

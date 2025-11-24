@@ -3,6 +3,9 @@
 // Should abstract away from user. They shouldn't know about this private list of objs/entities
 // when they create a new object, it should add it into this list. Some entity manager. That's for a later
 // refactor.
+static constexpr float GAMMA_CORRECTION = 1.f / 2.2f;
+static constexpr float GAMMA_LINEAR = 2.2f;
+
 void Graphics::Pipeline(const std::vector<VertexIn>& vertices, const std::vector<uint32_t>& indices, const ModelAttributes& modelAttributes, TVertexShader auto& VertexShader, TFragmentShader auto& FragmentShader) {
 	const Mat4<float>& viewMatrix = camera.GetViewMatrix(); // could technically optimize this by pre-computed VP once a frame, not once per object.
 	std::vector<VertexOut> clipVertices;
@@ -270,6 +273,8 @@ void Graphics::RasterizeTriangle(const Triangle& tri, const ModelAttributes& mod
 					// create fragmentinput with our x,y,z and list of other attributes all interpolated
 					FragmentOut f = FragmentShader(FragmentIn(x, y, interpZ, interpVertNormal, tri.GetFaceNormal(), tri.GetFaceWorldNormal(), tri.GetColour(), interpUV, interpTangent, interpBitangent), modelAttributes.material);
 
+					f.colour = Vec4<float>((Vec3<float>(f.colour) ^ GAMMA_CORRECTION), f.colour.w);
+					f.colour *= 255.f;
 					// run Fragment shader and get frag_out.
 					// Get the output colour, or whatever else final would be.
 					// if we reach here, update the depth buffer, and write to backbuffer

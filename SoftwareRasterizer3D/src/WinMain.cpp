@@ -89,7 +89,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.material.albedoTexture = &t2;
 	dragon.material.albedoTexture = &t1;
 	quad.material.albedoTexture = &t3;
-	quad.material.normalMap = &n1;
+	//quad.material.normalMap = &n1;
 
 	// Run the message loop
 	MSG msg = { };

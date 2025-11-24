@@ -29,6 +29,9 @@ public:
 	Vec3<T> operator*(const Quaternion& q) const;
 	Vec3<T>& operator*=(const Quaternion& q);
 
+	Vec3<T> operator^(const T scalar) const;
+	Vec3<T>& operator^=(const T scalar);
+
 	// Equality, check if all element's are equal
 	bool operator==(const Vec3<T>& rhs) const;
 	bool operator!=(const Vec3<T>& rhs) const;
@@ -138,6 +141,24 @@ Vec3<T>& Vec3<T>::operator/=(const T scalar) {
 	x /= scalar;
 	y /= scalar;
 	z /= scalar;
+
+	return *this;
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator^(const T scalar) const {
+	T newX = static_cast<T>(std::pow(x, scalar));
+	T newY = static_cast<T>(std::pow(y, scalar));
+	T newZ = static_cast<T>(std::pow(z, scalar));
+
+	return Vec3<T>(newX, newY, newZ);
+}
+
+template <typename T>
+Vec3<T>& Vec3<T>::operator^=(const T scalar) {
+	x = static_cast<T>(std::pow(x, scalar));
+	y = static_cast<T>(std::pow(y, scalar));
+	z = static_cast<T>(std::pow(z, scalar));
 
 	return *this;
 }
