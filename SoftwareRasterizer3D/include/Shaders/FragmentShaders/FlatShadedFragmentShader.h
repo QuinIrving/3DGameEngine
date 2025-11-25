@@ -8,7 +8,7 @@ Custom Addition for testing out flat shading in basic respect.
 *******/
 #include "Scene/Lights/Delta/DirectionalLight.h"
 
-DirectionalLight directionLight{ {0.1f, -0.25f, -0.7f}, 10.f};
+DirectionalLight directionLight{ {0.1f, -0.25f, -0.7f}, 2.f};
 
 /**
 End of custom addition
@@ -50,7 +50,10 @@ FragmentOut FlatShadedFragmentShader(const FragmentIn& fragIn, const Material& m
 	/**
 	End of custom addition
 	*/
+	Vec3<float> rgb = c.GetVectorizedValues();
+	// reinhard tone mapping
+	rgb = rgb / (rgb + Vec3<float>(1.f, 1.f, 1.f));
 
-	fragOut.colour = { c.r, c.g, c.b, c.a };
+	fragOut.colour = { rgb.x, rgb.y, rgb.z, c.a };
 	return fragOut;
 }

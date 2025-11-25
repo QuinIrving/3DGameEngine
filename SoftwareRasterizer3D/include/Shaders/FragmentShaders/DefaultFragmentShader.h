@@ -24,6 +24,10 @@ FragmentOut DefaultFragmentShader(const FragmentIn& fragIn, const Material& mate
 		c = Colour(c.GetVectorizedValues() ^ GAMMA_LINEAR, c.a);
 	}
 
-	fragOut.colour = { c.r, c.g, c.b, c.a };
+	Vec3<float> rgb = c.GetVectorizedValues();
+	// reinhard tone mapping
+	rgb = rgb / (rgb + Vec3<float>(1.f, 1.f, 1.f));
+
+	fragOut.colour = { rgb.x, rgb.y, rgb.z, c.a };
 	return fragOut;
 }
