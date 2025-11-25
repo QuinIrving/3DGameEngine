@@ -2,6 +2,8 @@
 #include "Math/Vec4.h"
 class Light {
 public:
+	Light(float intensity = 1.f, Vec4<float> colour = { 1.f, 1.f, 1.f, 1.f }) : intensity(intensity), colour(colour) {};
+
 	virtual ~Light() = default;
 	Vec4<float> colour{ 1.f, 1.f, 1.f, 1.f }; // maybe vec3
 	float intensity{ 1.f };

@@ -8,10 +8,14 @@ QuadMesh::QuadMesh(float width, float height) {
 	//VertexIn v2 = VertexIn(width, 0, 1, {0, 0, 1}, {1, 0});
 	//VertexIn v3 = VertexIn(0, height, 1, { 0, 0, 1 }, { 0, 1 });
 	//VertexIn v4 = VertexIn(width, height, 1, { 0, 0, 1 }, { 1, 1 });
-	vertices.push_back({ 0, 0, 1, {0, 0, 1}, {0, 0} });
-	vertices.push_back({width, 0, 1, {0, 0, 1}, {1, 0} });
-	vertices.push_back({0, height, 1, {0, 0, 1}, {0, 1} });
-	vertices.push_back({width, height, 1, {0, 0, 1}, {1, 1} });
+
+	float wOver2 = width / 2.f;
+	float hOver2 = height / 2.f;
+
+	vertices.push_back({ -wOver2, -hOver2, 0, {0, 0, 1}, {0, 0} });
+	vertices.push_back({ wOver2, -hOver2, 0, {0, 0, 1}, {1, 0} });
+	vertices.push_back({-wOver2, hOver2,0, {0, 0, 1}, {0, 1} });
+	vertices.push_back({ wOver2, hOver2, 0, {0, 0, 1}, {1, 1} });
 
 	vertexIds = { 0, 2, 1, 1, 2, 3 };
 

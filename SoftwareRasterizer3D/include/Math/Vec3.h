@@ -26,6 +26,11 @@ public:
 	Vec3<T>& operator*=(const T scalar);
 	Vec3<T>& operator/=(const T scalar);
 
+	Vec3<T> operator*(const Vec3<T>& rhs) const;
+	Vec3<T> operator/(const Vec3<T>& rhs) const;
+	Vec3<T>& operator*=(const Vec3<T>& rhs);
+	Vec3<T>& operator/=(const Vec3<T>& rhs);
+
 	Vec3<T> operator*(const Quaternion& q) const;
 	Vec3<T>& operator*=(const Quaternion& q);
 
@@ -141,6 +146,50 @@ Vec3<T>& Vec3<T>::operator/=(const T scalar) {
 	x /= scalar;
 	y /= scalar;
 	z /= scalar;
+
+	return *this;
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator*(const Vec3<T>& rhs) const {
+	T newX = x * rhs.x;
+	T newY = y * rhs.y;
+	T newZ = z * rhs.z;
+
+	return Vec3<T>(newX, newY, newZ);
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator/(const Vec3<T>& rhs) const {
+	if (rhs.x == 0 || rhs.y == 0 || rhs.z == 0) {
+		return Vec3<T>();
+	}
+
+	T newX = x / rhs.x;
+	T newY = y / rhs.y;
+	T newZ = z / rhs.z;
+
+	return Vec3<T>(newX, newY, newZ);
+}
+
+template <typename T>
+Vec3<T>& Vec3<T>::operator*=(const Vec3<T>& rhs) {
+	x *= rhs.x;
+	y *= rhs.y;
+	z *= rhs.z;
+
+	return *this;
+}
+
+template <typename T>
+Vec3<T>& Vec3<T>::operator/=(const Vec3<T>& rhs) {
+	if (rhs.x == 0 || rhs.y == 0 || rhs.z == 0) {
+		return *this;
+	}
+
+	x /= rhs.x;
+	y /= rhs.y;
+	z /= rhs.z;
 
 	return *this;
 }

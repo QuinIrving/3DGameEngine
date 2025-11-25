@@ -68,8 +68,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.Scale(6, 6, 6);
 
 	Quad quad = Quad(50, 50);
+	//quad.Rotate(65, 315, 15);
 	quad.Translate(10, 0, 2);
-	quad.Rotate(0, 45, 0);
+	
 
 	//---------------//
 	// Create an initial object for testing
@@ -89,7 +90,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	c.material.albedoTexture = &t2;
 	dragon.material.albedoTexture = &t1;
 	quad.material.albedoTexture = &t3;
-	//quad.material.normalMap = &n1;
+	quad.material.normalMap = &n1;
 
 	// Run the message loop
 	MSG msg = { };
@@ -201,7 +202,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 		win.gfx.testIndex = 1;
 		// sphere
 		win.gfx.Pipeline(s.GetVertices(), s.GetVertexIds(), s.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
-		s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.08f * deltaTime);
+		//s.Rotate(-1.f * deltaTime, 0.5f * deltaTime, 0.08f * deltaTime);
 
 		win.gfx.Pipeline(dragon.GetVertices(), dragon.GetVertexIds(), dragon.GetModelAttributes(), DefaultVertexShader, PhongFragmentShader);
 
