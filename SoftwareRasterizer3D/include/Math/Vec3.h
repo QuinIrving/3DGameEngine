@@ -37,6 +37,9 @@ public:
 	Vec3<T> operator^(const T scalar) const;
 	Vec3<T>& operator^=(const T scalar);
 
+	Vec3<T> operator+(const T scalar) const;
+	Vec3<T> operator-(const T scalar) const;
+
 	// Equality, check if all element's are equal
 	bool operator==(const Vec3<T>& rhs) const;
 	bool operator!=(const Vec3<T>& rhs) const;
@@ -210,6 +213,16 @@ Vec3<T>& Vec3<T>::operator^=(const T scalar) {
 	z = static_cast<T>(std::pow(z, scalar));
 
 	return *this;
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator+(const T scalar) const {
+	return Vec3<T>(x + scalar, y + scalar, z + scalar);
+}
+
+template <typename T>
+Vec3<T> Vec3<T>::operator-(const T scalar) const {
+	return Vec3<T>(x - scalar, y - scalar, z - scalar);
 }
 
 template <typename T>
