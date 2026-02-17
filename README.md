@@ -8,7 +8,8 @@ The goal of this project was to demystify the graphics pipeline by implementing 
 
 ### Video Demo
 
-https://raw.githubusercontent.com/QuinIrving/GithubVideos/blob/master/CPU_Renderer.mp4
+<video src="https://raw.githubusercontent.com/QuinIrving/GithubVideos/master/CPU_Renderer.mp4" controls width="600">
+</video>
 
 ----------
 
