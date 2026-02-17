@@ -7,9 +7,7 @@
 The goal of this project was to demystify the graphics pipeline by implementing every stage manually, from vertex processing and clipping to rasterization and fragment shading. It relies solely on the **C++ STL** and **stb_image** (for texture decoding), ensuring that all math, linear algebra, and rendering logic are custom implementations.
 
 ### Video Demo
-
-<video src="https://raw.githubusercontent.com/QuinIrving/GithubVideos/master/CPU_Renderer.mp4" controls width="600">
-</video>
+https://github.com/user-attachments/assets/3968d85c-2063-46c4-b1ae-50888e3f79cf
 
 ----------
 
