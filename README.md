@@ -53,7 +53,7 @@ The core of the renderer uses a bounding-box approach. For every triangle, the b
 
 λ0​+λ1​+λ2​=1
 
-This allows for easy interpolation of vertex attributes (colors, UVs, normals) across the triangle face.
+This allows for easy interpolation of vertex attributes (colours, UVs, normals) across the triangle face.
 
 ### The Math
 
